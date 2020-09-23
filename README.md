@@ -1,34 +1,34 @@
-python_example
+scikit_build_example
 ==============
 
 [![Gitter][gitter-badge]][gitter-link]
-[![Wheels Actions Status][actions-pip-badge]][actions-pip-link]
+
+|      CI              | status |
+|----------------------|--------|
+| conda.recipe         | [![Conda Actions Status][actions-conda-badge]][actions-conda-link] |
+| pip builds           | [![Pip Actions Status][actions-pip-badge]][actions-pip-link] |
+
+
+
+An example project built with [pybind11](https://github.com/pybind/pybind11) and scikit-build. Python 3.6+ (see older commits for older versions of Python).
+
 
 [gitter-badge]:            https://badges.gitter.im/pybind/Lobby.svg
 [gitter-link]:             https://gitter.im/pybind/Lobby
-[actions-pip-link]:     https://github.com/pybind/scikit_build_example/actions?query=workflow%3APip
-[actions-pip-badge]:    https://github.com/pybind/scikit_build_example/workflows/Pip/badge.svg
-
-An example project built with [pybind11](https://github.com/pybind/pybind11).
-Warning: this is currently using a pre-release of pybind11 2.6.0, since the
-infrastructure for building pure Python examples has been heavily improved
-there.
+[actions-badge]:           https://github.com/pybind/scikit_build_example/workflows/Tests/badge.svg
+[actions-conda-link]:      https://github.com/pybind/scikit_build_example/actions?query=workflow%3AConda
+[actions-conda-badge]:     https://github.com/pybind/scikit_build_example/workflows/Conda/badge.svg
+[actions-pip-link]:        https://github.com/pybind/scikit_build_example/actions?query=workflow%3APip
+[actions-pip-badge]:       https://github.com/pybind/scikit_build_example/workflows/Pip/badge.svg
+[actions-wheels-link]:     https://github.com/pybind/scikit_build_example/actions?query=workflow%3AWheels
+[actions-wheels-badge]:    https://github.com/pybind/scikit_build_example/workflows/Wheels/badge.svg
 
 Installation
 ------------
 
-**On Unix (Linux, macOS)**
+- clone this repository
+- `pip install ./scikit_build_example`
 
- - clone this repository
- - `pip install ./scikit_build_example`
-
-**On Windows (Requires Visual Studio 2017)**
-
- - For Python 3.5+:
-     - clone this repository
-     - `pip install ./scikit_build_example`
- - For Python 2.7:
-     - Pybind11 + Scikit-Build does not support Python 2.7 on Windows.
 
 CI Examples
 -----------
@@ -48,8 +48,8 @@ Test call
 ---------
 
 ```python
-import python_example
-python_example.add(1, 2)
+import scikit_build_example
+scikit_build_example.add(1, 2)
 ```
 
 [`cibuildwheel`]:          https://cibuildwheel.readthedocs.io
