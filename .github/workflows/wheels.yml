@@ -3,17 +3,20 @@ name: Wheels
 on:
   workflow_dispatch:
   pull_request:
-  push:
-    branches:
-     - master
   release:
     types:
       - published
+  push:
+    branches:
+      - master
+      - main
 
 env:
   CIBW_TEST_COMMAND: pytest {project}/tests
   CIBW_TEST_EXTRAS: test
-
+  CIBW_TEST_REQUIRES: pytest
+  # skip testing pypy wheels on github CI (it works locally, but fails on github CI for a yet unknown reason)
+  CIBW_TEST_SKIP: "pp3*"
 
 jobs:
   build_sdist:
@@ -48,7 +51,7 @@ jobs:
       with:
         submodules: true
 
-    - uses: pypa/cibuildwheel@v2.8.0
+    - uses: pypa/cibuildwheel@v2.8.1
 
     - name: Verify clean directory
       run: git diff --exit-code
@@ -76,7 +79,7 @@ jobs:
         name: artifact
         path: dist
 
-    - uses: pypa/gh-action-pypi-publish@v1.5.0
+    - uses: pypa/gh-action-pypi-publish@v1.5.1
       with:
         user: __token__
         password: ${{ secrets.pypi_password }}

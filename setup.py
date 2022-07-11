@@ -11,17 +11,22 @@ except ImportError:
     raise
 
 from setuptools import find_packages
-
 setup(
-    name="scikit_build_example",
+    name="example-lib",
     version="0.0.1",
-    description="a minimal example package (with pybind11)",
-    author="Henry Schreiner",
-    license="MIT",
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
-    cmake_install_dir="src/scikit_build_example",
+    description="example-lib, example of bindings with skbuild and litgen",
+    author="Pascal Thomet",
+    author_email="pthomet@gmail.com",
+    url="https://github.com/pthom/litgen",
+
+    packages=(["example_lib"]),
+    package_dir={"": "bindings"},
+    cmake_install_dir="bindings/example_lib",
+
     include_package_data=True,
+    package_data={"example_lib": ["py.typed", "*.pyi"]},
+
     extras_require={"test": ["pytest"]},
     python_requires=">=3.6",
+    install_requires=[],
 )

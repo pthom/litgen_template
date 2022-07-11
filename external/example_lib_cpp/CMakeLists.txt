@@ -1,0 +1,6 @@
+add_library(example_lib_cpp example_lib_cpp.cpp example_lib_cpp.h example_lib_cpp_2.cpp example_lib_cpp_2.h)
+target_include_directories(example_lib_cpp PUBLIC ${CMAKE_CURRENT_LIST_DIR}/..)
+# Under windows, auto __declspec(dllexport)
+if (WIN32)
+    set_target_properties(example_lib_cpp PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()

@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - master
+      - main
 
 jobs:
   build:
@@ -19,6 +20,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: true
 
     - uses: actions/setup-python@v4
       with:
