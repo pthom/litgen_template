@@ -1,11 +1,15 @@
 name: Conda
 
+
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
   pull_request:
+# Uncomment the lines below to activate this workflow on push. It can always be triggered manually from github's "Action" Tab.
+#  push:
+#    branches:
+#      - master
+#      - main
+
 
 jobs:
   build:
@@ -24,6 +28,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
 
       - name: Get conda
         uses: conda-incubator/setup-miniconda@v2.1.1
@@ -38,7 +44,7 @@ jobs:
         run: conda build conda.recipe
 
       - name: Install
-        run: conda install -c ${CONDA_PREFIX}/conda-bld/ scikit_build_example
+        run: conda install -c ${CONDA_PREFIX}/conda-bld/ example-lib
 
       - name: Test
         run: pytest tests
