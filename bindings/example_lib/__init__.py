@@ -1,5 +1,5 @@
 import os
 import sys
 
-from _example_lib import *
-from _example_lib import __version__
+from example_lib._example_lib import *
+from example_lib._example_lib import __version__
