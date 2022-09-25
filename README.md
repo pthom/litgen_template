@@ -1,5 +1,4 @@
-lg_skuild_template
-==============
+# lg_skuild_template
 
 An adpatation of [scikit_build_example](https://github.com/pybind/scikit_build_example) for [litgen](https://github.com/pthom/litgen)
 
@@ -26,29 +25,74 @@ An example project built with [pybind11](https://github.com/pybind/pybind11),
 [actions-wheels-link]:     https://github.com/pthom/lg_skbuild_template/actions?query=workflow%3AWheels
 [actions-wheels-badge]:    https://github.com/pthom/lg_skbuild_template/workflows/Wheels/badge.svg
 
-Installation
-------------
+# Usage
 
-- clone this repository
-- `cd lg_skbuild_template`
-- `pip install .`
+#### Step 1: clone this repository
 
-Customize library name, python package name and pip package name
-------------
+````bash
+git clone git@github.com:pthom/lg_skbuild_template.git
+cd lg_skbuild_template
+````
 
-By default, lg_skbuild_template will use the following names:
-* The library for which we build bindings is "examplelibcpp"
-* The name of the python package that binds this library is "lg_examplelib" (this name cannot include "-").
+#### Step 2: Customize cpp library name, python package name and pip package name
+
+_(This step is optional if you want to test this template with it default names)_
+
+By default, lg_skbuild_template will use these settings:
+* _cpp library name_: a cpp library named `examplelibcpp` (see "external/examplelibcpp") will be built, 
+  and used as a source to generate python bindings.
+* _Python package name_: the name of the python package that will bind this library (`lg_examplelib` by default)  
   This python package include a native module named "_lg_examplelib" which provides the bindings.
-* The name of the pip package is "lg-examplelib" (this name cannot include "_")
-  (the pip package name can be slightly different from the python package name)
+* _Pip package name_: The name of the published pip package (`lg-examplelib` by default)
 
-Call `python prepare_template.py` in order to customize this template with your own names. This will replace in files, 
-and rename files and folders accordingly. After this, it is advised to remove prepare_template.py.
+_Note: Python package name_ can in theory be equal to _Pip package name_, however there is a gotcha: 
+_the python package name cannot include "-" (minus), and the pip package name cannot include "_" (underscore) _
 
-Autogenerate the binding code 
-------------
-Install litgen
+Call `python prepare_template.py` in order to customize this template with your own names. 
+This is an interactive program that will ask you for those names and prepare this template for you 
+(it will rename files & directories, and do replacements inside files).
+_After this, it is advised to remove prepare_template.py and to commit your folder, 
+once you made sure that `pip install -v.` works correctly._
+
+Example session with `python prepare_template.py`:
+
+````
+>> python prepare_template.py
+
+* Step 1: enter the name of the cpp library to bind:
+a project with this name will be placed inside external/ (you can later replace it with your own)
+(in this template, this project is named "examplelibcpp")
+
+    Name of the cpp library to bind: mylib
+
+Step 2: enter the name of the python package 
+Note: this name cannot include "-" (i.e. minus) signs
+            
+    Name of the python package (enter "d" for default, i.e. lg_mylib): d
+    Used lg_mylib as python package name!
+
+Step 3: enter the name of the published pip package. This name can be close to the name of the python package.
+Note: this name cannot include "_" (i.e. underscore) sign
+        
+    Name of the pip package (enter "d" for default, i.e. lg-mylib): d
+    Used lg-mylib as pip package name!
+
+Please confirm you want to make the modifications (it cannot be undone). Type 'yes' to confirm: yes
+````
+
+After this, you will see various messages explaining what was changed:
+````
+...
+_replace_in_file ./setup.py`
+...
+os.rename(./bindings/lg_examplelib/, ./bindings/lg_mylib/)
+...
+````
+
+#### Step 3: autogenerate the binding code 
+
+__First, install litgen__
+
 ````
 pip install -r requirements-dev.txt
 ````
@@ -58,33 +102,40 @@ Then run:
 python autogenerate_lg_examplelib.py
 ````
 
+(you might need to replace `autogenerate_lg_examplelib.py` by `autogenerate_{your_python_package_name}.py`)
+
 This will:
-* Create an amalgamated header file for the library in `examplelibcpp_amalgamation.h`
-* Write the cpp binding code into `bindings/pybind_examplelibcpp.cpp`
+* Create an amalgamated header file for the library in `mylib_amalgamation.h`
+* Write the cpp binding code into `bindings/pybind_mylib.cpp`
 * Write the python stub code into `bindings/lg_examplelib/__init__.pyi`
 
 You can of course adapt the code and litgen options inside `autogenerate_lg_examplelib.py`
 
-CI Examples
------------
+#### Step 4: Check that it works
+
+First, install the package:
+````
+pip install -v .
+````
+
+Then, try to import and use it from python:
+```python
+import lg_examplelib
+lg_examplelib.add(1, 2)
+```
+
+
+# CI Examples
 
 There are examples for CI in `.github/workflows`. A simple way to produces
 binary "wheels" for all platforms is illustrated in the "wheels.yml" file,
 using [`cibuildwheel`][].
 
-License
--------
+# License
 
 pybind11 is provided under a BSD-style license that can be found in the LICENSE
 file. By using, distributing, or contributing to this project, you agree to the
 terms and conditions of this license.
 
-Test call
----------
-
-```python
-import lg_examplelib
-lg_examplelib.add(1, 2)
-```
 
 [`cibuildwheel`]:          https://cibuildwheel.readthedocs.io
