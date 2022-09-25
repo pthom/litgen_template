@@ -19,9 +19,14 @@ class PackageNames:
     cpp_library_name = "example_lib_cpp"
     python_package_name = "example_lib"
     pip_package_name = "example-lib"
+
+    @staticmethod
+    def _template_default_package_names():
+        r = PackageNames()
+        return r
     
     def replace_in_string(self, s: str) -> str:
-        default_names = PackageNames()
+        default_names = PackageNames._template_default_package_names()
         r = s
         r = r.replace(default_names.cpp_library_name, self.cpp_library_name)
         r = r.replace(default_names.python_package_name, self.python_package_name)
@@ -48,12 +53,13 @@ class PackageNames:
             outputfile.write(content)
 
     def replace_in_files(self) -> None:
+        default_names = PackageNames._template_default_package_names()
         # Directories where to replace by the new names:
         directories = [
             ".github/workflows",
             "./bindings",
-            "./bindings/example_lib",
-            "./external/example_lib_cpp",
+            f"./bindings/{default_names.python_package_name}",
+            f"./external/{default_names.cpp_library_name}",
             "./conda.recipe",
             "./tests",
             ".",
@@ -78,16 +84,17 @@ class PackageNames:
             ./tests/example_lib_test.py
             autogenerate_example_lib.py
         """
+        default_names = PackageNames._template_default_package_names()
         dir_and_files_to_rename = [
-            "./bindings/example_lib/",
-            "./bindings/pybind_example_lib_cpp.cpp",
+            f"./bindings/{default_names.python_package_name}/",
+            f"./bindings/pybind_{default_names.cpp_library_name}.cpp",
 
-            "./external/example_lib_cpp/",
+            f"./external/{default_names.cpp_library_name}/",
 
-            "autogenerate_example_lib.py",
-            "example_lib_cpp_amalgamation.h",
+            f"autogenerate_{default_names.python_package_name}.py",
+            f"{default_names.cpp_library_name}_amalgamation.h",
 
-            "tests/example_lib_test.py"
+            f"tests/{default_names.python_package_name}_test.py"
         ]
 
         for pathname in dir_and_files_to_rename:
