@@ -1,9 +1,22 @@
 from __future__ import annotations
 import os
+import re
 from dataclasses import dataclass
 
 
 _THIS_DIR = os.path.dirname(os.path.realpath(__file__))
+
+
+def my_replace(what_to_replace: str, by_what: str, s):
+    # Replace at word boundaries
+    regex_str = rf"\b{what_to_replace}\b"
+    r = re.sub(regex_str, by_what, s)
+
+    # Replace if starting by underscore + end with word boundary
+    regex_str = rf"_{what_to_replace}\b"
+    r = re.sub(regex_str, "_" + by_what, s)
+
+    return r
 
 
 @dataclass
@@ -24,13 +37,13 @@ class PackageNames:
     def _template_default_package_names():
         r = PackageNames()
         return r
-    
+
     def replace_in_string(self, s: str) -> str:
         default_names = PackageNames._template_default_package_names()
         r = s
-        r = r.replace(default_names.cpp_library_name, self.cpp_library_name)
-        r = r.replace(default_names.python_package_name, self.python_package_name)
-        r= r.replace(default_names.pip_package_name, self.pip_package_name)
+        r = my_replace(default_names.cpp_library_name, self.cpp_library_name, r)
+        r = my_replace(default_names.python_package_name, self.python_package_name, r)
+        r = my_replace(default_names.pip_package_name, self.pip_package_name, r)
         return r
 
     def replace_in_file(self, filename: str):
