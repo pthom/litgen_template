@@ -19,7 +19,7 @@ class PackageNames:
     cpp_library_name = "example_lib_cpp"
     python_package_name = "example_lib"
     pip_package_name = "example-lib"
-
+    
     def replace_in_string(self, s: str) -> str:
         default_names = PackageNames()
         r = s
@@ -50,7 +50,7 @@ class PackageNames:
     def replace_in_files(self) -> None:
         # Directories where to replace by the new names:
         directories = [
-            "./github/workflows",
+            ".github/workflows",
             "./bindings",
             "./bindings/example_lib",
             "./external/example_lib_cpp",
@@ -60,9 +60,9 @@ class PackageNames:
         ]
 
         for directory in directories:
-            files = os.listdir(f"{_THIS_DIR}/{directory}")
+            files = os.listdir(f"{directory}")
             for file in files:
-                file_fullpath = f"{_THIS_DIR}/{directory}/{file}"
+                file_fullpath = f"{directory}/{file}"
                 if os.path.isfile(file_fullpath) and file != "prepare_template.py":
                     self.replace_in_file(file_fullpath)
 
@@ -92,24 +92,24 @@ class PackageNames:
 
         for pathname in dir_and_files_to_rename:
             new_pathname = self.replace_in_string(pathname)
-            src = f"{_THIS_DIR}/{pathname}"
-            dst = f"{_THIS_DIR}/{new_pathname}"
+            src = f"{pathname}"
+            dst = f"{new_pathname}"
             print(f"os.rename({src}, {dst})")
             os.rename(src, dst)
 
         default_names = PackageNames()
         os.rename(
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{self.cpp_library_name}.h")
+            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}.h")
         os.rename(
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{default_names.cpp_library_name}.cpp",
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{self.cpp_library_name}.cpp")
+            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}.cpp",
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}.cpp")
         os.rename(
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.h",
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{self.cpp_library_name}_2.h")
+            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.h",
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.h")
         os.rename(
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.cpp",
-            f"{_THIS_DIR}/external/{self.cpp_library_name}/{self.cpp_library_name}_2.cpp")
+            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.cpp",
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.cpp")
 
     def do_replace(self) -> None:
         self.replace_in_files()
@@ -126,15 +126,45 @@ class PackageNames:
     @staticmethod
     def from_user_input() -> PackageNames:
         r = PackageNames()
-        r.cpp_library_name = input(f"Name of the cpp library to bind (default {r.cpp_library_name}): ")
-        r.python_package_name = input(
-            f"Name of the python package (default {r.python_package_name}, cannot include \"-\"): ")
+
+        # Step 1: ask for cpp library name
+        print("""
+* Step 1: enter the name of the cpp library to bind: 
+a project with this name will be placed inside external/ (you can later replace it with your own)
+(in this template, this project is named "examplelib")
+            """)
+        r.cpp_library_name = input(f"    Name of the cpp library to bind: ")
+
+        # Step 2: ask for python package name
+        default_python_package_name = "lg_" + r.cpp_library_name
+        print(f"""
+Step 2: enter the name of the python package 
+If you enter "d" or nothing, the default name will be used, i.e.           "{default_python_package_name}"
+Note: this name cannot include "-" (i.e. minus) signs
+        """)
+        r.python_package_name = input('    Name of the python package: ')
+        if r.python_package_name.lower() == "d" or r.python_package_name == "":
+            r.python_package_name = default_python_package_name
+            print(f"    Used {default_python_package_name} as python package name!")
+
+        # Step 3: ask for pip package name
+        default_pip_package_name = r.python_package_name.replace("_", "-")
+        print(f"""
+Step 3: enter the name of the published pip package. This name can be close to the name of the python package.
+If you enter "d" or nothing, the default name will be used, i.e.            "{default_pip_package_name}"
+Note: this name cannot include "_" (i.e. underscore) sign
+        """)
         r.pip_package_name = input(
-            f"Name of the pip package (default {r.python_package_name}, cannot include \"_\"): ")
+            f'    Name of the pip package: ')
+        if r.pip_package_name.lower() == "d" or r.pip_package_name == "":
+            r.pip_package_name = default_pip_package_name
+            print(f"    Used {default_pip_package_name} as pip package name!")
+
         return r
 
 
 def main():
+    os.chdir(_THIS_DIR)
     interactive = True
     if interactive:
         PackageNames.help()
