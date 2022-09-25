@@ -10,7 +10,6 @@ An adpatation of [scikit_build_example](https://github.com/pybind/scikit_build_e
 | pip builds           | [![Pip Actions Status][actions-pip-badge]][actions-pip-link] |
 
 
-
 An example project built with [pybind11](https://github.com/pybind/pybind11), 
 [scikit-build](https://scikit-build.readthedocs.io/en/latest/), and [litgen](https://github.com/pthom/litgen). 
 
@@ -27,34 +26,34 @@ An example project built with [pybind11](https://github.com/pybind/pybind11),
 
 # Usage
 
-#### Step 1: clone this repository
+### Step 1: clone this repository
 
 ````bash
 git clone git@github.com:pthom/lg_skbuild_template.git
 cd lg_skbuild_template
 ````
 
-#### Step 2: Customize cpp library name, python package name and pip package name
+### Step 2: Customize cpp library name, python package name and pip package name
 
 _(This step is optional if you want to test this template with it default names)_
 
 By default, lg_skbuild_template will use these settings:
-* _cpp library name_: a cpp library named `examplelibcpp` (see "external/examplelibcpp") will be built, 
+* _cpp library name_: a cpp library named "examplelibcpp" (see `external/examplelibcpp`) will be built, 
   and used as a source to generate python bindings.
-* _Python package name_: the name of the python package that will bind this library (`lg_examplelib` by default)  
+* _python package name_: a python package named "lg_examplelib" will bind this library  
   This python package include a native module named "_lg_examplelib" which provides the bindings.
-* _Pip package name_: The name of the published pip package (`lg-examplelib` by default)
+* _pip package name_: a pip package named "lg-examplelib" could be published online
 
-_Note: Python package name_ can in theory be equal to _Pip package name_, however there is a gotcha: 
-_the python package name cannot include "-" (minus), and the pip package name cannot include "_" (underscore) _
+Note: "python package name" can in theory be equal to "pip package name", however there is a gotcha: 
+*the python package name cannot include "-" (minus), and the pip package name cannot include "_" (underscore)*
 
-Call `python prepare_template.py` in order to customize this template with your own names. 
+> Call `python prepare_template.py` in order to customize this template with your own names. 
 This is an interactive program that will ask you for those names and prepare this template for you 
 (it will rename files & directories, and do replacements inside files).
 _After this, it is advised to remove prepare_template.py and to commit your folder, 
 once you made sure that `pip install -v.` works correctly._
 
-Example session with `python prepare_template.py`:
+__Example session with `python prepare_template.py`__
 
 ````
 >> python prepare_template.py
@@ -80,7 +79,7 @@ Note: this name cannot include "_" (i.e. underscore) sign
 Please confirm you want to make the modifications (it cannot be undone). Type 'yes' to confirm: yes
 ````
 
-After this, you will see various messages explaining what was changed:
+_After this, you will see various messages explaining what was changed_
 ````
 ...
 _replace_in_file ./setup.py`
@@ -89,7 +88,7 @@ os.rename(./bindings/lg_examplelib/, ./bindings/lg_mylib/)
 ...
 ````
 
-#### Step 3: autogenerate the binding code 
+### Step 3: autogenerate the binding code 
 
 __First, install litgen__
 
@@ -97,7 +96,7 @@ __First, install litgen__
 pip install -r requirements-dev.txt
 ````
 
-Then run:
+__Then run code generation via litgen__
 ````
 python autogenerate_lg_examplelib.py
 ````
@@ -111,14 +110,14 @@ This will:
 
 You can of course adapt the code and litgen options inside `autogenerate_lg_examplelib.py`
 
-#### Step 4: Check that it works
+### Step 4: Check that it works
 
-First, install the package:
+__First, install the package__
 ````
 pip install -v .
 ````
 
-Then, try to import and use it from python:
+__Then, try to import and use it from python__
 ```python
 import lg_examplelib
 lg_examplelib.add(1, 2)
