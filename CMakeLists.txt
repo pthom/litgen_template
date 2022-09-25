@@ -36,22 +36,22 @@ endif()
 
 
 ####################################################
-# Build example_lib_cpp Bound C++ library
+# Build examplelibcpp Bound C++ library
 ####################################################
-set(example_lib_cpp_dir external/example_lib_cpp)
-add_subdirectory(${example_lib_cpp_dir})
+set(examplelibcpp_dir external/examplelibcpp)
+add_subdirectory(${examplelibcpp_dir})
 
 
 #########################################################################
 # Build python module that provides bindings to the library implot
 #########################################################################
-set(bound_library example_lib_cpp)          # The library for which we are building bindings
-set(python_native_module_name _example_lib) # This is the native python module name
-set(python_wrapper_module_name example_lib) # This is the python wrapper around the native module
+set(bound_library examplelibcpp)          # The library for which we are building bindings
+set(python_native_module_name _lg_examplelib) # This is the native python module name
+set(python_wrapper_module_name lg_examplelib) # This is the python wrapper around the native module
 set(python_module_sources bindings/module.cpp bindings/pybind_${bound_library}.cpp) # native python module sources
 
 pybind11_add_module(${python_native_module_name} ${python_module_sources})
-target_compile_definitions(_example_lib PRIVATE VERSION_INFO=${PROJECT_VERSION})
+target_compile_definitions(_lg_examplelib PRIVATE VERSION_INFO=${PROJECT_VERSION})
 lg_setup_module(
     ${bound_library}
     ${python_native_module_name}

@@ -16,9 +16,9 @@ class PackageNames:
         * The name of the pip package is "example-lib" (this name cannot include "_")
           (the pip package name can be slightly different from the python package name)
     """
-    cpp_library_name = "example_lib_cpp"
-    python_package_name = "example_lib"
-    pip_package_name = "example-lib"
+    cpp_library_name = "examplelibcpp"
+    python_package_name = "lg_examplelib"
+    pip_package_name = "lg-examplelib"
 
     @staticmethod
     def _template_default_package_names():

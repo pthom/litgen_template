@@ -1,4 +1,4 @@
-#include "example_lib_cpp/example_lib_cpp.h"
+#include "examplelibcpp/examplelibcpp.h"
 
 int add(int a, int b)
 {

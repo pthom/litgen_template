@@ -37,10 +37,10 @@ Customize library name, python package name and pip package name
 ------------
 
 By default, lg_skbuild_template will use the following names:
-* The library for which we build bindings is "example_lib_cpp"
-* The name of the python package that binds this library is "example_lib" (this name cannot include "-").
-  This python package include a native module named "_example_lib" which provides the bindings.
-* The name of the pip package is "example-lib" (this name cannot include "_")
+* The library for which we build bindings is "examplelibcpp"
+* The name of the python package that binds this library is "lg_examplelib" (this name cannot include "-").
+  This python package include a native module named "_lg_examplelib" which provides the bindings.
+* The name of the pip package is "lg-examplelib" (this name cannot include "_")
   (the pip package name can be slightly different from the python package name)
 
 Call `python prepare_template.py` in order to customize this template with your own names. This will replace in files, 
@@ -55,15 +55,15 @@ pip install -r requirements-dev.txt
 
 Then run:
 ````
-python autogenerate_example_lib.py
+python autogenerate_lg_examplelib.py
 ````
 
 This will:
-* Create an amalgamated header file for the library in `example_lib_cpp_amalgamation.h`
-* Write the cpp binding code into `bindings/pybind_example_lib_cpp.cpp`
-* Write the python stub code into `bindings/example_lib/__init__.pyi`
+* Create an amalgamated header file for the library in `examplelibcpp_amalgamation.h`
+* Write the cpp binding code into `bindings/pybind_examplelibcpp.cpp`
+* Write the python stub code into `bindings/lg_examplelib/__init__.pyi`
 
-You can of course adapt the code and litgen options inside `autogenerate_example_lib.py`
+You can of course adapt the code and litgen options inside `autogenerate_lg_examplelib.py`
 
 CI Examples
 -----------
@@ -83,8 +83,8 @@ Test call
 ---------
 
 ```python
-import example_lib
-example_lib.add(1, 2)
+import lg_examplelib
+lg_examplelib.add(1, 2)
 ```
 
 [`cibuildwheel`]:          https://cibuildwheel.readthedocs.io

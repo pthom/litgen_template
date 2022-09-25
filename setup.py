@@ -12,19 +12,19 @@ except ImportError:
 
 from setuptools import find_packages
 setup(
-    name="example-lib",
+    name="lg-examplelib",
     version="0.0.1",
-    description="example-lib, example of bindings with skbuild and litgen",
+    description="lg-examplelib, example of bindings with skbuild and litgen",
     author="Pascal Thomet",
     author_email="pthomet@gmail.com",
     url="https://github.com/pthom/litgen",
 
-    packages=(["example_lib"]),
+    packages=(["lg_examplelib"]),
     package_dir={"": "bindings"},
-    cmake_install_dir="bindings/example_lib",
+    cmake_install_dir="bindings/lg_examplelib",
 
     include_package_data=True,
-    package_data={"example_lib": ["py.typed", "*.pyi"]},
+    package_data={"lg_examplelib": ["py.typed", "*.pyi"]},
 
     extras_require={"test": ["pytest"]},
     python_requires=">=3.6",
