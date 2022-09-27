@@ -35,7 +35,7 @@ def autogenerate():
     # We demonstrate here two methods for generating bindings (both of them work correctly):
     # - either using an amalgamated header
     # - or by providing a list of files to litgen
-    use_amalgamated_header = True
+    use_amalgamated_header = False
     if use_amalgamated_header:
         make_amalgamated_header()
         input_cpp_header = THIS_DIR + "/examplelibcpp_amalgamation.h"
