@@ -25,21 +25,31 @@ def make_amalgamated_header():
 
 
 def autogenerate():
-    input_cpp_header = THIS_DIR + "/examplelibcpp_amalgamation.h"
     output_cpp_pydef_file = CPP_GENERATED_PYBIND_DIR + "/pybind_examplelibcpp.cpp"
     output_stub_pyi_file = CPP_GENERATED_PYBIND_DIR + "/lg_examplelib/__init__.pyi"
 
     # Configure options
     options = litgen.LitgenOptions()
-    generated_code = litgen.generate_code(options, filename=input_cpp_header)
+    # configure your options here
 
-    litgen.write_generated_code(
-        generated_code,
-        output_cpp_pydef_file=output_cpp_pydef_file,
-        output_stub_pyi_file=output_stub_pyi_file,
-    )
+    # We demonstrate here two methods for generating bindings (both of them work correctly):
+    # - either using an amalgamated header
+    # - or by providing a list of files to litgen
+    use_amalgamated_header = True
+    if use_amalgamated_header:
+        make_amalgamated_header()
+        input_cpp_header = THIS_DIR + "/examplelibcpp_amalgamation.h"
+        litgen.write_generated_code_for_file(
+            options,
+            input_cpp_header_file=input_cpp_header,
+            output_cpp_pydef_file=output_cpp_pydef_file,
+            output_stub_pyi_file=output_stub_pyi_file)
+    else:
+        include_dir = THIS_DIR + "/external/examplelibcpp"
+        header_files = [include_dir + "/examplelibcpp.h", include_dir + "/examplelibcpp_2.h"]
+        litgen.write_generated_code_for_files(
+            options, header_files, output_cpp_pydef_file, output_stub_pyi_file)
 
 
 if __name__ == "__main__":
-    make_amalgamated_header()
     autogenerate()
