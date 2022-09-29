@@ -1,6 +1,9 @@
 #include "examplelibcpp/examplelibcpp.h"
 
-int add(int a, int b)
+namespace examplelib
 {
-    return a + b;
+    int add(int a, int b)
+    {
+        return a + b;
+    }
 }

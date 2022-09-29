@@ -1,3 +1,6 @@
 #pragma once
 
-inline int sub(int a, int b) { return a - b; }
+namespace examplelib
+{
+    inline int sub(int a, int b) { return a - b; }
+}

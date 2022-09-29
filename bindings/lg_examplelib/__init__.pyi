@@ -11,6 +11,7 @@ import numpy
 
 def add(a: int, b: int) -> int:
     pass
+
 ####################    </generated_from:examplelibcpp.h>    ####################
 
 
@@ -18,6 +19,7 @@ def add(a: int, b: int) -> int:
 
 def sub(a: int, b: int) -> int:
     pass
+
 ####################    </generated_from:examplelibcpp_2.h>    ####################
 
 # </litgen_stub>

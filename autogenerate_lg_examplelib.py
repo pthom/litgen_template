@@ -1,7 +1,7 @@
 import os
 
 import litgen
-from litgen.make_amalgamated_header import AmalgamationOptions, write_amalgamate_header_file
+from codemanip.make_amalgamated_header import AmalgamationOptions, write_amalgamate_header_file
 
 
 THIS_DIR = os.path.dirname(__file__)
@@ -31,6 +31,7 @@ def autogenerate():
     # Configure options
     options = litgen.LitgenOptions()
     # configure your options here
+    options.namespace_root__regex = "^examplelib$"
 
     # We demonstrate here two methods for generating bindings (both of them work correctly):
     # - either using an amalgamated header
