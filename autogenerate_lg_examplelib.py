@@ -32,6 +32,7 @@ def autogenerate():
     options = litgen.LitgenOptions()
     # configure your options here
     options.namespace_root__regex = "^examplelib$"
+    options.fn_params_replace_modifiable_immutable_by_boxed__regex = "^inplace"
 
     # We demonstrate here two methods for generating bindings (both of them work correctly):
     # - either using an amalgamated header

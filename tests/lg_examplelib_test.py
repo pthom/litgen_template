@@ -7,3 +7,9 @@ def test_version():
 
 def test_examplelib():
     assert lg_examplelib.add(3, 4) == 7
+
+
+def test_boxed_type():
+    i = lg_examplelib.BoxedInt(3)
+    lg_examplelib.inplace_multiply(i)
+    assert i.value == 6
