@@ -23,6 +23,10 @@ def add(a: int, b: int) -> int:
     pass
 
 def inplace_multiply(v: BoxedInt) -> None:
+    """ In this example, the parameter v will be "Boxed" into a "BoxedInt"
+     so that modifications can be seen from python
+     See options.fn_params_replace_modifiable_immutable_by_boxed__regex in autogenerate_xxx.py
+    """
     pass
 
 ####################    </generated_from:examplelibcpp.h>    ####################
