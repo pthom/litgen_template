@@ -1,7 +1,7 @@
 import os
 
 import litgen
-from codemanip.make_amalgamated_header import AmalgamationOptions, write_amalgamate_header_file
+from codemanip import amalgamated_header
 
 
 THIS_DIR = os.path.dirname(__file__)
@@ -13,7 +13,7 @@ assert os.path.isdir(CPP_GENERATED_PYBIND_DIR)
 
 
 def make_amalgamated_header():
-    options = AmalgamationOptions()
+    options = amalgamated_header.AmalgamationOptions()
 
     options.base_dir = EXTERNAL_DIR
     options.local_includes_startwith = "examplelibcpp/"
@@ -21,7 +21,7 @@ def make_amalgamated_header():
     options.main_header_file = "examplelibcpp.h"
     options.dst_amalgamated_header_file = THIS_DIR + "/examplelibcpp_amalgamation.h"
 
-    write_amalgamate_header_file(options)
+    amalgamated_header.write_amalgamate_header_file(options)
 
 
 def autogenerate():
