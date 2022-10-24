@@ -24,13 +24,13 @@ class PackageNames:
         r.python_package_name = ""
         r.pip_package_name = ""
         return r
-    
+
     def replace_in_string(self, s: str) -> str:
         default_names = PackageNames._template_default_package_names()
         r = s
         r = r.replace(default_names.cpp_library_name, self.cpp_library_name)
         r = r.replace(default_names.python_package_name, self.python_package_name)
-        r= r.replace(default_names.pip_package_name, self.pip_package_name)
+        r = r.replace(default_names.pip_package_name, self.pip_package_name)
         return r
 
     def replace_in_file(self, filename: str):
@@ -88,13 +88,10 @@ class PackageNames:
         dir_and_files_to_rename = [
             f"./bindings/{default_names.python_package_name}/",
             f"./bindings/pybind_{default_names.cpp_library_name}.cpp",
-
             f"./external/{default_names.cpp_library_name}/",
-
             f"autogenerate_{default_names.python_package_name}.py",
             f"{default_names.cpp_library_name}_amalgamation.h",
-
-            f"tests/{default_names.python_package_name}_test.py"
+            f"tests/{default_names.python_package_name}_test.py",
         ]
 
         for pathname in dir_and_files_to_rename:
@@ -107,16 +104,20 @@ class PackageNames:
         default_names = PackageNames()
         os.rename(
             f"external/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}.h")
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}.h",
+        )
         os.rename(
             f"external/{self.cpp_library_name}/{default_names.cpp_library_name}.cpp",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}.cpp")
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}.cpp",
+        )
         os.rename(
             f"external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.h",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.h")
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.h",
+        )
         os.rename(
             f"external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.cpp",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.cpp")
+            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.cpp",
+        )
 
     def do_replace(self) -> None:
         self.replace_in_files()
@@ -143,15 +144,15 @@ Note: this name cannot include "_" (i.e. underscore) sign
         # Step 1: ask for cpp library name
         while len(r.cpp_library_name) == 0:
             print(step1_help)
-            r.cpp_library_name = input(
-                f"    Name of the cpp library to bind: ")
+            r.cpp_library_name = input(f"    Name of the cpp library to bind: ")
 
         # Step 2: ask for python package name
         while len(r.python_package_name) == 0:
             default_python_package_name = "lg_" + r.cpp_library_name
             print(step2_help)
             r.python_package_name = input(
-                f'    Name of the python package (enter "d" for default, i.e. {default_python_package_name}): ')
+                f'    Name of the python package (enter "d" for default, i.e. {default_python_package_name}): '
+            )
             if r.python_package_name.lower() == "d":
                 r.python_package_name = default_python_package_name
                 print(f"    Used {default_python_package_name} as python package name!")
@@ -161,7 +162,8 @@ Note: this name cannot include "_" (i.e. underscore) sign
             default_pip_package_name = r.python_package_name.replace("_", "-")
             print(step3_help)
             r.pip_package_name = input(
-                f'    Name of the pip package (enter "d" for default, i.e. {default_pip_package_name}): ')
+                f'    Name of the pip package (enter "d" for default, i.e. {default_pip_package_name}): '
+            )
             if r.pip_package_name.lower() == "d":
                 r.pip_package_name = default_pip_package_name
                 print(f"    Used {default_pip_package_name} as pip package name!")
@@ -174,7 +176,9 @@ def main():
     interactive = True
     if interactive:
         package_names = PackageNames.from_user_input()
-        answer = input("\nPlease confirm you want to make the modifications (it cannot be undone). Type 'yes' to confirm: ")
+        answer = input(
+            "\nPlease confirm you want to make the modifications (it cannot be undone). Type 'yes' to confirm: "
+        )
         if answer != "yes":
             print("Cancelled!")
             return
@@ -190,4 +194,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

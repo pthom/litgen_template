@@ -11,6 +11,7 @@ except ImportError:
     raise
 
 from setuptools import find_packages
+
 setup(
     name="lg-examplelib",
     version="0.0.1",

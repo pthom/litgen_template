@@ -46,12 +46,12 @@ def autogenerate():
             options,
             input_cpp_header_file=input_cpp_header,
             output_cpp_pydef_file=output_cpp_pydef_file,
-            output_stub_pyi_file=output_stub_pyi_file)
+            output_stub_pyi_file=output_stub_pyi_file,
+        )
     else:
         include_dir = THIS_DIR + "/external/examplelibcpp"
         header_files = [include_dir + "/examplelibcpp.h", include_dir + "/examplelibcpp_2.h"]
-        litgen.write_generated_code_for_files(
-            options, header_files, output_cpp_pydef_file, output_stub_pyi_file)
+        litgen.write_generated_code_for_files(options, header_files, output_cpp_pydef_file, output_stub_pyi_file)
 
 
 if __name__ == "__main__":
