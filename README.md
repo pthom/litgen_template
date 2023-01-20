@@ -28,10 +28,10 @@ An example project built with [pybind11](https://github.com/pybind/pybind11),
 
 ### Step 1: clone this repository
 
-````bash
+```bash
 git clone git@github.com:pthom/lg_skbuild_template.git
 cd lg_skbuild_template
-````
+```
 
 ### Step 2: Customize cpp library name, python package name and pip package name
 
@@ -55,7 +55,7 @@ once you made sure that `pip install -v.` works correctly._
 
 __Example session with `python prepare_template.py`__
 
-````
+```
 >> python prepare_template.py
 
 * Step 1: enter the name of the cpp library to bind:
@@ -77,7 +77,7 @@ Note: this name cannot include "_" (i.e. underscore) sign
     Used lg-mylib as pip package name!
 
 Please confirm you want to make the modifications (it cannot be undone). Type 'yes' to confirm: yes
-````
+```
 
 _After this, you will see various messages explaining what was changed_
 
@@ -85,14 +85,14 @@ _After this, you will see various messages explaining what was changed_
 
 __First, install litgen__
 
-````
+```
 pip install -r requirements-dev.txt
-````
+```
 
 __Then run code generation via litgen__
-````
+```
 python autogenerate_lg_examplelib.py
-````
+```
 
 (you might need to replace "autogenerate_lg_examplelib.py" by "autogenerate_{your_python_package_name}.py")
 
@@ -106,9 +106,9 @@ You can of course adapt the code and litgen options inside `autogenerate_lg_exam
 ### Step 4: Check that it works
 
 __First, install the package__
-````
+```
 pip install -v .
-````
+```
 
 __Then, try to import and use it from python__
 ```python
@@ -135,7 +135,7 @@ terms and conditions of this license.
 
 Below is a summary of the folder structure:
 
-````
+```
 ./
 ├── pyproject.toml                            # Pip configuration file
 ├── setup.py                                  # Pip configuration file
@@ -173,7 +173,7 @@ Below is a summary of the folder structure:
     ├── c_string_list_test.py                 #   that the generated python module works as intended.
     ├── c_style_array_test.py
     ├── ...
-````
+```
 
 
 [`cibuildwheel`]:          https://cibuildwheel.readthedocs.io
