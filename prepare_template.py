@@ -133,7 +133,7 @@ a project with this name will be placed inside external/ (you can later replace 
 (in this template, this project is named "examplelibcpp")
 """
         step2_help = """
-Step 2: enter the name of the python package 
+Step 2: enter the name of the python package
 Note: this name cannot include "-" (i.e. minus) signs
             """
         step3_help = """
@@ -144,7 +144,7 @@ Note: this name cannot include "_" (i.e. underscore) sign
         # Step 1: ask for cpp library name
         while len(r.cpp_library_name) == 0:
             print(step1_help)
-            r.cpp_library_name = input(f"    Name of the cpp library to bind: ")
+            r.cpp_library_name = input("    Name of the cpp library to bind: ")
 
         # Step 2: ask for python package name
         while len(r.python_package_name) == 0:
