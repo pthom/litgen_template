@@ -11,3 +11,15 @@ build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
+
+
+[tool.cibuildwheel]
+build-verbosity = 1
+
+# Target python versions:
+build = ["cp310-*", "cp311-*", "cp312-*"]
+
+# Tests
+#test-requires = "pytest"
+#test-command = "pytest {project}/tests"  # cibuildwheel doc says pytest {package}/tests !
+
