@@ -31,6 +31,7 @@ An example project built with [pybind11](https://github.com/pybind/pybind11),
 ```bash
 git clone git@github.com:pthom/lg_skbuild_template.git
 cd lg_skbuild_template
+git submodule update --init
 ```
 
 ### Step 2: Customize cpp library name, python package name and pip package name
