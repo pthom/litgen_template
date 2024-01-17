@@ -1,38 +1,46 @@
-# lg_skuild_template
+# litgen template
 
-An adpatation of [scikit_build_example](https://github.com/pybind/scikit_build_example) for [litgen](https://github.com/pthom/litgen)
-
-[![Gitter][gitter-badge]][gitter-link]
-
-|      CI              | status |
-|----------------------|--------|
-| conda.recipe         | [![Conda Actions Status][actions-conda-badge]][actions-conda-link] |
-| pip builds           | [![Pip Actions Status][actions-pip-badge]][actions-pip-link] |
+An adaptation of [scikit_build_example](https://github.com/pybind/scikit_build_example) for [litgen](https://github.com/pthom/litgen)
 
 
-An example project built with [pybind11](https://github.com/pybind/pybind11), 
-[scikit-build](https://scikit-build.readthedocs.io/en/latest/), and [litgen](https://github.com/pthom/litgen). 
-
-
-[gitter-badge]:            https://badges.gitter.im/pybind/Lobby.svg
-[gitter-link]:             https://gitter.im/pybind/Lobby
-[actions-badge]:           https://github.com/pthom/lg_skbuild_template/workflows/Tests/badge.svg
-[actions-conda-link]:      https://github.com/pthom/lg_skbuild_template/actions?query=workflow%3AConda
-[actions-conda-badge]:     https://github.com/pthom/lg_skbuild_template/workflows/Conda/badge.svg
-[actions-pip-link]:        https://github.com/pthom/lg_skbuild_template/actions?query=workflow%3APip
-[actions-pip-badge]:       https://github.com/pthom/lg_skbuild_template/workflows/Pip/badge.svg
-[actions-wheels-link]:     https://github.com/pthom/lg_skbuild_template/actions?query=workflow%3AWheels
-[actions-wheels-badge]:    https://github.com/pthom/lg_skbuild_template/workflows/Wheels/badge.svg
-
-# Usage
-
-### Step 1: clone this repository
+# Usage: for your module users
 
 ```bash
-git clone git@github.com:pthom/lg_skbuild_template.git
-cd lg_skbuild_template
-git submodule update --init
+git clone https://github.com/pthom/litgen_template.git
+cd litgen_template
+pip install -v .
 ```
+
+# Usage: development mode
+
+## Step 1: clone this template
+
+```bash
+git clone https://github.com/pthom/litgen_template.git
+cd litgen_template
+```
+
+## Step 2: create a virtual environment and install requirements
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements-dev.txt  # (this will install litgen, pybind11, pytest, black and mypy)
+```
+
+## Step 3: develop in editable mode
+
+```bash
+# Install the package in editable mode
+pip install -v -e .
+# Build the package so that it is used in editable mode
+mkdir build && cd build 
+cmake ..
+make
+```
+
+---------------
+
 
 ### Step 2: Customize cpp library name, python package name and pip package name
 

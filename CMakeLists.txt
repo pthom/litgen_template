@@ -1,34 +1,52 @@
 cmake_minimum_required(VERSION 3.17)
 project(lg_template VERSION "0.0.1")
 
-include(lg_cmake_utils/lg_cmake_utils.cmake)
 
 set(CMAKE_CXX_STANDARD 20)
+
 
 ####################################################
 # Add pybind11
 ####################################################
 # Note there are several ways to provide pybind:
-# - Method 1 (easiest): `pip install pybind11` and specify PYTHON_EXECUTABLE
+# - Method 1 (easiest): `pip install pybind11`
+#       This is the default in this template (when LITGEN_USE_PIP_PYBIND11 is ON which is the default)
+#       You may have to specify PYTHON_EXECUTABLE via -DPYTHON_EXECUTABLE=/path/to/your/venv/bin/python
 # - Method 2: via a submodule +  add_subdirectory(external/pybind11)
-# - Method 3: via a global install (`brew install pybind11`, `apt-get install python-pybind11`)
-#      Note that apt packages may be out of date and might break the build (we require pybind11 from late 2021)
-if(DEFINED PYTHON_EXECUTABLE)
-    # if PYTHON_EXECUTABLE is defined, and pybind11 is installed via pip,
-    # then add its path to CMAKE_PREFIX_PATH
-    #
-    # this is the case
-    # * when using SKBUILD, which set PYTHON_EXECUTABLE
-    #   (and pybind11 is referenced in pyproject.toml, section [build-system]/requires)
-    # * when building normally, if you set PYTHON_EXECUTABLE
+
+option(LITGEN_USE_PIP_PYBIND11 "Use pybind11 provided by ` pip install pyind11 `" ON)
+
+# if pybind11 is installed via pip, then add its path to CMAKE_PREFIX_PATH
+function(_lg_add_pybind11_pip_cmake_prefix_path)
+    if(NOT DEFINED PYTHON_EXECUTABLE)
+        find_package(Python3)
+        if (NOT Python3_FOUND)
+            message(FATAL_ERROR "Python3 not found")
+        endif()
+        set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
+    endif()
     execute_process(
         COMMAND "${PYTHON_EXECUTABLE}" -c
         "import pybind11; print(pybind11.get_cmake_dir())"
-        OUTPUT_VARIABLE _tmp_dir
-        OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ECHO STDOUT)
-    list(APPEND CMAKE_PREFIX_PATH "${_tmp_dir}")
-endif()
+        OUTPUT_VARIABLE pybind11_cmake_dir
+        OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ECHO STDOUT
+        RESULT_VARIABLE _result
+    )
+    if(NOT _result EQUAL 0)
+        message(FATAL_ERROR "
+            Make sure pybind11 is installed via pip:
+                pip install pybind11
+            Also, make sure you are using the correct python executable:
+                -DPYTHON_EXECUTABLE=/path/to/your/venv/bin/python
+        ")
+    endif()
+    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${pybind11_cmake_dir}" PARENT_SCOPE)
+endfunction()
 
+
+if(SKBUILD OR LITGEN_USE_PIP_PYBIND11)
+    _lg_add_pybind11_pip_cmake_prefix_path()
+endif()
 find_package(pybind11 CONFIG REQUIRED)
 
 
@@ -42,6 +60,8 @@ add_subdirectory(${examplelibcpp_dir})
 #########################################################################
 # Build python module that provides bindings to the library implot
 #########################################################################
+include(litgen_cmake/litgen_setup_module.cmake)
+
 set(bound_library examplelibcpp)          # The library for which we are building bindings
 set(python_native_module_name _lg_examplelib) # This is the native python module name
 set(python_wrapper_module_name lg_examplelib) # This is the python wrapper around the native module
