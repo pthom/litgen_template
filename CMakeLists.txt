@@ -69,7 +69,7 @@ set(python_module_sources bindings/module.cpp bindings/pybind_${bound_library}.c
 
 pybind11_add_module(${python_native_module_name} ${python_module_sources})
 target_compile_definitions(_lg_examplelib PRIVATE VERSION_INFO=${PROJECT_VERSION})
-lg_setup_module(
+litgen_setup_module(
     ${bound_library}
     ${python_native_module_name}
     ${python_wrapper_module_name}
