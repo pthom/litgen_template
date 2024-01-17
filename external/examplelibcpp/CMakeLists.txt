@@ -1,4 +1,4 @@
-add_library(examplelibcpp examplelibcpp.cpp examplelibcpp.h examplelibcpp_2.cpp examplelibcpp_2.h)
+add_library(examplelibcpp STATIC examplelibcpp.cpp examplelibcpp.h examplelibcpp_2.cpp examplelibcpp_2.h)
 target_include_directories(examplelibcpp PUBLIC ${CMAKE_CURRENT_LIST_DIR}/..)
 # Under windows, auto __declspec(dllexport)
 if (WIN32)
