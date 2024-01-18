@@ -1,4 +1,8 @@
 #include <pybind11/pybind11.h>
+
+// pybind11/stl.h:
+// may be required to take into account ImGuiIO::std::string IniFilename
+// (the wheel fails whenever we include it or not)
 #include <pybind11/stl.h>
 
 
@@ -6,11 +10,12 @@
 
 namespace py = pybind11;
 
-
+// ImGuiContext is published as an opaque structure.
+// We only reproduce its constructor API here.
 struct ImGuiContext
 {
   // Opaque
-  ImGuiContext(ImFontAtlas*) {}
+  ImGuiContext(ImFontAtlas*);
 };
 
 
