@@ -968,17 +968,6 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
     }
 }
 
-#ifdef IMGUI_BUNDLE_PYTHON_API
-void  ImDrawList::AddPolyline(const std::vector<ImVec2>& points, ImU32 col, ImDrawFlags flags, float thickness)
-{
-    AddPolyline(points.data(), (int)points.size(), col, flags, thickness);
-}
-void  ImDrawList::AddConvexPolyFilled(const std::vector<ImVec2>& points, ImU32 col)
-{
-    AddConvexPolyFilled(points.data(), (int)points.size(), col);
-}
-#endif
-
 // - We intentionally avoid using ImVec2 and its math operators here to reduce cost to a minimum for debug/non-inlined builds.
 // - Filled shapes must always use clockwise winding order. The anti-aliasing fringe depends on it. Counter-clockwise shapes will have "inward" anti-aliasing.
 void ImDrawList::AddConvexPolyFilled(const ImVec2* points, const int points_count, ImU32 col)
@@ -3016,60 +3005,6 @@ static void UnpackAccumulativeOffsetsIntoRanges(int base_codepoint, const short*
     out_ranges[0] = 0;
 }
 
-
-//-------------------------------------------
-// [ADAPT_IMGUI_BUNDLE]
-//-------------------------------------------
-#ifdef IMGUI_BUNDLE_PYTHON_API
-ImFont* ImFontAtlas::_AddFontFromFileTTF(
-    const char* filename,
-    float size_pixels,
-    const ImFontConfig* font_cfg,
-    std::optional<std::vector<ImWchar>> glyph_ranges_as_int_list)
-{
-    static std::vector<std::vector<ImWchar>> all_glyph_ranges;
-
-    ImFont *font = nullptr;
-
-    if (glyph_ranges_as_int_list.has_value())
-    {
-        // from imgui.h doc:
-        // - If you pass a 'glyph_ranges' array to AddFont*** functions, you need to make sure that your array persist up until the
-        //   atlas is build (when calling GetTexData*** or Build()). We only copy the pointer, not the data.
-        std::vector<ImWchar> glyph_range_this_call;
-        for (ImWchar x : *glyph_ranges_as_int_list)
-            glyph_range_this_call.push_back((ImWchar) x);
-        glyph_range_this_call.push_back(0); // Add a final zero, in case the user forgot
-        all_glyph_ranges.push_back(glyph_range_this_call); // "make sure that your array persist up until the atlas is build"
-
-        // glyph_range_this_call will soon die, let's use a static one...
-        const ImWchar* glyph_range_static = all_glyph_ranges.back().data();
-
-        font = AddFontFromFileTTF(filename, size_pixels, font_cfg, glyph_range_static);
-    }
-    else
-    {
-        font = AddFontFromFileTTF(filename, size_pixels, font_cfg);
-    }
-
-    return font;
-}
-
-std::vector<ImWchar> ImFontAtlas::_ImWcharRangeToVec(const ImWchar* range)
-{
-    std::vector<ImWchar> r;
-    const ImWchar* v = range;
-    while(*v != 0){
-        r.push_back((int)*v);
-        ++v;
-    }
-
-    r.push_back(0);
-    return r;
-}
-
-
-#endif // IMGUI_BUNDLE_PYTHON_API
 
 
 //-------------------------------------------------------------------------

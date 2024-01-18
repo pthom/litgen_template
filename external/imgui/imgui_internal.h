@@ -1927,13 +1927,7 @@ struct ImGuiWindowSettings
 
     ImGuiWindowSettings()       { memset(this, 0, sizeof(*this)); DockOrder = -1; }
 
-// [ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    std::string GetNameStr()             { return std::string((const char*)(this + 1)); }
-#endif
     char* GetName()             { return (char*)(this + 1); }
-// [/ADAPT_IMGUI_BUNDLE]
-
 };
 
 struct ImGuiSettingsHandler
@@ -3906,14 +3900,8 @@ namespace ImGui
     IMGUI_API bool          DataTypeClamp(ImGuiDataType data_type, void* p_data, const void* p_min, const void* p_max);
 
     // InputText
-    // [ADAPT_IMGUI_BUNDLE]
     IMGUI_API bool          InputTextEx(const char* label, const char* hint, char* buf, int buf_size, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
     IMGUI_API bool          TempInputText(const ImRect& bb, ImGuiID id, const char* label, char* buf, int buf_size, ImGuiInputTextFlags flags);
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    IMGUI_API bool          InputTextEx(const char* label, const char* hint, std::string* s, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback = NULL);
-    IMGUI_API bool          TempInputText(const ImRect& bb, ImGuiID id, const char* label, std::string* s, ImGuiInputTextFlags flags);
-#endif
-    // [/ADAPT_IMGUI_BUNDLE]
     IMGUI_API void          InputTextDeactivateHook(ImGuiID id);
     IMGUI_API bool          TempInputScalar(const ImRect& bb, ImGuiID id, const char* label, ImGuiDataType data_type, void* p_data, const char* format, const void* p_clamp_min = NULL, const void* p_clamp_max = NULL);
     inline bool             TempInputIsActive(ImGuiID id)       { ImGuiContext& g = *GImGui; return (g.ActiveId == id && g.TempInputId == id); }
@@ -3946,12 +3934,6 @@ namespace ImGui
     IMGUI_API void          ErrorCheckEndFrameRecover(ImGuiErrorLogCallback log_callback, void* user_data = NULL);
     IMGUI_API void          ErrorCheckEndWindowRecover(ImGuiErrorLogCallback log_callback, void* user_data = NULL);
     IMGUI_API void          ErrorCheckUsingSetCursorPosToExtendParentBoundaries();
-    // [ADAPT_IMGUI_BUNDLE]
-    #ifdef IMGUI_BUNDLE_PYTHON_API
-    IMGUI_API void          ErrorCheckEndFrameRecover(ImGuiErrorStringCallback callback);
-    IMGUI_API void          ErrorCheckEndWindowRecover(ImGuiErrorStringCallback callback);
-    #endif
-    // [/ADAPT_IMGUI_BUNDLE]
 
     IMGUI_API void          DebugDrawCursorPos(ImU32 col = IM_COL32(255, 0, 0, 255));
     IMGUI_API void          DebugDrawLineExtents(ImU32 col = IM_COL32(255, 0, 0, 255));

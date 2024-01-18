@@ -720,9 +720,6 @@ namespace ImGui
     IMGUI_API void          EndMenu();
 
     IMGUI_API bool          MenuItem(const char* label, const char* shortcut = NULL, bool selected = false, bool enabled = true);  // return true when activated.
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    inline bool          MenuItemSimple(const char* label, const char* shortcut = NULL, bool selected = false, bool enabled = true) { return MenuItem(label, shortcut, selected, enabled); }
-#endif
     IMGUI_API bool          MenuItem(const char* label, const char* shortcut, bool* p_selected, bool enabled = true);              // return true when activated + toggle (*p_selected) if p_selected != NULL
     // [/ADAPT_IMGUI_BUNDLE]
 
@@ -1963,12 +1960,6 @@ struct ImGuiTableSortSpecs
     bool                        SpecsDirty;     // Set to true when specs have changed since last time! Use this to sort again, then clear the flag.
 
     ImGuiTableSortSpecs()       { memset(this, 0, sizeof(*this)); }
-
-// [ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    IMGUI_API const ImGuiTableColumnSortSpecs& GetSpecs(size_t idx) const;
-#endif
-// [/ADAPT_IMGUI_BUNDLE]
 };
 
 // Sorting specification for one column of a table (sizeof == 12 bytes)
@@ -1980,13 +1971,6 @@ struct ImGuiTableColumnSortSpecs
     ImGuiSortDirection          SortDirection : 8;  // ImGuiSortDirection_Ascending or ImGuiSortDirection_Descending
 
     ImGuiTableColumnSortSpecs() { memset(this, 0, sizeof(*this)); }
-
-    // [ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    inline IMGUI_API ImGuiSortDirection GetSortDirection() { return SortDirection; }
-    inline IMGUI_API void SetSortDirection(ImGuiSortDirection direction) { SortDirection = direction; }
-#endif
-    // [/ADAPT_IMGUI_BUNDLE]
 };
 
 //-----------------------------------------------------------------------------
@@ -2032,10 +2016,6 @@ struct ImVector
     typedef T                   value_type;
     typedef value_type*         iterator;
     typedef const value_type*   const_iterator;
-// [/ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    size_t DataAddress()  { return (size_t)(Data); }
-#endif
 
     inline ImVector()                                       { Size = Capacity = 0; Data = NULL; }
     inline ImVector(const ImVector<T>& src)                 { Size = Capacity = 0; Data = NULL; operator=(src); }
@@ -2160,15 +2140,6 @@ struct ImGuiStyle
     ImGuiHoveredFlags HoverFlagsForTooltipMouse;// Default flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using mouse.
     ImGuiHoveredFlags HoverFlagsForTooltipNav;  // Default flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using keyboard/gamepad.
 
-    // [ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    // python adapter for ImGuiStyle::Colors[ImGuiCol_COUNT]
-    // You can query and modify those values (0 <= idxColor < Col_.count)
-    inline IMGUI_API  ImVec4& Color_(size_t idxColor) { IM_ASSERT( (idxColor >=0) && (idxColor < ImGuiCol_COUNT)); return Colors[idxColor]; }
-    inline IMGUI_API  void SetColor_(size_t idxColor, ImVec4 color) { IM_ASSERT( (idxColor >=0) && (idxColor < ImGuiCol_COUNT)); Colors[idxColor] = color; }
-#endif
-    // [/ADAPT_IMGUI_BUNDLE]
-
     IMGUI_API ImGuiStyle();
     IMGUI_API void ScaleAllSizes(float scale_factor);
 };
@@ -2284,13 +2255,6 @@ struct ImGuiIO
     const char* (*GetClipboardTextFn)(void* user_data);
     void        (*SetClipboardTextFn)(void* user_data, const char* text);
     void*       ClipboardUserData;
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    // Optional: Access OS clipboard
-    // (default to use native Win32 clipboard on Windows, otherwise uses a private clipboard. Override to access OS clipboard on other architectures)
-    std::function<std::string()> GetClipboardTextFn_;
-    std::function<void(std::string)> SetClipboardTextFn_;
-#endif
-// [/ADAPT_IMGUI_BUNDLE]
 
     // Optional: Notify OS Input Method Editor of the screen position of your cursor for text input position (e.g. when using Japanese/Chinese IME on Windows)
     // (default to use native imm32 api on Windows)
@@ -2411,13 +2375,6 @@ struct ImGuiIO
 
     IMGUI_API   ImGuiIO();
 
-    // [ADAPT_IMGUI_BUNDLE]
-
-    #ifdef IMGUI_BUNDLE_PYTHON_API
-    IMGUI_API void SetIniFilename(const char* filename);
-    IMGUI_API void SetLogFilename(const char* filename);
-    #endif
-    // [/ADAPT_IMGUI_BUNDLE]
 };
 
 //-----------------------------------------------------------------------------
@@ -2954,10 +2911,6 @@ struct ImDrawList
 
     IMGUI_API void  AddPolyline(const ImVec2* points, int num_points, ImU32 col, ImDrawFlags flags, float thickness);
     IMGUI_API void  AddConvexPolyFilled(const ImVec2* points, int num_points, ImU32 col);
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    IMGUI_API void  AddPolyline(const std::vector<ImVec2>& points, ImU32 col, ImDrawFlags flags, float thickness);
-    IMGUI_API void  AddConvexPolyFilled(const std::vector<ImVec2>& points, ImU32 col);
-#endif
 
     IMGUI_API void  AddBezierCubic(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, const ImVec2& p4, ImU32 col, float thickness, int num_segments = 0); // Cubic Bezier (4 control points)
     IMGUI_API void  AddBezierQuadratic(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, ImU32 col, float thickness, int num_segments = 0);               // Quadratic Bezier (3 control points)
@@ -3193,40 +3146,6 @@ struct ImFontAtlas
     IMGUI_API const ImWchar*    GetGlyphRangesCyrillic();               // Default + about 400 Cyrillic characters
     IMGUI_API const ImWchar*    GetGlyphRangesThai();                   // Default + Thai characters
     IMGUI_API const ImWchar*    GetGlyphRangesVietnamese();             // Default + Vietnamese characters
-
-    //-------------------------------------------
-    // [ADAPT_IMGUI_BUNDLE]
-    //-------------------------------------------
-
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    IMGUI_API ImFont* _AddFontFromFileTTF(
-        const char* filename,
-        float size_pixels,
-        const ImFontConfig* font_cfg = NULL,
-        std::optional<std::vector<ImWchar>> glyph_ranges_as_int_list = std::nullopt);
-
-    std::vector<ImWchar> _ImWcharRangeToVec(const ImWchar* range);
-
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesDefault()                // Basic Latin, Extended Latin
-    { return _ImWcharRangeToVec(GetGlyphRangesDefault()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesGreek()                  // Default + Greek and Coptic
-    { return _ImWcharRangeToVec(GetGlyphRangesGreek()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesKorean()                 // Default + Korean characters
-    { return _ImWcharRangeToVec(GetGlyphRangesKorean()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesJapanese()               // Default + Hiragana, Katakana, Half-Width, Selection of 2999 Ideographs
-    { return _ImWcharRangeToVec(GetGlyphRangesJapanese()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesChineseFull()            // Default + Half-Width + Japanese Hiragana/Katakana + full set of about 21000 CJK Unified Ideographs
-    { return _ImWcharRangeToVec(GetGlyphRangesChineseFull()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesChineseSimplifiedCommon()// Default + Half-Width + Japanese Hiragana/Katakana + set of 2500 CJK Unified Ideographs for common simplified Chinese
-    { return _ImWcharRangeToVec(GetGlyphRangesChineseSimplifiedCommon()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesCyrillic()               // Default + about 400 Cyrillic characters
-    { return _ImWcharRangeToVec(GetGlyphRangesCyrillic()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesThai()                   // Default + Thai characters
-    { return _ImWcharRangeToVec(GetGlyphRangesThai()); }
-    IMGUI_API inline std::vector<ImWchar>    _GetGlyphRangesVietnamese()             // Default + Vietnamese characters
-    { return _ImWcharRangeToVec(GetGlyphRangesVietnamese()); }
-#endif
-    // [/ADAPT_IMGUI_BUNDLE]
 
     //-------------------------------------------
     // [BETA] Custom Rectangles/Glyphs API
