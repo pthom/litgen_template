@@ -15,7 +15,6 @@ void py_init_module_imgui(py::module& m)
 {
     m.def("create_context",
           ImGui::CreateContext,
-          py::arg("shared_font_atlas") = py::none(),
           pybind11::return_value_policy::reference);
 
     auto pyClassImGuiContext =
@@ -23,12 +22,6 @@ void py_init_module_imgui(py::module& m)
             (m, "Context", "")
             .def(py::init<ImFontAtlas *>(),
                  py::arg("shared_font_atlas"))
-    ;
-
-    auto pyClassImFontAtlas =
-        py::class_<ImFontAtlas>
-            (m, "ImFontAtlas", "")
-            .def(py::init<>())
     ;
 
 }

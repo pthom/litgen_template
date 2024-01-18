@@ -3615,8 +3615,9 @@ void ImGui::GetAllocatorFunctions(ImGuiMemAllocFunc* p_alloc_func, ImGuiMemFreeF
     *p_user_data = GImAllocatorUserData;
 }
 
-ImGuiContext* ImGui::CreateContext(ImFontAtlas* shared_font_atlas)
+ImGuiContext* ImGui::CreateContext()
 {
+    ImFontAtlas* shared_font_atlas = NULL;
     printf("ImGui::CreateContext 1\n");
     ImGuiContext* prev_ctx = GetCurrentContext();
     printf("ImGui::CreateContext 2\n");
