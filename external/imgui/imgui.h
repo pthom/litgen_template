@@ -31,18 +31,6 @@
 #define IMGUI_HAS_VIEWPORT          // Viewport WIP branch
 #define IMGUI_HAS_DOCK              // Docking WIP branch
 
-//
-// Adaptations for ImGui Bundle are noted with [ADAPT_IMGUI_BUNDLE]
-//
-// [ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_API
-#include <vector>   // Used *once* to make the FontAtlas api accessible on python
-#include <optional>
-#include <functional>
-#include <string>
-#endif
-
-
 
 /*
 
@@ -270,13 +258,8 @@ typedef ImWchar16 ImWchar;
 #endif
 
 // Callback and functions types
-#ifdef IMGUI_BUNDLE_PYTHON_API
-using ImGuiInputTextCallback = std::function<int(ImGuiInputTextCallbackData*)>;  // Callback function for ImGui::InputText()
-using ImGuiSizeCallback = std::function<void(ImGuiSizeCallbackData*)>;           // Callback function for ImGui::SetNextWindowSizeConstraints()
-#else
 typedef int     (*ImGuiInputTextCallback)(ImGuiInputTextCallbackData* data);    // Callback function for ImGui::InputText()
 typedef void    (*ImGuiSizeCallback)(ImGuiSizeCallbackData* data);              // Callback function for ImGui::SetNextWindowSizeConstraints()
-#endif
 typedef void*   (*ImGuiMemAllocFunc)(size_t sz, void* user_data);               // Function signature for ImGui::SetAllocatorFunctions()
 typedef void    (*ImGuiMemFreeFunc)(void* ptr, void* user_data);                // Function signature for ImGui::SetAllocatorFunctions()
 
@@ -2258,11 +2241,7 @@ struct ImGuiIO
 
     // Optional: Notify OS Input Method Editor of the screen position of your cursor for text input position (e.g. when using Japanese/Chinese IME on Windows)
     // (default to use native imm32 api on Windows)
-#ifdef IMGUI_BUNDLE_PYTHON_API
-    std::function<void(ImGuiViewport*, ImGuiPlatformImeData*)> SetPlatformImeDataFn;
-#else
     void        (*SetPlatformImeDataFn)(ImGuiViewport* viewport, ImGuiPlatformImeData* data);
-#endif
 
     // Optional: Platform locale
     ImWchar     PlatformLocaleDecimalPoint;     // '.'              // [Experimental] Configure decimal point e.g. '.' or ',' useful for some languages (e.g. German), generally pulled from *localeconv()->decimal_point
