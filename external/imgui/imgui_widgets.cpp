@@ -5026,7 +5026,6 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         return value_changed;
 }
 
-
 void ImGui::DebugNodeInputTextState(ImGuiInputTextState* state)
 {
 #ifndef IMGUI_DISABLE_DEBUG_TOOLS

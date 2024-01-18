@@ -2738,7 +2738,6 @@ void ImGui::TableDrawBorders(ImGuiTable* table)
 // - TableSortSpecsBuild() [Internal]
 //-------------------------------------------------------------------------
 
-
 // Return NULL if no sort specs (most often when ImGuiTableFlags_Sortable is not set)
 // When 'sort_specs->SpecsDirty == true' you should sort your data. It will be true when sorting specs have
 // changed since last call, or the first time. Make sure to set 'SpecsDirty = false' after sorting,

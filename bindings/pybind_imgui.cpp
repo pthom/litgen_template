@@ -3,6 +3,7 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "imgui_docking_internal.h"
 
 namespace py = pybind11;
 
@@ -20,4 +21,11 @@ void py_init_module_imgui(py::module& m)
             .def(py::init<ImFontAtlas *>(),
                  py::arg("shared_font_atlas"))
     ;
+
+    auto pyClassImGuiFontAtlas =
+        py::class_<ImFontAtlas>
+            (m, "FontAtlas", "")
+            .def(py::init<>())
+    ;
+
 }

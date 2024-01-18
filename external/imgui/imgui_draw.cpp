@@ -3005,8 +3005,6 @@ static void UnpackAccumulativeOffsetsIntoRanges(int base_codepoint, const short*
     out_ranges[0] = 0;
 }
 
-
-
 //-------------------------------------------------------------------------
 // [SECTION] ImFontAtlas glyph ranges helpers
 //-------------------------------------------------------------------------
