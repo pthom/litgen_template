@@ -1,11 +1,8 @@
 #include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/functional.h>
-#include <pybind11/numpy.h>
+
 
 #include "imgui.h"
 #include "imgui_internal.h"
-#include "imgui_docking_internal_types.h"
 
 namespace py = pybind11;
 
@@ -23,5 +20,4 @@ void py_init_module_imgui(py::module& m)
             .def(py::init<ImFontAtlas *>(),
                  py::arg("shared_font_atlas"))
     ;
-
 }
