@@ -3644,11 +3644,8 @@ static const ImGuiLocEntry GLocalizationEntriesEnUS[] =
 
 void ImGui::Initialize()
 {
-    printf("ImGui::Initialize 1\n");
     ImGuiContext& g = *GImGui;
-    printf("ImGui::Initialize 2\n");
     IM_ASSERT(!g.Initialized && !g.SettingsLoaded);
-    printf("ImGui::Initialize 3\n");
 
     // Add .ini handle for ImGuiWindow and ImGuiTable types
     {
@@ -3660,48 +3657,36 @@ void ImGui::Initialize()
         ini_handler.ReadLineFn = WindowSettingsHandler_ReadLine;
         ini_handler.ApplyAllFn = WindowSettingsHandler_ApplyAll;
         ini_handler.WriteAllFn = WindowSettingsHandler_WriteAll;
-        printf("ImGui::Initialize 4\n");
         AddSettingsHandler(&ini_handler);
-        printf("ImGui::Initialize 5\n");
     }
     TableSettingsAddSettingsHandler();
-    printf("ImGui::Initialize 6\n");
 
     // Setup default localization table
     LocalizeRegisterEntries(GLocalizationEntriesEnUS, IM_ARRAYSIZE(GLocalizationEntriesEnUS));
-    printf("ImGui::Initialize 7\n");
 
     // Setup default platform clipboard/IME handlers.
     g.IO.GetClipboardTextFn = GetClipboardTextFn_DefaultImpl;    // Platform dependent default implementations
     g.IO.SetClipboardTextFn = SetClipboardTextFn_DefaultImpl;
     g.IO.ClipboardUserData = (void*)&g;                          // Default implementation use the ImGuiContext as user data (ideally those would be arguments to the function)
     g.IO.SetPlatformImeDataFn = SetPlatformImeDataFn_DefaultImpl;
-    printf("ImGui::Initialize 8\n");
 
     // Create default viewport
     ImGuiViewportP* viewport = IM_NEW(ImGuiViewportP)();
-    printf("ImGui::Initialize 9\n");
     viewport->ID = IMGUI_VIEWPORT_DEFAULT_ID;
     viewport->Idx = 0;
     viewport->PlatformWindowCreated = true;
     viewport->Flags = ImGuiViewportFlags_OwnedByApp;
-    printf("ImGui::Initialize 10\n");
     g.Viewports.push_back(viewport);
-    printf("ImGui::Initialize 11\n");
     g.TempBuffer.resize(1024 * 3 + 1, 0);
-    printf("ImGui::Initialize 12\n");
     g.ViewportCreatedCount++;
     g.PlatformIO.Viewports.push_back(g.Viewports[0]);
-    printf("ImGui::Initialize 13\n");
 
 #ifdef IMGUI_HAS_DOCK
     // Initialize Docking
     DockContextInitialize(&g);
-    printf("ImGui::Initialize 14\n");
 #endif
 
     g.Initialized = true;
-    printf("ImGui::Initialize 15\n");
 }
 
 // This function is merely here to free heap allocations.
@@ -3725,8 +3710,13 @@ void ImGui::Shutdown()
         return;
 
     // Save settings (unless we haven't attempted to load them: CreateContext/DestroyContext without a call to NewFrame shouldn't save an empty file)
+#ifdef IMGUI_WITH_STRING
     if (g.SettingsLoaded && !g.IO.IniFilename.empty())
         SaveIniSettingsToDisk(g.IO.IniFilename.c_str());
+#else
+    if (g.SettingsLoaded && g.IO.IniFilename != NULL)
+        SaveIniSettingsToDisk(g.IO.IniFilename);
+#endif
 
     // Destroy platform windows
     DestroyPlatformWindows();
@@ -13802,10 +13792,13 @@ void ImGui::LogToFile(int auto_open_depth, const char* filename)
     // FIXME: We could probably open the file in text mode "at", however note that clipboard/buffer logging will still
     // be subject to outputting OS-incompatible carriage return if within strings the user doesn't use IM_NEWLINE.
     // By opening the file in binary mode "ab" we have consistent output everywhere.
+#ifdef IMGUI_WITH_STRING
     if (!filename)
-    {
         filename = g.IO.LogFilename.c_str();
-    }
+#else
+    if (!filename)
+        filename = g.IO.LogFilename;
+#endif
     if (!filename || !filename[0])
         return;
     ImFileHandle f = ImFileOpen(filename, "ab");
@@ -13927,8 +13920,13 @@ void ImGui::UpdateSettings()
     if (!g.SettingsLoaded)
     {
         IM_ASSERT(g.SettingsWindows.empty());
+#ifdef IMGUI_WITH_STRING
         if (!g.IO.IniFilename.empty())
             LoadIniSettingsFromDisk(g.IO.IniFilename.c_str());
+#else
+        if (g.IO.IniFilename)
+            LoadIniSettingsFromDisk(g.IO.IniFilename);
+#endif
         g.SettingsLoaded = true;
     }
 
@@ -13938,8 +13936,13 @@ void ImGui::UpdateSettings()
         g.SettingsDirtyTimer -= g.IO.DeltaTime;
         if (g.SettingsDirtyTimer <= 0.0f)
         {
+#ifdef IMGUI_WITH_STRING
             if (!g.IO.IniFilename.empty())
                 SaveIniSettingsToDisk(g.IO.IniFilename.c_str());
+#else
+            if (g.IO.IniFilename)
+                SaveIniSettingsToDisk(g.IO.IniFilename);
+#endif
             else
                 g.IO.WantSaveIniSettings = true;  // Let user know they can call SaveIniSettingsToMemory(). user will need to clear io.WantSaveIniSettings themselves.
             g.SettingsDirtyTimer = 0.0f;
@@ -19984,10 +19987,19 @@ void ImGui::ShowMetricsWindow(bool* p_open)
             SaveIniSettingsToMemory();
         SameLine();
         if (SmallButton("Save to disk"))
+#ifdef IMGUI_WITH_STRING
             SaveIniSettingsToDisk(g.IO.IniFilename.c_str());
+#else
+            SaveIniSettingsToDisk(g.IO.IniFilename);
+#endif
         SameLine();
+#ifdef IMGUI_WITH_STRING
         if (!g.IO.IniFilename.empty())
             Text("\"%s\"", g.IO.IniFilename.c_str());
+#else
+        if (g.IO.IniFilename)
+            Text("\"%s\"", g.IO.IniFilename);
+#endif
         else
             TextUnformatted("<NULL>");
         Checkbox("io.ConfigDebugIniSettings", &io.ConfigDebugIniSettings);

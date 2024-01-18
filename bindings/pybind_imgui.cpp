@@ -3,8 +3,6 @@
 
 
 #include "imgui.h"
-//#include "imgui_internal.h"
-//#include "imgui_docking_internal.h"
 
 namespace py = pybind11;
 
