@@ -3,11 +3,17 @@
 
 
 #include "imgui.h"
-#include "imgui_internal.h"
-#include "imgui_docking_internal.h"
+//#include "imgui_internal.h"
+//#include "imgui_docking_internal.h"
 
 namespace py = pybind11;
 
+
+struct ImGuiContext
+{
+  // Opaque
+  ImGuiContext(ImFontAtlas*) {}
+};
 
 
 void py_init_module_imgui(py::module& m)
