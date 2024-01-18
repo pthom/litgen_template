@@ -56,10 +56,6 @@ Index of this file:
 #include <functional>
 #include <string>
 #endif
-// IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API is always defined (even when building python bindings),
-// but is used as a marker to exclude certain functions from the python binding code.
-#define IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
-// [/ADAPT_IMGUI_BUNDLE]
 
 #include <stdio.h>      // FILE*, sscanf
 #include <stdlib.h>     // NULL, malloc, free, qsort, atoi, atof
@@ -1935,9 +1931,7 @@ struct ImGuiWindowSettings
 #ifdef IMGUI_BUNDLE_PYTHON_API
     std::string GetNameStr()             { return std::string((const char*)(this + 1)); }
 #endif
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
     char* GetName()             { return (char*)(this + 1); }
-#endif
 // [/ADAPT_IMGUI_BUNDLE]
 
 };
@@ -3913,10 +3907,8 @@ namespace ImGui
 
     // InputText
     // [ADAPT_IMGUI_BUNDLE]
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
     IMGUI_API bool          InputTextEx(const char* label, const char* hint, char* buf, int buf_size, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
     IMGUI_API bool          TempInputText(const ImRect& bb, ImGuiID id, const char* label, char* buf, int buf_size, ImGuiInputTextFlags flags);
-#endif
 #ifdef IMGUI_BUNDLE_PYTHON_API
     IMGUI_API bool          InputTextEx(const char* label, const char* hint, std::string* s, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback = NULL);
     IMGUI_API bool          TempInputText(const ImRect& bb, ImGuiID id, const char* label, std::string* s, ImGuiInputTextFlags flags);

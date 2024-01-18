@@ -41,10 +41,6 @@
 #include <functional>
 #include <string>
 #endif
-// IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API is always defined (even when building python bindings),
-// but is used as a marker to exclude certain functions from the python binding code.
-#define IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
-// [/ADAPT_IMGUI_BUNDLE]
 
 
 
@@ -278,10 +274,8 @@ typedef ImWchar16 ImWchar;
 using ImGuiInputTextCallback = std::function<int(ImGuiInputTextCallbackData*)>;  // Callback function for ImGui::InputText()
 using ImGuiSizeCallback = std::function<void(ImGuiSizeCallbackData*)>;           // Callback function for ImGui::SetNextWindowSizeConstraints()
 #else
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
 typedef int     (*ImGuiInputTextCallback)(ImGuiInputTextCallbackData* data);    // Callback function for ImGui::InputText()
 typedef void    (*ImGuiSizeCallback)(ImGuiSizeCallbackData* data);              // Callback function for ImGui::SetNextWindowSizeConstraints()
-#endif
 #endif
 typedef void*   (*ImGuiMemAllocFunc)(size_t sz, void* user_data);               // Function signature for ImGui::SetAllocatorFunctions()
 typedef void    (*ImGuiMemFreeFunc)(void* ptr, void* user_data);                // Function signature for ImGui::SetAllocatorFunctions()
@@ -680,9 +674,7 @@ namespace ImGui
     // Widgets: Selectables
     // - A selectable highlights when hovered, and can display another color when selected.
     // - Neighbors selectable extend their highlight bounds in order to leave no gap between them. This is so a series of selected Selectable appear contiguous.
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
     IMGUI_API bool          Selectable(const char* label, bool selected = false, ImGuiSelectableFlags flags = 0, const ImVec2& size = ImVec2(0, 0)); // "bool selected" carry the selection state (read-only). Selectable() is clicked is returns true so you can modify your selection state. size.x==0.0: use remaining width, size.x>0.0: specify width. size.y==0.0: use label height, size.y>0.0: specify height
-#endif
     IMGUI_API bool          Selectable(const char* label, bool* p_selected, ImGuiSelectableFlags flags = 0, const ImVec2& size = ImVec2(0, 0));      // "bool* p_selected" point to the selection state (read-write), as a convenient helper.
 // [/ADAPT_IMGUI_BUNDLE]
 
@@ -727,9 +719,7 @@ namespace ImGui
     // only call EndMenu() if BeginMenu() returns true!
     IMGUI_API void          EndMenu();
 
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
     IMGUI_API bool          MenuItem(const char* label, const char* shortcut = NULL, bool selected = false, bool enabled = true);  // return true when activated.
-#endif
 #ifdef IMGUI_BUNDLE_PYTHON_API
     inline bool          MenuItemSimple(const char* label, const char* shortcut = NULL, bool selected = false, bool enabled = true) { return MenuItem(label, shortcut, selected, enabled); }
 #endif
@@ -2033,7 +2023,6 @@ IM_MSVC_RUNTIME_CHECKS_OFF
 template<typename T>
 struct ImVector
 {
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
 // [ADAPT_IMGUI_BUNDLE]: raw members are not published
     int                 Size;
     int                 Capacity;
@@ -2044,7 +2033,6 @@ struct ImVector
     typedef value_type*         iterator;
     typedef const value_type*   const_iterator;
 // [/ADAPT_IMGUI_BUNDLE]
-#endif
 #ifdef IMGUI_BUNDLE_PYTHON_API
     size_t DataAddress()  { return (size_t)(Data); }
 #endif
@@ -2056,30 +2044,20 @@ struct ImVector
 
     // Important: does not destruct anything
     inline void         clear()                             { if (Data) { Size = Capacity = 0; IM_FREE(Data); Data = NULL; } }
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
-// [ADAPT_IMGUI_BUNDLE]: clear_delete is not published
     // Important: never called automatically! always explicit.
     inline void         clear_delete()                      { for (int n = 0; n < Size; n++) IM_DELETE(Data[n]); clear(); }
-// [/ADAPT_IMGUI_BUNDLE]
-#endif
     // Important: never called automatically! always explicit.
     inline void         clear_destruct()                    { for (int n = 0; n < Size; n++) Data[n].~T(); clear(); }
 
     inline bool         empty() const                       { return Size == 0; }
     inline int          size() const                        { return Size; }
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
-// [ADAPT_IMGUI_BUNDLE]: unpublished methods
     inline int          size_in_bytes() const               { return Size * (int)sizeof(T); }
     inline int          max_size() const                    { return 0x7FFFFFFF / (int)sizeof(T); }
     inline int          capacity() const                    { return Capacity; }
-// [/ADAPT_IMGUI_BUNDLE]
-#endif
 
     inline const T&     operator[](int i) const             { IM_ASSERT(i >= 0 && i < Size); return Data[i]; }
     inline T&           operator[](int i)                   { IM_ASSERT(i >= 0 && i < Size); return Data[i]; }
 
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
-// [ADAPT_IMGUI_BUNDLE]: unpublished methods
     inline T*           begin()                             { return Data; }
     inline const T*     begin() const                       { return Data; }
     inline T*           end()                               { return Data + Size; }
@@ -2096,16 +2074,12 @@ struct ImVector
     inline void         shrink(int new_size)                { IM_ASSERT(new_size <= Size); Size = new_size; } // Resize a vector to a smaller size, guaranteed not to cause a reallocation
     inline void         reserve(int new_capacity)           { if (new_capacity <= Capacity) return; T* new_data = (T*)IM_ALLOC((size_t)new_capacity * sizeof(T)); if (Data) { memcpy(new_data, Data, (size_t)Size * sizeof(T)); IM_FREE(Data); } Data = new_data; Capacity = new_capacity; }
     inline void         reserve_discard(int new_capacity)   { if (new_capacity <= Capacity) return; if (Data) IM_FREE(Data); Data = (T*)IM_ALLOC((size_t)new_capacity * sizeof(T)); Capacity = new_capacity; }
-// [/ADAPT_IMGUI_BUNDLE]
-#endif
 
     // NB: It is illegal to call push_back/push_front/insert with a reference pointing inside the ImVector data itself! e.g. v.push_back(v[10]) is forbidden.
     inline void         push_back(const T& v)               { if (Size == Capacity) reserve(_grow_capacity(Size + 1)); memcpy(&Data[Size], &v, sizeof(v)); Size++; }
     inline void         pop_back()                          { IM_ASSERT(Size > 0); Size--; }
     inline void         push_front(const T& v)              { if (Size == 0) push_back(v); else insert(Data, v); }
 
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
-// [ADAPT_IMGUI_BUNDLE]: unpublished methods
     inline T*           erase(const T* it)                  { IM_ASSERT(it >= Data && it < Data + Size); const ptrdiff_t off = it - Data; memmove(Data + off, Data + off + 1, ((size_t)Size - (size_t)off - 1) * sizeof(T)); Size--; return Data + off; }
     inline T*           erase(const T* it, const T* it_last){ IM_ASSERT(it >= Data && it < Data + Size && it_last >= it && it_last <= Data + Size); const ptrdiff_t count = it_last - it; const ptrdiff_t off = it - Data; memmove(Data + off, Data + off + count, ((size_t)Size - (size_t)off - (size_t)count) * sizeof(T)); Size -= (int)count; return Data + off; }
     inline T*           erase_unsorted(const T* it)         { IM_ASSERT(it >= Data && it < Data + Size);  const ptrdiff_t off = it - Data; if (it < Data + Size - 1) memcpy(Data + off, Data + Size - 1, sizeof(T)); Size--; return Data + off; }
@@ -2117,8 +2091,6 @@ struct ImVector
     inline bool         find_erase(const T& v)              { const T* it = find(v); if (it < Data + Size) { erase(it); return true; } return false; }
     inline bool         find_erase_unsorted(const T& v)     { const T* it = find(v); if (it < Data + Size) { erase_unsorted(it); return true; } return false; }
     inline int          index_from_ptr(const T* it) const   { IM_ASSERT(it >= Data && it < Data + Size); const ptrdiff_t off = it - Data; return (int)off; }
-// [/ADAPT_IMGUI_BUNDLE]
-#endif
 };
 IM_MSVC_RUNTIME_CHECKS_RESTORE
 
@@ -2307,14 +2279,11 @@ struct ImGuiIO
     void*       BackendRendererUserData;        // = NULL           // User data for renderer backend
     void*       BackendLanguageUserData;        // = NULL           // User data for non C++ programming language backend
 
-// [ADAPT_IMGUI_BUNDLE]
-#ifdef  IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
     // Optional: Access OS clipboard
     // (default to use native Win32 clipboard on Windows, otherwise uses a private clipboard. Override to access OS clipboard on other architectures)
     const char* (*GetClipboardTextFn)(void* user_data);
     void        (*SetClipboardTextFn)(void* user_data, const char* text);
     void*       ClipboardUserData;
-#endif
 #ifdef IMGUI_BUNDLE_PYTHON_API
     // Optional: Access OS clipboard
     // (default to use native Win32 clipboard on Windows, otherwise uses a private clipboard. Override to access OS clipboard on other architectures)
@@ -2983,10 +2952,8 @@ struct ImDrawList
     IMGUI_API void  AddText(const ImVec2& pos, ImU32 col, const char* text_begin, const char* text_end = NULL);
     IMGUI_API void  AddText(const ImFont* font, float font_size, const ImVec2& pos, ImU32 col, const char* text_begin, const char* text_end = NULL, float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = NULL);
 
-#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
     IMGUI_API void  AddPolyline(const ImVec2* points, int num_points, ImU32 col, ImDrawFlags flags, float thickness);
     IMGUI_API void  AddConvexPolyFilled(const ImVec2* points, int num_points, ImU32 col);
-#endif
 #ifdef IMGUI_BUNDLE_PYTHON_API
     IMGUI_API void  AddPolyline(const std::vector<ImVec2>& points, ImU32 col, ImDrawFlags flags, float thickness);
     IMGUI_API void  AddConvexPolyFilled(const std::vector<ImVec2>& points, ImU32 col);
