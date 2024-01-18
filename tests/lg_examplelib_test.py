@@ -1,4 +1,4 @@
-import lg_examplelib
+import imgui
 
 
 def test_version():

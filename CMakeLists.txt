@@ -53,8 +53,8 @@ find_package(pybind11 CONFIG REQUIRED)
 ####################################################
 # Build examplelibcpp Bound C++ library
 ####################################################
-set(examplelibcpp_dir external/imgui)
-add_subdirectory(${examplelibcpp_dir})
+set(imgui_dir external/imgui)
+add_subdirectory(${imgui_dir})
 
 
 #########################################################################
@@ -63,12 +63,12 @@ add_subdirectory(${examplelibcpp_dir})
 include(litgen_cmake/litgen_setup_module.cmake)
 
 set(bound_library imgui)          # The library for which we are building bindings
-set(python_native_module_name _lg_examplelib) # This is the native python module name
-set(python_wrapper_module_name lg_examplelib) # This is the python wrapper around the native module
+set(python_native_module_name _imgui) # This is the native python module name
+set(python_wrapper_module_name imgui) # This is the python wrapper around the native module
 set(python_module_sources bindings/module.cpp bindings/pybind_${bound_library}.cpp) # native python module sources
 
 pybind11_add_module(${python_native_module_name} ${python_module_sources})
-target_compile_definitions(_lg_examplelib PRIVATE VERSION_INFO=${PROJECT_VERSION})
+target_compile_definitions(_imgui PRIVATE VERSION_INFO=${PROJECT_VERSION})
 litgen_setup_module(
     ${bound_library}
     ${python_native_module_name}

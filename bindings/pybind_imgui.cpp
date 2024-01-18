@@ -18,7 +18,7 @@ namespace py = pybind11;
 
 
 
-void py_init_module_lg_examplelib(py::module& m)
+void py_init_module_imgui(py::module& m)
 {
     m.def("create_context",
           ImGui::CreateContext,
@@ -33,15 +33,6 @@ void py_init_module_lg_examplelib(py::module& m)
             .def(py::init<>())
             .def(py::init<float, float>(),
                  py::arg("_x"), py::arg("_y"))
-            .def("__getitem__",
-                 py::overload_cast<size_t>(&ImVec2::operator[]),
-                 py::arg("idx"),
-                 "(private API)\n\n We very rarely use this [] operator, so the assert overhead is fine.",
-                 pybind11::return_value_policy::reference)
-            .def("__getitem__",
-                 py::overload_cast<size_t>(&ImVec2::operator[]),
-                 py::arg("idx"),
-                 "(private API)")
     ;
 
     auto pyClassImGuiContext =

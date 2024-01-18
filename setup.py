@@ -12,18 +12,18 @@ except ImportError:
 
 
 setup(
-    name="lg-examplelib",
+    name="imgui",
     version="0.0.1",
-    description="lg-examplelib, example of bindings with skbuild and litgen",
+    description="imgui, example of bindings with skbuild and litgen",
     long_description="...",
     author="Pascal Thomet",
     author_email="pthomet@gmail.com",
     url="https://github.com/pthom/litgen",
-    packages=(["lg_examplelib"]),
+    packages=(["imgui"]),
     package_dir={"": "bindings"},
-    cmake_install_dir="bindings/lg_examplelib",
+    cmake_install_dir="bindings/imgui",
     # include_package_data=True,
-    package_data={"lg_examplelib": ["py.typed", "*.pyi"]},
+    package_data={"imgui": ["py.typed", "*.pyi"]},
     extras_require={"test": ["pytest"]},
     python_requires=">=3.6",
     install_requires=[],
