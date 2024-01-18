@@ -61,6 +61,12 @@ This will:
 * Write the cpp binding code into `bindings/pybind_mylib.cpp`
 * Write the python stub code into `bindings/lg_examplelib/__init__.pyi`
 
+### Step 4: re-build the python package & debug native code
+
+...
+
+
+
 
 ----------------
 
