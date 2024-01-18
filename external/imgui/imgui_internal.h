@@ -1854,8 +1854,8 @@ struct ImGuiWindowDockStyle
 struct ImGuiDockContext
 {
     ImGuiStorage                    Nodes;          // Map ID -> ImGuiDockNode*: Active nodes
-    ImVector<ImGuiDockRequest>      Requests;
-    ImVector<ImGuiDockNodeSettings> NodesSettings;
+    //ImVector<ImGuiDockRequest>      Requests;
+    //ImVector<ImGuiDockNodeSettings> NodesSettings;
     bool                            WantFullRebuild;
     ImGuiDockContext()              { memset(this, 0, sizeof(*this)); }
 };
