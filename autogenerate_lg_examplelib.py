@@ -15,7 +15,7 @@ def autogenerate():
     output_dir = this_dir + "/bindings"
 
     include_dir = this_dir + "/external/examplelibcpp"
-    header_files = [include_dir + "/examplelibcpp.h", include_dir + "/examplelibcpp_2.h"]
+    header_files = [include_dir + "/examplelibcpp.h"]
 
     litgen.write_generated_code_for_files(
         options = my_litgen_options(),
