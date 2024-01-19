@@ -80,15 +80,12 @@ class PackageNames:
             ./external/example_lib_cpp/example_lib_cpp_2.h
             ./external/example_lib_cpp/example_lib_cpp_2.cpp
             ./tests/example_lib_test.py
-            autogenerate_example_lib.py
         """
         default_names = PackageNames._template_default_package_names()
         dir_and_files_to_rename = [
             f"./bindings/{default_names.python_package_name}/",
             f"./bindings/pybind_{default_names.cpp_library_name}.cpp",
             f"./external/{default_names.cpp_library_name}/",
-            f"autogenerate_{default_names.python_package_name}.py",
-            f"{default_names.cpp_library_name}_amalgamation.h",
             f"tests/{default_names.python_package_name}_test.py",
         ]
 
