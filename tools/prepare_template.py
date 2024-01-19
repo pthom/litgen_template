@@ -130,19 +130,19 @@ class PackageNames:
         r = PackageNames._empty_package_names()
 
         step1_help = """
-* Step 1: enter the name of the cpp library to bind:
+* Step 1: enter the name of the cpp library to bind (in this template, it is named "DaftLib"):
 a project with this name will be placed inside external/ (you can later replace it with your own)
-(in this template, this project is named "examplelibcpp")
+
 """
         step2_help = """
-Step 2: Name of the python module that will bind the cpp library
+Step 2: Name of the python module that will bind the cpp library (in this template, it is named "daft_lib")
 Following the python conventions, module names are preferably snake_case (and cannot contain "-")
 Note: two python modules will be created:
     - one with the name you give here (it is a python interface to the native module)
     - one with the name you give here, prefixed by "_" (it is the native module)
             """
         step3_help = """
-Step 3: enter the name of the python pip package package. 
+Step 3: enter the name of the python pip package package (in this template, it is named "daft-lib")
 This name can be close to the name of the python package, but can't include "_" (i.e. underscore) sign
         """
 

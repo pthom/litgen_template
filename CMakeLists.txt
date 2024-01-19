@@ -53,8 +53,7 @@ find_package(pybind11 CONFIG REQUIRED)
 ####################################################
 # Build DaftLib Bound C++ library
 ####################################################
-set(DaftLib_dir external/DaftLib)
-add_subdirectory(${DaftLib_dir})
+add_subdirectory(cpp_libs/DaftLib)
 
 
 #########################################################################

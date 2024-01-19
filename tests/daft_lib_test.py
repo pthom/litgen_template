@@ -5,7 +5,7 @@ def test_version():
     assert daft_lib.__version__ == "0.0.1"
 
 
-def test_examplelib():
+def test_daft_lib():
     assert daft_lib.add(3, 4) == 7
 
 

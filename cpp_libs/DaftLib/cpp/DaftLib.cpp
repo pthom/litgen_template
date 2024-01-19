@@ -1,6 +1,6 @@
 #include "DaftLib/DaftLib.h"
 
-namespace examplelib
+namespace DaftLib
 {
     int add(int a, int b)
     {

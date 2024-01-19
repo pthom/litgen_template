@@ -1,6 +1,4 @@
-#include "DaftLib/DaftLib_2.h"
-
-namespace examplelib
+namespace DaftLib
 {
     int add(int a, int b);
 
@@ -11,4 +9,6 @@ namespace examplelib
     {
         *v = (*v) * 2;
     }
+
+    inline int sub(int a, int b) { return a - b; }
 }
