@@ -11,10 +11,10 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
 
 def autogenerate():
-    this_dir = os.path.dirname(__file__)
-    output_dir = this_dir + "/bindings"
+    repo_dir = os.path.dirname(__file__ + "/../")
+    output_dir = repo_dir + "/bindings"
 
-    include_dir = this_dir + "/external/examplelibcpp"
+    include_dir = repo_dir + "/external/examplelibcpp"
     header_files = [include_dir + "/examplelibcpp.h", include_dir + "/examplelibcpp_2.h"]
 
     litgen.write_generated_code_for_files(

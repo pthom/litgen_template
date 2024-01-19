@@ -3,8 +3,6 @@ import os
 from dataclasses import dataclass
 
 
-_THIS_DIR = os.path.dirname(os.path.realpath(__file__))
-
 
 @dataclass
 class PackageNames:
@@ -172,7 +170,8 @@ Note: this name cannot include "_" (i.e. underscore) sign
 
 
 def main():
-    os.chdir(_THIS_DIR)
+    repo_dir = os.path.dirname(os.path.realpath(__file__ + "/../"))
+    os.chdir(repo_dir)
     interactive = True
     if interactive:
         package_names = PackageNames.from_user_input()
