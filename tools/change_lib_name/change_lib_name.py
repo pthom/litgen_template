@@ -63,8 +63,10 @@ class PackageNames:
         directories = [
             ".github/workflows",
             "./bindings",
+            "./tools",
             f"./bindings/{default_names.python_module_name}",
-            f"./external/{default_names.cpp_library_name}",
+            f"./cpp_libs/{default_names.cpp_library_name}",
+            f"./cpp_libs/{default_names.cpp_library_name}/cpp",
             "./conda.recipe",
             "./tests",
             ".",
@@ -74,25 +76,29 @@ class PackageNames:
             files = os.listdir(f"{directory}")
             for file in files:
                 file_fullpath = f"{directory}/{file}"
-                if os.path.isfile(file_fullpath) and file != "prepare_template.py":
-                    self.replace_in_file(file_fullpath)
+                if os.path.isfile(file_fullpath):
+                    is_excluded = False
+                    if file == "change_lib_name.py":
+                        is_excluded = True
+                    if file.endswith(".md"):
+                        is_excluded = True
+                    if not is_excluded:
+                        self.replace_in_file(file_fullpath)
 
     def rename_files(self) -> None:
         """
         Directories and files to rename:
-            ./bindings/example_lib
-            ./external/example_lib_cpp
-            ./external/example_lib_cpp/example_lib_cpp.h
-            ./external/example_lib_cpp/example_lib_cpp.cpp
-            ./external/example_lib_cpp/example_lib_cpp_2.h
-            ./external/example_lib_cpp/example_lib_cpp_2.cpp
-            ./tests/example_lib_test.py
+            ./bindings/daft_lib
+            ./cpp_libs/DaftLib
+            ./cpp_libs/DaftLib/DaftLib.h
+            ./cpp_libs/DaftLib/cpp/DaftLib.cpp
+            ./tests/daft_lib_test.py
         """
         default_names = PackageNames._template_default_package_names()
         dir_and_files_to_rename = [
             f"./bindings/{default_names.python_module_name}/",
             f"./bindings/pybind_{default_names.cpp_library_name}.cpp",
-            f"./external/{default_names.cpp_library_name}/",
+            f"./cpp_libs/{default_names.cpp_library_name}/",
             f"tests/{default_names.python_module_name}_test.py",
         ]
 
@@ -105,20 +111,12 @@ class PackageNames:
 
         default_names = PackageNames()
         os.rename(
-            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}.h",
+            f"cpp_libs/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
+            f"cpp_libs/{self.cpp_library_name}/{self.cpp_library_name}.h",
         )
         os.rename(
-            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}.cpp",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}.cpp",
-        )
-        os.rename(
-            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.h",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.h",
-        )
-        os.rename(
-            f"external/{self.cpp_library_name}/{default_names.cpp_library_name}_2.cpp",
-            f"external/{self.cpp_library_name}/{self.cpp_library_name}_2.cpp",
+            f"cpp_libs/{self.cpp_library_name}/cpp/{default_names.cpp_library_name}.cpp",
+            f"cpp_libs/{self.cpp_library_name}/cpp/{self.cpp_library_name}.cpp",
         )
 
     def do_replace(self) -> None:
@@ -131,7 +129,7 @@ class PackageNames:
 
         step1_help = """
 * Step 1: enter the name of the cpp library to bind (in this template, it is named "DaftLib"):
-a project with this name will be placed inside external/ (you can later replace it with your own)
+a project with this name will be placed inside cpp_libs/ (you can later replace it with your own)
 
 """
         step2_help = """
@@ -153,10 +151,10 @@ This name can be close to the name of the python package, but can't include "_" 
 
         # Step 2: ask for python package name
         while len(r.python_module_name) == 0:
-            default_python_package_name = "lg_" + r.cpp_library_name
+            default_python_package_name = r.cpp_library_name
             print(step2_help)
             r.python_module_name = input(
-                f'    Name of the python package (enter "d" for default, i.e. {default_python_package_name}): '
+                f'    Name of the python module (enter "d" for default, i.e. {default_python_package_name}): '
             )
             if r.python_module_name.lower() == "d":
                 r.python_module_name = default_python_package_name
@@ -177,7 +175,7 @@ This name can be close to the name of the python package, but can't include "_" 
 
 
 def main():
-    repo_dir = os.path.dirname(os.path.realpath(__file__ + "/../"))
+    repo_dir = os.path.dirname(os.path.realpath(__file__ + "/../../"))
     os.chdir(repo_dir)
     interactive = True
     if interactive:
