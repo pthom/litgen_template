@@ -8,12 +8,12 @@
 namespace py = pybind11;
 
 
-void py_init_module_lg_examplelib(py::module& m);
+void py_init_module_daft_lib(py::module& m);
 
 
-// This builds the native python module `_lg_examplelib`
-// it will be wrapped in a standard python module `lg_examplelib`
-PYBIND11_MODULE(_lg_examplelib, m)
+// This builds the native python module `_daft_lib`
+// it will be wrapped in a standard python module `daft_lib`
+PYBIND11_MODULE(_daft_lib, m)
 {
     #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
@@ -21,5 +21,5 @@ PYBIND11_MODULE(_lg_examplelib, m)
     m.attr("__version__") = "dev";
     #endif
 
-    py_init_module_lg_examplelib(m);
+    py_init_module_daft_lib(m);
 }

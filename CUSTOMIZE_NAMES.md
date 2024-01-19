@@ -3,11 +3,11 @@
 _(This step is optional if you want to test this template with it default names)_
 
 By default, lg_skbuild_template will use these settings:
-* _cpp library name_: a cpp library named "examplelibcpp" (see `external/examplelibcpp`) will be built,
+* _cpp library name_: a cpp library named "DaftLib" (see `external/DaftLib`) will be built,
   and used as a source to generate python bindings.
-* _python package name_: a python package named "lg_examplelib" will bind this library  
-  This python package include a native module named "_lg_examplelib" which provides the bindings.
-* _pip package name_: a pip package named "lg-examplelib" could be published online
+* _python package name_: a python package named "daft_lib" will bind this library  
+  This python package include a native module named "_daft_lib" which provides the bindings.
+* _pip package name_: a pip package named "daft-lib" could be published online
 
 Note: "python package name" can in theory be equal to "pip package name", however there is a gotcha:
 *the python package name cannot include "-" (minus), and the pip package name cannot include "_" (underscore)*
@@ -25,7 +25,7 @@ __Example session with `python prepare_template.py`__
 
 * Step 1: enter the name of the cpp library to bind:
 a project with this name will be placed inside external/ (you can later replace it with your own)
-(in this template, this project is named "examplelibcpp")
+(in this template, this project is named "DaftLib")
 
     Name of the cpp library to bind: mylib
 

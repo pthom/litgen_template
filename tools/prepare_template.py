@@ -3,12 +3,19 @@ import os
 from dataclasses import dataclass
 
 
-
 @dataclass
 class PackageNames:
-    cpp_library_name = "examplelibcpp"
-    python_package_name = "lg_examplelib"
-    pip_package_name = "lg-examplelib"
+
+    # Name of the cpp library to bind
+    cpp_library_name = "DaftLib"
+
+    # Name of the python module that will bind the cpp library
+    # Following the python conventions, module names are preferably snake_case (and cannot contain "-")
+    python_module_name = "daft_lib"
+
+    # Name of the pip package that will be published:
+    # it can be close to the python module name, but it cannot contain underscores "_" !
+    pip_package_name = "daft-lib"
 
     @staticmethod
     def _template_default_package_names() -> PackageNames:
@@ -19,7 +26,7 @@ class PackageNames:
     def _empty_package_names() -> PackageNames:
         r = PackageNames()
         r.cpp_library_name = ""
-        r.python_package_name = ""
+        r.python_module_name = ""
         r.pip_package_name = ""
         return r
 
@@ -27,7 +34,7 @@ class PackageNames:
         default_names = PackageNames._template_default_package_names()
         r = s
         r = r.replace(default_names.cpp_library_name, self.cpp_library_name)
-        r = r.replace(default_names.python_package_name, self.python_package_name)
+        r = r.replace(default_names.python_module_name, self.python_module_name)
         r = r.replace(default_names.pip_package_name, self.pip_package_name)
         return r
 
@@ -56,7 +63,7 @@ class PackageNames:
         directories = [
             ".github/workflows",
             "./bindings",
-            f"./bindings/{default_names.python_package_name}",
+            f"./bindings/{default_names.python_module_name}",
             f"./external/{default_names.cpp_library_name}",
             "./conda.recipe",
             "./tests",
@@ -83,10 +90,10 @@ class PackageNames:
         """
         default_names = PackageNames._template_default_package_names()
         dir_and_files_to_rename = [
-            f"./bindings/{default_names.python_package_name}/",
+            f"./bindings/{default_names.python_module_name}/",
             f"./bindings/pybind_{default_names.cpp_library_name}.cpp",
             f"./external/{default_names.cpp_library_name}/",
-            f"tests/{default_names.python_package_name}_test.py",
+            f"tests/{default_names.python_module_name}_test.py",
         ]
 
         for pathname in dir_and_files_to_rename:
@@ -128,12 +135,15 @@ a project with this name will be placed inside external/ (you can later replace 
 (in this template, this project is named "examplelibcpp")
 """
         step2_help = """
-Step 2: enter the name of the python package
-Note: this name cannot include "-" (i.e. minus) signs
+Step 2: Name of the python module that will bind the cpp library
+Following the python conventions, module names are preferably snake_case (and cannot contain "-")
+Note: two python modules will be created:
+    - one with the name you give here (it is a python interface to the native module)
+    - one with the name you give here, prefixed by "_" (it is the native module)
             """
         step3_help = """
-Step 3: enter the name of the published pip package. This name can be close to the name of the python package.
-Note: this name cannot include "_" (i.e. underscore) sign
+Step 3: enter the name of the python pip package package. 
+This name can be close to the name of the python package, but can't include "_" (i.e. underscore) sign
         """
 
         # Step 1: ask for cpp library name
@@ -142,19 +152,19 @@ Note: this name cannot include "_" (i.e. underscore) sign
             r.cpp_library_name = input("    Name of the cpp library to bind: ")
 
         # Step 2: ask for python package name
-        while len(r.python_package_name) == 0:
+        while len(r.python_module_name) == 0:
             default_python_package_name = "lg_" + r.cpp_library_name
             print(step2_help)
-            r.python_package_name = input(
+            r.python_module_name = input(
                 f'    Name of the python package (enter "d" for default, i.e. {default_python_package_name}): '
             )
-            if r.python_package_name.lower() == "d":
-                r.python_package_name = default_python_package_name
+            if r.python_module_name.lower() == "d":
+                r.python_module_name = default_python_package_name
                 print(f"    Used {default_python_package_name} as python package name!")
 
         # Step 3: ask for pip package name
         while len(r.pip_package_name) == 0:
-            default_pip_package_name = r.python_package_name.replace("_", "-")
+            default_pip_package_name = r.python_module_name.replace("_", "-")
             print(step3_help)
             r.pip_package_name = input(
                 f'    Name of the pip package (enter "d" for default, i.e. {default_pip_package_name}): '
@@ -181,7 +191,7 @@ def main():
     else:
         package_names = PackageNames()
         package_names.cpp_library_name = "..."
-        package_names.python_package_name = "..."
+        package_names.python_module_name = "..."
         package_names.pip_package_name = "..."
         raise NotImplementedError("Please fill in the names in the code")
 

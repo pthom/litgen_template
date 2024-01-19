@@ -1,5 +1,5 @@
 package:
-  name: lg-examplelib
+  name: daft-lib
   version: 0.0.1
 
 source:
@@ -27,7 +27,7 @@ requirements:
 
 test:
   imports:
-    - lg_examplelib
+    - daft_lib
   requires:
     - pytest
   source_files:

@@ -51,10 +51,10 @@ find_package(pybind11 CONFIG REQUIRED)
 
 
 ####################################################
-# Build examplelibcpp Bound C++ library
+# Build DaftLib Bound C++ library
 ####################################################
-set(examplelibcpp_dir external/examplelibcpp)
-add_subdirectory(${examplelibcpp_dir})
+set(DaftLib_dir external/DaftLib)
+add_subdirectory(${DaftLib_dir})
 
 
 #########################################################################
@@ -62,13 +62,13 @@ add_subdirectory(${examplelibcpp_dir})
 #########################################################################
 include(litgen_cmake/litgen_setup_module.cmake)
 
-set(bound_library examplelibcpp)          # The library for which we are building bindings
-set(python_native_module_name _lg_examplelib) # This is the native python module name
-set(python_wrapper_module_name lg_examplelib) # This is the python wrapper around the native module
+set(bound_library DaftLib)          # The library for which we are building bindings
+set(python_native_module_name _daft_lib) # This is the native python module name
+set(python_wrapper_module_name daft_lib) # This is the python wrapper around the native module
 set(python_module_sources bindings/module.cpp bindings/pybind_${bound_library}.cpp) # native python module sources
 
 pybind11_add_module(${python_native_module_name} ${python_module_sources})
-target_compile_definitions(_lg_examplelib PRIVATE VERSION_INFO=${PROJECT_VERSION})
+target_compile_definitions(_daft_lib PRIVATE VERSION_INFO=${PROJECT_VERSION})
 litgen_setup_module(
     ${bound_library}
     ${python_native_module_name}

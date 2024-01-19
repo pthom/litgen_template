@@ -12,18 +12,18 @@ except ImportError:
 
 
 setup(
-    name="lg-examplelib",
+    name="daft-lib",
     version="0.0.1",
-    description="lg-examplelib, example of bindings with skbuild and litgen",
+    description="daft-lib, example of bindings with skbuild and litgen",
     long_description="...",
     author="Pascal Thomet",
     author_email="pthomet@gmail.com",
     url="https://github.com/pthom/litgen",
-    packages=(["lg_examplelib"]),
+    packages=(["daft_lib"]),
     package_dir={"": "bindings"},
-    cmake_install_dir="bindings/lg_examplelib",
+    cmake_install_dir="bindings/daft_lib",
     # include_package_data=True,
-    package_data={"lg_examplelib": ["py.typed", "*.pyi"]},
+    package_data={"daft_lib": ["py.typed", "*.pyi"]},
     extras_require={"test": ["pytest"]},
     python_requires=">=3.6",
     install_requires=[],
