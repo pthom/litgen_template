@@ -1,26 +1,45 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel",
-    "pybind11>=2.9.2",
-    "cmake>=3.22",
-    "scikit-build>=0.14.1",
-    "ninja; platform_system!='Windows'",
-]
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core>=0.3.3", "pybind11"]
+build-backend = "scikit_build_core.build"
 
-[tool.isort]
-profile = "black"
+
+[project]
+name = "daft_lib"
+version = "0.0.1"
+description="daft-lib, example of bindings with litgen"
+readme = "README.md"
+authors = [ { name = "My Name", email = "me@email.com" } ]
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
+wheel.packages = ["bindings/daft_lib"]
 
 
 [tool.cibuildwheel]
-build-verbosity = 1
-
 # Target python versions:
 # build = ["cp310-*", "cp311-*", "cp312-*"]
 build = ["cp312-*"]
 
-# Tests
-#test-requires = "pytest"
-#test-command = "pytest {project}/tests"  # cibuildwheel doc says pytest {package}/tests !
+build-verbosity = 1
+test-command = "pytest {project}/tests"
+test-extras = ["test"]
+test-skip = ["*universal2:arm64"]
+
 

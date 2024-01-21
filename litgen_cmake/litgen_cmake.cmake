@@ -91,7 +91,7 @@ function(litgen_setup_module
     target_link_libraries(${python_native_module_name} PRIVATE ${bound_library})
 
     # Set python_native_module_name install path to "." (required by skbuild)
-    install(TARGETS ${python_native_module_name} DESTINATION .)
+    install(TARGETS ${python_native_module_name} DESTINATION ${python_module_name})
 
     # Copy the python module to the project dir post build (for editable mode)
     set(bindings_module_folder ${PROJECT_SOURCE_DIR}/bindings/${python_module_name})
