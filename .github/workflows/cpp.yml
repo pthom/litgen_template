@@ -1,0 +1,48 @@
+name: "Cpp"
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    name: Build Cpp (editable mode and pybind_native_debug)
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest, macos-latest, ubuntu-latest]
+        python-version: ["3.12"]
+        #python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Setup Python environment
+      run: python -m venv venv
+
+    - name: Activate venv (nixes)
+      if: matrix.platform != 'windows-latest'
+      run: source venv/bin/activate
+
+    - name: Activate venv (windows)
+      if: matrix.platform == 'windows-latest'
+      run: venv\Scripts\activate.bat
+
+    - name: Build and install
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --config Release
+      
