@@ -32,9 +32,6 @@ jobs:
       - name: Check metadata
         run: pipx run twine check dist/*
 
-      # Do *not* let dependabot update this to upload-artifact@v4 without checking
-      # that an issue with it was solved:
-      # See https://github.com/pypa/cibuildwheel/issues/1699
       - uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
@@ -62,9 +59,6 @@ jobs:
         run: git diff --exit-code
         shell: bash
 
-      # Do *not* let dependabot update this to upload-artifact@v4 without checking
-      # that an issue with it was solved:
-      # See https://github.com/pypa/cibuildwheel/issues/1699
       - uses: actions/upload-artifact@v3
         with:
           path: wheelhouse/*.whl
@@ -79,3 +73,14 @@ jobs:
     permissions:
       id-token: write
 
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact
+          path: dist
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
