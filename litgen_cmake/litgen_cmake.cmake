@@ -78,7 +78,14 @@ function(litgen_find_pybind11)
     if(SKBUILD OR LITGEN_USE_PIP_PYBIND11)
         _lg_add_pybind11_pip_cmake_prefix_path()
     endif()
-    find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development) # we use the full Development component to be able to debug native modules
+    if(SKBUILD)
+        # we only need the Development.Module component to build native modules
+        find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development.Module)
+    else()
+        # when building via CMake, we need the full Development component,
+        # to be able to debug the native module
+        find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
+    endif()
     find_package(pybind11 CONFIG REQUIRED)
 endfunction()
 
