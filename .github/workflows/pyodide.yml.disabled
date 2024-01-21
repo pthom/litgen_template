@@ -1,10 +1,13 @@
-name: WASM
-
+name: Pyodide
+# Workflow to build for Pyodide with Emscripten
+# Functional, but disabled for now
+# See https://github.com/pybind/scikit_build_example/blob/master/.github/workflows/enscripten.yaml
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - master
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
