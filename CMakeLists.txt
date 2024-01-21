@@ -13,7 +13,11 @@ add_subdirectory(cpp_libs/DaftLib)
 
 # Build a python module that provides bindings to the C++ library
 #########################################################################
-litgen_find_pybind11() # # When building with CMake, you may have to call cmake with -DPYTHON_EXECUTABLE=/path/to/python
+# litgen_find_pybind11 is defined in litgen_cmake/litgen_cmake.cmake
+# and helps to find pybind11, whenever building with CMake or with pip / skbuild.
+# When building with CMake, you may have to call cmake with -DPYTHON_EXECUTABLE=/path/to/python
+litgen_find_pybind11()
+
 # The python module sources
 set(python_module_sources
     bindings/module.cpp                  # The python module entry point
