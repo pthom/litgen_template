@@ -32,3 +32,9 @@ litgen_setup_module(
     _daft_lib                         # The native python module name
     daft_lib                          # This is the python wrapper around the native module
 )
+
+# Provide a tool to debug the python module
+#########################################################################
+if (NOT SKBUILD)
+    add_subdirectory(pybind_native_debug)
+endif()

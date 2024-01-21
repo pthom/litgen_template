@@ -22,6 +22,7 @@ daft_lib.add(1, 2)
 
 ## Usage in editable development mode
 
+### Build the bindings in editable mode
 ```bash
 # Install the package in editable mode (this will not build the native module)
 pip install -v -e .
@@ -30,6 +31,27 @@ mkdir build && cd build
 cmake ..
 make   # re-run make when you change the C++ code
 ```
+
+### Debug the bindings in editable mode
+
+The [pybind_native_debug](https://github.com/pthom/litgen_template/blob/master/pybind_native_debug) executable provided in this template 
+is a simple C++ program that can be used to debug the bindings in editable mode.
+
+```
+    pybind_native_debug/
+    ├── CMakeLists.txt
+    ├── pybind_native_debug.cpp
+    ├── pybind_native_debug.py
+    ├── pybind_native_debug_venv.txt
+    └── pybind_native_debug_venv.txt.example
+```
+
+#### Step 1: edit `pybind_native_debug_venv.txt`
+Create a file `pybind_native_debug/pybind_native_debug_venv.txt`, and add the path to the python virtual environment that you want to use to debug the bindings.
+
+#### Step 2: edit `pybind_native_debug.py`
+Simply edit the python file `pybind_native_debug.py` by adding calls to the functions you want to debug. Then, place breakpoints in the C++ code, and run the program.
+
 
 ----------------
 
