@@ -41,8 +41,8 @@ jobs:
 
     - name: Build and install
       run: |
+        pip install -r requirements-dev.txt
         mkdir build
         cd build
         cmake ..
         cmake --build . --config Release
-      
