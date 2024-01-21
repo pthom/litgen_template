@@ -3,39 +3,41 @@ name: Wheels
 on:
   workflow_dispatch:
   pull_request:
-  release:
-    types:
-      - published
   push:
     branches:
       - master
-      - main
+  release:
+    types:
+      - published
 
 env:
-  CIBW_TEST_COMMAND: pytest {project}/tests
-  CIBW_TEST_EXTRAS: test
-  CIBW_TEST_REQUIRES: pytest
-  # skip testing pypy wheels on github CI (it works locally, but fails on github CI for a yet unknown reason)
-  CIBW_TEST_SKIP: "pp3*"
+  FORCE_COLOR: 3
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build_sdist:
     name: Build SDist
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-    - name: Build SDist
-      run: pipx run build --sdist
+      - name: Build SDist
+        run: pipx run build --sdist
 
-    - name: Check metadata
-      run: pipx run twine check dist/*
+      - name: Check metadata
+        run: pipx run twine check dist/*
 
-    - uses: actions/upload-artifact@v4
-      with:
-        path: dist/*.tar.gz
+      # Do *not* let dependabot update this to upload-artifact@v4 without checking
+      # that an issue with it was solved:
+      # See https://github.com/pypa/cibuildwheel/issues/1699
+      - uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.tar.gz
 
 
   build_wheels:
@@ -47,20 +49,25 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-    - uses: pypa/cibuildwheel@v2.12.0
+      - uses: pypa/cibuildwheel@v2.16
+        env:
+          CIBW_ARCHS_MACOS: universal2
+          CIBW_ARCHS_WINDOWS: auto ARM64
 
-    - name: Verify clean directory
-      run: git diff --exit-code
-      shell: bash
+      - name: Verify clean directory
+        run: git diff --exit-code
+        shell: bash
 
-    - name: Upload wheels
-      uses: actions/upload-artifact@v4
-      with:
-        path: wheelhouse/*.whl
+      # Do *not* let dependabot update this to upload-artifact@v4 without checking
+      # that an issue with it was solved:
+      # See https://github.com/pypa/cibuildwheel/issues/1699
+      - uses: actions/upload-artifact@v3
+        with:
+          path: wheelhouse/*.whl
 
 
   upload_all:
@@ -68,19 +75,7 @@ jobs:
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
+    environment: pypi
+    permissions:
+      id-token: write
 
-    steps:
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.x"
-
-    - uses: actions/download-artifact@v4
-      with:
-        name: artifact
-        path: dist
-        merge-multiple: true
-
-    - uses: pypa/gh-action-pypi-publish@v1.8.11
-      with:
-        user: __token__
-        password: ${{ secrets.pypi_password }}
