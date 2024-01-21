@@ -1,6 +1,8 @@
 # litgen template
 
-A template repository to build python bindings using [litgen](https://pthom.github.io/litgen), and [scikit-build](https://scikit-build-core.readthedocs.io/en/latest/getting_started.html)
+A template repository to build python bindings using [litgen](https://pthom.github.io/litgen), and [scikit-build](https://scikit-build-core.readthedocs.io/en/latest/getting_started.html). 
+
+This template is based on [scikit_build_example](https://github.com/pybind/scikit_build_example).
 
 
 ## Usage for final users
