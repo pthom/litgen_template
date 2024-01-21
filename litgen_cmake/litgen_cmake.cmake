@@ -78,6 +78,7 @@ function(litgen_find_pybind11)
     if(SKBUILD OR LITGEN_USE_PIP_PYBIND11)
         _lg_add_pybind11_pip_cmake_prefix_path()
     endif()
+    set(PYBIND11_NEWPYTHON ON)
     find_package(pybind11 CONFIG REQUIRED)
 endfunction()
 
