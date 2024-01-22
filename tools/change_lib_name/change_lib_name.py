@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 @dataclass
 class PackageNames:
-
     # Name of the cpp library to bind
     cpp_library_name = "DaftLib"
 
