@@ -39,6 +39,6 @@ litgen_setup_module(
 
 # Provide a tool to debug the python module
 #########################################################################
-if (NOT SKBUILD)
+if (NOT SKBUILD AND PROJECT_IS_TOP_LEVEL)
     add_subdirectory(pybind_native_debug)
 endif()
