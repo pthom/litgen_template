@@ -62,164 +62,158 @@ void py_init_module_daft_lib(py::module& m)
 
 
     ////////////////////    <generated_from:DaftLib.h>    ////////////////////
-    m.def("add",
-        DaftLib::add,
-        py::arg("a"), py::arg("b"),
-        "Simple add function (this will be the docstring)");
 
-    m.def("sub",
-        DaftLib::sub,
-        py::arg("a"), py::arg("b"),
-        "This is the docstring for `sub`");
+    { // <namespace DaftLib>
+        py::module_ pyNsDaftLib = m.def_submodule("daft_lib", "");
+        pyNsDaftLib.def("add",
+            DaftLib::add,
+            py::arg("a"), py::arg("b"),
+            "Simple add function (this will be the docstring)");
+
+        pyNsDaftLib.def("sub",
+            DaftLib::sub,
+            py::arg("a"), py::arg("b"),
+            "This is the docstring for `sub`");
 
 
-    auto pyClassPoint =
-        py::class_<DaftLib::Point>
-            (m, "Point", " A default constructor with named parameters will\n be automatically generated in python for structs")
-        .def(py::init<>([](
-        int x = int(), int y = int())
-        {
-            auto r = std::make_unique<Point>();
-            r->x = x;
-            r->y = y;
-            return r;
-        })
-        , py::arg("x") = int(), py::arg("y") = int()
-        )
-        .def_readwrite("x", &Point::x, "")
-        .def_readwrite("y", &Point::y, "")
-        .def("__lt__",
-            [](const Point & self, const DaftLib::Point & param_0) -> bool
+        auto pyNsDaftLib_ClassPoint =
+            py::class_<DaftLib::Point>
+                (pyNsDaftLib, "Point", " A default constructor with named parameters will\n be automatically generated in python for structs")
+            .def(py::init<>([](
+            int x = int(), int y = int())
             {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  < 0;
+                auto r = std::make_unique<DaftLib::Point>();
+                r->x = x;
+                r->y = y;
+                return r;
+            })
+            , py::arg("x") = int(), py::arg("y") = int()
+            )
+            .def_readwrite("x", &DaftLib::Point::x, "")
+            .def_readwrite("y", &DaftLib::Point::y, "")
+            .def("__lt__",
+                [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
+                {
+                    auto cmp = [&self](auto&& other) -> bool {
+                        return self.operator<=>(other)  < 0;
+                    };
+
+                    return cmp(param_0);
+                },
+                py::arg("param_0"),
+                " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
+            .def("__le__",
+                [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
+                {
+                    auto cmp = [&self](auto&& other) -> bool {
+                        return self.operator<=>(other)  <= 0;
+                    };
+
+                    return cmp(param_0);
+                },
+                py::arg("param_0"),
+                " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
+            .def("__eq__",
+                [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
+                {
+                    auto cmp = [&self](auto&& other) -> bool {
+                        return self.operator<=>(other)  == 0;
+                    };
+
+                    return cmp(param_0);
+                },
+                py::arg("param_0"),
+                " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
+            .def("__ge__",
+                [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
+                {
+                    auto cmp = [&self](auto&& other) -> bool {
+                        return self.operator<=>(other)  >= 0;
+                    };
+
+                    return cmp(param_0);
+                },
+                py::arg("param_0"),
+                " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
+            .def("__gt__",
+                [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
+                {
+                    auto cmp = [&self](auto&& other) -> bool {
+                        return self.operator<=>(other)  > 0;
+                    };
+
+                    return cmp(param_0);
+                },
+                py::arg("param_0"),
+                " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
+            ;
+
+
+        pyNsDaftLib.def("switch_bool_value",
+            [](BoxedBool & v)
+            {
+                auto SwitchBoolValue_adapt_modifiable_immutable = [](BoxedBool & v)
+                {
+                    bool & v_boxed_value = v.value;
+
+                    DaftLib::SwitchBoolValue(v_boxed_value);
                 };
 
-                return cmp(param_0);
+                SwitchBoolValue_adapt_modifiable_immutable(v);
             },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__le__",
-            [](const Point & self, const DaftLib::Point & param_0) -> bool
+            py::arg("v"),
+            " SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value\n Since bool are immutable in python, we can to use a BoxedBool instead in python.\n See inside tools/autogenerate_bindings.py:\n        options.fn_params_replace_modifiable_immutable_by_boxed__regex = \"^SwitchBoolValue$\"");
+
+        pyNsDaftLib.def("set_options",
+            [](bool v)
             {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  <= 0;
+                auto SetOptions_adapt_exclude_params = [](bool v)
+                {
+                    DaftLib::SetOptions(v, false);
                 };
 
-                return cmp(param_0);
+                SetOptions_adapt_exclude_params(v);
             },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__eq__",
-            [](const Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  == 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__ge__",
-            [](const Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  >= 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__gt__",
-            [](const Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  > 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        ;
+            py::arg("v"),
+            " The parameter priv_param will be excluded from the generated bindings\n since it has a default value, and is excluded via the options.\n See inside tools/autogenerate_bindings.py:\n    options.fn_params_exclude_names__regex = \"^priv_\"");
 
 
-    m.def("switch_bool_value",
-        [](BoxedBool & v)
-        {
-            auto SwitchBoolValue_adapt_modifiable_immutable = [](BoxedBool & v)
-            {
-                bool & v_boxed_value = v.value;
-
-                DaftLib::SwitchBoolValue(v_boxed_value);
-            };
-
-            SwitchBoolValue_adapt_modifiable_immutable(v);
-        },
-        py::arg("v"),
-        " SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value\n Since bool are immutable in python, we can to use a BoxedBool instead in python.\n See inside tools/autogenerate_bindings.py:\n        options.fn_params_replace_modifiable_immutable_by_boxed__regex = \"^SwitchBoolValue$\"");
-
-    m.def("set_options",
-        [](bool v)
-        {
-            auto SetOptions_adapt_exclude_params = [](bool v)
-            {
-                DaftLib::SetOptions(v, false);
-            };
-
-            SetOptions_adapt_exclude_params(v);
-        },
-        py::arg("v"),
-        " The parameter priv_param will be excluded from the generated bindings\n since it has a default value, and is excluded via the options.\n See inside tools/autogenerate_bindings.py:\n    options.fn_params_exclude_names__regex = \"^priv_\"");
+        auto pyNsDaftLib_ClassWidget =
+            py::class_<DaftLib::Widget>
+                (pyNsDaftLib, "Widget", "")
+            .def(py::init<>())
+            .def(py::init<const DaftLib::Widget &>(),
+                py::arg("param_0"))
+            .def("get_value",
+                &DaftLib::Widget::get_value)
+            .def("set_value",
+                &DaftLib::Widget::set_value, py::arg("v"))
+            ;
 
 
-    auto pyClassWidget =
-        py::class_<DaftLib::Widget>
-            (m, "Widget", "")
-        .def(py::init<>())
-        .def(py::init<const DaftLib::Widget &>(),
-            py::arg("param_0"))
-        .def("get_value",
-            &Widget::get_value)
-        .def("set_value",
-            &Widget::set_value, py::arg("v"))
-        ;
+        pyNsDaftLib.def("get_widget_singleton",
+            DaftLib::GetWidgetSingleton,
+            " Python should not free the memory of the returned reference,\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
+            pybind11::return_value_policy::reference);
 
 
-    m.def("get_widget_singleton",
-        DaftLib::GetWidgetSingleton,
-        " Python should not free the memory of the returned reference,\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
-        pybind11::return_value_policy::reference);
+        auto pyNsDaftLib_ClassAnimal =
+            py::class_<DaftLib::Animal, DaftLib::Animal_trampoline>
+                (pyNsDaftLib, "Animal", " The virtual method of this class can be overriden in python\n see\n    options.class_override_virtual_methods_in_python__regex = \"^Animal$\"")
+            .def(py::init<>()) // implicit default constructor
+            .def("go",
+                &DaftLib::Animal::go, py::arg("n_times"))
+            ;
+        { // <namespace MathFunctions>
+            py::module_ pyNsDaftLib_NsMathFunctions = pyNsDaftLib.def_submodule("math_functions", " This namespace will be published as a python module\n All functions inside this namespace will be vectorizable\n (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n See inside tools/autogenerate_bindings.py:\n      options.fn_namespace_vectorize__regex = \"^MathFunctions$\"\n\n Marche pas!!!");
+            pyNsDaftLib_NsMathFunctions.def("log",
+                DaftLib::MathFunctions::log, py::arg("x"));
 
+            pyNsDaftLib_NsMathFunctions.def("deg_to_rad",
+                DaftLib::MathFunctions::deg_to_rad, py::arg("x"));
+        } // </namespace MathFunctions>
 
-    auto pyClassAnimal =
-        py::class_<DaftLib::Animal, DaftLib::Animal_trampoline>
-            (m, "Animal", " The virtual method of this class can be overriden in python\n see\n    options.class_override_virtual_methods_in_python__regex = \"^Animal$\"")
-        .def(py::init<>()) // implicit default constructor
-        .def("go",
-            &Animal::go, py::arg("n_times"))
-        ;
-
-
-    m.def("max_value_int",
-        DaftLib::MaxValue<int>,
-        py::arg("values"),
-        " MaxValue will be published as max_value_int and max_value_float\n See inside tools/autogenerate_bindings.py:\n        options.fn_template_options.add_specialization(\n            \"^MaxValue$\",\n            [\"int\", \"float\"],\n            add_suffix_to_function_name=True)");
-    m.def("max_value_float",
-        DaftLib::MaxValue<float>,
-        py::arg("values"),
-        " MaxValue will be published as max_value_int and max_value_float\n See inside tools/autogenerate_bindings.py:\n        options.fn_template_options.add_specialization(\n            \"^MaxValue$\",\n            [\"int\", \"float\"],\n            add_suffix_to_function_name=True)");
-
-    { // <namespace MathFunctions>
-        py::module_ pyNsMathFunctions = m.def_submodule("math_functions", " This namespace will be published as a python module\n All functions inside this namespace will be vectorizable\n (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n See inside tools/autogenerate_bindings.py:\n      options.fn_namespace_vectorize__regex = \"^MathFunctions$\"\n\n Marche pas!!!");
-        pyNsMathFunctions.def("log",
-            DaftLib::MathFunctions::log, py::arg("x"));
-
-        pyNsMathFunctions.def("deg_to_rad",
-            DaftLib::MathFunctions::deg_to_rad, py::arg("x"));
-    } // </namespace MathFunctions>
+    } // </namespace DaftLib>
     ////////////////////    </generated_from:DaftLib.h>    ////////////////////
 
     // </litgen_pydef> // Autogenerated code end

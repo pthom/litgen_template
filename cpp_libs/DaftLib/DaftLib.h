@@ -92,8 +92,5 @@ namespace DaftLib
     //            "^MaxValue$",
     //            ["int", "float"],
     //            add_suffix_to_function_name=True)
-    template<typename T> T MaxValue(const std::vector<T>& values) { return *std::max_element(values.begin(), values.end());}
+    // template<typename T> T MaxValue(const std::vector<T>& values) { return *std::max_element(values.begin(), values.end());}
 }
-
-
-

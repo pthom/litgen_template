@@ -37,7 +37,7 @@ class PackageNames:
         r = r.replace(default_names.pip_package_name, self.pip_package_name)
         return r
 
-    def replace_in_file(self, filename: str):
+    def replace_in_file(self, filename: str) -> None:
         valid_extensions = ["py", "cpp", "h", "pyi", "txt", "toml", "ini", "yaml", "md", "yml"]
         ok = False
         for extension in valid_extensions:
@@ -173,7 +173,7 @@ This name can be close to the name of the python package, but can't include "_" 
         return r
 
 
-def main():
+def main() -> None:
     repo_dir = os.path.dirname(os.path.realpath(__file__ + "/../../"))
     os.chdir(repo_dir)
     interactive = True
