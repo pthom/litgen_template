@@ -1,6 +1,6 @@
 # litgen template
 
-A template repository to build python bindings using [litgen](https://pthom.github.io/litgen), and [scikit-build](https://scikit-build-core.readthedocs.io/en/latest/getting_started.html). 
+A template repository to build python bindings using [litgen](https://pthom.github.io/litgen), and [scikit-build](https://scikit-build-core.readthedocs.io/en/latest/getting_started.html).
 
 This template is based on [scikit_build_example](https://github.com/pybind/scikit_build_example).
 
@@ -84,7 +84,7 @@ This will install [litgen](https://pthom.github.io/litgen) (the bindings generat
 
 **Install srcML separately (srcML is required by litgen)**
 
-Follow the [instructions on the litgen website](https://pthom.github.io/litgen/litgen_book/01_05_10_install.html) 
+Follow the [instructions on the litgen website](https://pthom.github.io/litgen/litgen_book/01_05_10_install.html)
 
 ### Step 2: (re)generate bindings for your code
 
@@ -106,7 +106,7 @@ This will:
 
 ```bash
 pip install -v .
-``` 
+```
 
 ----------------
 
@@ -198,7 +198,7 @@ in order to rename the libraries (e.g. from `DaftLib` to `MyLib`, `daft_lib` to 
                      # (when a new release is created on github)
 ```
 
-Note: 
+Note:
 - cibuildwheel is configurable via options defined in the pyproject.toml file: see the `[tool.cibuildwheel]` section.
 - it is also configurable via environment variables, see [cibuildwheel documentation](https://cibuildwheel.readthedocs.io/en/stable/options/)
 
@@ -210,3 +210,95 @@ Note:
 ```
 
 Those tests are run by cibuildwheel and by the pip CI workflow.
+
+---
+
+## Development tooling
+
+This template is ready to be used with additional tools:
+
+* pre-commit
+* ruff
+* mypy
+* pyright
+* black
+* pytest
+* cibuildwheel
+
+### pre-commit
+
+[pre-commit](https://pre-commit.com/) is a tool that allows you to run checks on your code before committing it.
+This template provides a default pre-commit configuration for it, but it is not active by default;
+
+You can install pre-commit with:
+```bash
+pip install pre-commit
+```
+
+Then, you can activate the pre-commit hooks for your repository with:
+```bash
+pre-commit install
+```
+
+The pre-commit configuration file [.pre-commit-config.yaml](pre-commit-config.yaml), is configured with the following hooks:
+* ruff: An extremely fast Python linter and code formatter,
+* some basic sanity checks ( trailing-whitespace, end-of-file-fixer,check-yaml, check-added-large-files)
+
+You can find more interesting hooks on the [pre-commit hooks repository](https://pre-commit.com/hooks.html), and for example add ruff, mypy, black, etc.
+
+### ruff: python linter and code formatter
+
+[ruff](https://docs.astral.sh/ruff/) is a very fast python linter and code formatter. You can install it and run it with:
+```bash
+pip install ruff # install ruff (once)
+ruff . # each time you want to check your python code
+```
+
+### mypy and pyright: static type checkers for python
+
+[mypy](https://www.mypy-lang.org/) and [pyright](https://github.com/microsoft/pyright) are static type checkers for python.
+
+You can use either one of them, or both.
+
+#### mypy
+```bash
+pip install mypy  # install mypy (once)
+mypy # each time you want to check your python code
+```
+
+mypy is configured via the [mypy.ini](mypy.ini) file.
+
+#### pyright
+```bash
+pip install pyright # install pyright (once)
+pyright # each time you want to check your python code
+```
+
+pyright is configured via the [pyrightconfig.json](pyrightconfig.json) file.
+
+
+### black: python code formatter
+
+[black](https://black.readthedocs.io/en/stable/index.html) is a python code formatter.
+
+```bash
+pip install black # install black (once)
+black . # each time you want to format your python code
+```
+
+### pytest: python tests
+
+pytest is an easy-to-use python test framework.
+
+```bash
+pip install pytest # install pytest (once)
+pytest # each time you want to run your python tests
+```
+
+It is configured via the [pytest.ini](pytest.ini) file, and tests are stored in the [tests](tests) folder.
+
+### cibuildwheel: build wheels for all platforms
+
+[ci-buildwheel](https://cibuildwheel.readthedocs.io/en/stable/) is a tool that allows you to build wheels for all platforms.
+
+It is configured via the [pyproject.toml](pyproject.toml) file (see the [tool.cibuildwheel] section), and the [github workflow](.github/workflows/wheels.yml) file.
