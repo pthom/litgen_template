@@ -82,25 +82,13 @@ function(litgen_setup_module
     # Set VERSION_INFO macro to the project version defined in CMakeLists.txt (absolutely optional)
     target_compile_definitions(${python_native_module_name} PRIVATE VERSION_INFO=${PROJECT_VERSION})
 
-    ###########################################################
-    # Copy the python module to the site-packages folder
-    # post build (for editable mode)
-    ###########################################################
-    # First, ask Python where the site-packages folder is
-    execute_process(
-        COMMAND "${Python_EXECUTABLE}" -c
-        "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-        OUTPUT_VARIABLE python_site_packages_folder
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    # Then, compute the install location of the native module in the site-packages folder
-    set(python_native_module_install_location
-        ${python_site_packages_folder}/${python_module_name}/$<TARGET_FILE_NAME:${python_native_module_name}>)
-    # Add a custom target that copies the native module to the install location
+    # Copy the python module to the src/python_bindings post build (for editable mode)
+    set(bindings_module_folder ${PROJECT_SOURCE_DIR}/src/python_bindings/${python_module_name})
+    set(python_native_module_editable_location ${bindings_module_folder}/$<TARGET_FILE_NAME:${python_native_module_name}>)
     add_custom_target(
-        ${python_module_name}_deploy_install
+        ${python_module_name}_deploy_editable
         ALL
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${python_native_module_name}> ${python_native_module_install_location}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${python_native_module_name}> ${python_native_module_editable_location}
         DEPENDS ${python_native_module_name}
     )
 endfunction()

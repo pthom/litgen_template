@@ -77,8 +77,8 @@ int main()
     std::string venv_path = read_venv_path_from_file(this_dir / "pybind_native_debug_venv.txt");
     initialize_python_with_venv(venv_path);
 
-    // Add path to imgui_bundle bindings (in pip editable development mode)
-    auto bundle_bindings_dir = this_dir.parent_path() / "bindings";
+    // Add path to src/python_bindings (in pip editable development mode)
+    auto bundle_bindings_dir = this_dir.parent_path() / "python_bindings";
     add_python_path(bundle_bindings_dir.string());
 
     // Add path to this dir, so that we can import pybind_native_debug.py
