@@ -149,13 +149,36 @@ void py_init_module_daft_lib(py::module& m)
             &DaftLib::Animal::go, py::arg("n_times"))
         ;
 
+
+    m.def("max_value_int",
+        DaftLib::MaxValue<int>,
+        py::arg("values"),
+        " MaxValue will be published as max_value_int and max_value_float\n See inside tools/autogenerate_bindings.py:\n    options.fn_template_options.add_specialization(\"^MaxValue$\", [\"int\", \"float\"], add_suffix_to_function_name=True)");
+    m.def("max_value_float",
+        DaftLib::MaxValue<float>,
+        py::arg("values"),
+        " MaxValue will be published as max_value_int and max_value_float\n See inside tools/autogenerate_bindings.py:\n    options.fn_template_options.add_specialization(\"^MaxValue$\", [\"int\", \"float\"], add_suffix_to_function_name=True)");
+
+    m.def("min_value",
+        py::overload_cast<const std::vector<int> &>(DaftLib::MinValue<int>),
+        py::arg("values"),
+        " MinValue will be published as min_value for both int and float\n See inside tools/autogenerate_bindings.py:\n    options.fn_template_options.add_specialization(\"^MinValue$\", [\"int\", \"float\"], add_suffix_to_function_name=False)");
+    m.def("min_value",
+        py::overload_cast<const std::vector<float> &>(DaftLib::MinValue<float>),
+        py::arg("values"),
+        " MinValue will be published as min_value for both int and float\n See inside tools/autogenerate_bindings.py:\n    options.fn_template_options.add_specialization(\"^MinValue$\", [\"int\", \"float\"], add_suffix_to_function_name=False)");
+
     { // <namespace MathFunctions>
-        py::module_ pyNsMathFunctions = m.def_submodule("math_functions", " This namespace will be published as a python module\n All functions inside this namespace will be vectorizable\n (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n See inside tools/autogenerate_bindings.py:\n      options.fn_namespace_vectorize__regex = \"^MathFunctions$\"\n\n Marche pas!!!                                             ARGHHH ARGHHH ARGHHH ARGHHH ARGHHH ARGHHHARGHHHARGHHHARGHHHARGHHHARGHHHARGHHH");
+        py::module_ pyNsMathFunctions = m.def_submodule("math_functions", " - This namespace will be published as a python module\n - All functions inside this namespace will be vectorizable\n   (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n   See inside tools/autogenerate_bindings.py:\n        options.fn_namespace_vectorize__regex = \"^DaftLib::MathFunctions$\"\n        options.fn_vectorize__regex = r\".*\"");
         pyNsMathFunctions.def("log",
             DaftLib::MathFunctions::log, py::arg("x"));
+        pyNsMathFunctions.def("log",
+            py::vectorize(DaftLib::MathFunctions::log), py::arg("x"));
 
         pyNsMathFunctions.def("deg_to_rad",
             DaftLib::MathFunctions::deg_to_rad, py::arg("x"));
+        pyNsMathFunctions.def("deg_to_rad",
+            py::vectorize(DaftLib::MathFunctions::deg_to_rad), py::arg("x"));
     } // </namespace MathFunctions>
     ////////////////////    </generated_from:DaftLib.h>    ////////////////////
 

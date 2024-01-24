@@ -2,8 +2,9 @@
 
 # mypy: disable-error-code="override"
 # pyright: reportIncompatibleMethodOverride=false
+# ruff: noqa: F811
 
-from typing import overload
+from typing import overload, List
 import numpy as np
 
 NumberType = (int, float, np.number)
@@ -106,7 +107,7 @@ def set_options(v: bool) -> None:
     pass
 
 # //////////////////////////////////////////////////////////////////
-# Published vectorized math functions
+# Published vectorized math functions and namespaces
 # ////////////////////////////////////////////////////////////////
 
 # //////////////////////////////////////////////////////////////////
@@ -129,32 +130,67 @@ class Animal:
 # Publish bindings for template functions
 # ////////////////////////////////////////////////////////////////
 
-# Marche pas!!!                                             ARGHHH ARGHHH ARGHHH ARGHHH ARGHHH ARGHHHARGHHHARGHHHARGHHHARGHHHARGHHHARGHHH
+#  ------------------------------------------------------------------------
+#      <template specializations for function MaxValue>
+def max_value_int(values: List[int]) -> int:
+    """MaxValue will be published as max_value_int and max_value_float
+    See inside tools/autogenerate_bindings.py:
+       options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
+    """
+    pass
 
-# MaxValue will be published as max_value_int and max_value_float
-# See inside tools/autogenerate_bindings.py:
-#        options.fn_template_options.add_specialization(
-#            "^MaxValue$",
-#            ["int", "float"],
-#            add_suffix_to_function_name=True)
-# template<typename T> T MaxValue(const std::vector<T>& values) { return *std::max_element(values.begin(), values.end());}
+def max_value_float(values: List[float]) -> float:
+    """MaxValue will be published as max_value_int and max_value_float
+    See inside tools/autogenerate_bindings.py:
+       options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
+    """
+    pass
+
+#      </template specializations for function MaxValue>
+#  ------------------------------------------------------------------------
+
+#  ------------------------------------------------------------------------
+#      <template specializations for function MinValue>
+@overload
+def min_value(values: List[int]) -> int:
+    """MinValue will be published as min_value for both int and float
+    See inside tools/autogenerate_bindings.py:
+       options.fn_template_options.add_specialization("^MinValue$", ["int", "float"], add_suffix_to_function_name=False)
+    """
+    pass
+
+@overload
+def min_value(values: List[float]) -> float:
+    """MinValue will be published as min_value for both int and float
+    See inside tools/autogenerate_bindings.py:
+       options.fn_template_options.add_specialization("^MinValue$", ["int", "float"], add_suffix_to_function_name=False)
+    """
+    pass
+
+#      </template specializations for function MinValue>
+#  ------------------------------------------------------------------------
 
 # <submodule math_functions>
 class math_functions:  # Proxy class that introduces typings for the *submodule* math_functions
     pass  # (This corresponds to a C++ namespace. All method are static!)
-    """ This namespace will be published as a python module
-     All functions inside this namespace will be vectorizable
-     (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)
-     See inside tools/autogenerate_bindings.py:
-          options.fn_namespace_vectorize__regex = "^MathFunctions$"
-
-     Marche pas!!!                                             ARGHHH ARGHHH ARGHHH ARGHHH ARGHHH ARGHHHARGHHHARGHHHARGHHHARGHHHARGHHHARGHHH
+    """ - This namespace will be published as a python module
+     - All functions inside this namespace will be vectorizable
+       (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)
+       See inside tools/autogenerate_bindings.py:
+            options.fn_namespace_vectorize__regex = "^DaftLib::MathFunctions$"
+            options.fn_vectorize__regex = r".*"
     """
     @staticmethod
     def log(x: float) -> float:
         pass
     @staticmethod
+    def log(x: np.ndarray) -> np.ndarray:
+        pass
+    @staticmethod
     def deg_to_rad(x: float) -> float:
+        pass
+    @staticmethod
+    def deg_to_rad(x: np.ndarray) -> np.ndarray:
         pass
 
 # </submodule math_functions>
