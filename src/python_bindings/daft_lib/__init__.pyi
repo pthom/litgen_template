@@ -1,6 +1,12 @@
-# type: ignore
+# If you want to use mypy or pyright, you may have to ignore some errors, like below:
+
+# mypy: disable-error-code="override"
+# pyright: reportIncompatibleMethodOverride=false
+
+
 from typing import overload
 import numpy as np
+
 
 NumberType = (int, float, np.number)
 

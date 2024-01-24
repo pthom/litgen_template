@@ -1,0 +1,7 @@
+{
+  "exclude": [
+    "venv*/**",
+    "build*/**",
+    "cmake-build*/**",
+  ]
+}
