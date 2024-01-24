@@ -38,7 +38,18 @@ class PackageNames:
         return r
 
     def replace_in_file(self, filename: str) -> None:
-        valid_extensions = ["py", "cpp", "h", "pyi", "txt", "toml", "ini", "yaml", "md", "yml"]
+        valid_extensions = [
+            "py",
+            "cpp",
+            "h",
+            "pyi",
+            "txt",
+            "toml",
+            "ini",
+            "yaml",
+            "md",
+            "yml",
+        ]
         ok = False
         for extension in valid_extensions:
             if filename.endswith(extension):

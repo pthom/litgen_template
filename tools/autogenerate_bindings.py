@@ -33,7 +33,9 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
     #  template<typename T> T MaxValue(const std::vector<T>& values);
     # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
+    options.fn_template_options.add_specialization(
+        "^MaxValue$", ["int", "float"], add_suffix_to_function_name=True
+    )
 
     return options
 
