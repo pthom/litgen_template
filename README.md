@@ -96,13 +96,7 @@ This will:
 * Write the python stubs (i.e. typed declarations) inside [src/python_bindings/daft_lib/\_\_init\_\_.pyi](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi).
 
 > _Tip: compare the [python stubs](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi)
->  with the [C++ header file](https://github.com/pthom/litgen_template/blob/master/src/cpp_libraries/DaftLib/DaftLib.h) to see how close they are!._
-
-#### Build the python module
-
-```bash
-pip install -v .
-```
+>  with the [C++ header file](https://github.com/pthom/litgen_template/blob/master/src/cpp_libraries/DaftLib/DaftLib.h) to see how close they are!_
 
 ----------------
 
@@ -182,8 +176,9 @@ in order to rename the libraries (e.g. from `DaftLib` to `MyLib`, `daft_lib` to 
 [pyproject.toml](https://github.com/pthom/litgen_template/blob/master/pyproject.toml) is used by pip and skbuild to build and deploy the package. It defines the name of the package, the version, the dependencies, etc.
 
 
-#### CI
+#### Continuous integration
 
+Several github workflows are defined in [.github/workflows](https://github.com/pthom/litgen_template/tree/master/.github/workflows):
 ```
 .github/
 ├── dependabot.yml   # Configuration for dependabot (automatically update CI dependencies)
