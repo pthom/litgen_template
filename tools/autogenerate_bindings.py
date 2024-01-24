@@ -37,6 +37,9 @@ def my_litgen_options() -> litgen.LitgenOptions:
         "^MaxValue$", ["int", "float"], add_suffix_to_function_name=True
     )
 
+    # Set to True if you want the stub file to be formatted with black
+    options.python_run_black_formatter = True
+
     return options
 
 
