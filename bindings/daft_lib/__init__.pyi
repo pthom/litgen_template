@@ -13,33 +13,33 @@ class BoxedBool:
         pass
     def __repr__(self) -> str:
         pass
-
 ####################    </generated_from:BoxedTypes>    ####################
 
+
 ####################    <generated_from:DaftLib.h>    ####################
+
 
 # <submodule daft_lib>
 class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_lib
     pass  # (This corresponds to a C++ namespace. All method are static!)
     @staticmethod
     def add(a: int, b: int) -> int:
-        """Simple add function (this will be the docstring)"""
+        """ Simple add function (this will be the docstring)"""
         pass
     @staticmethod
     def sub(a: int, b: int) -> int:
-        """This is the docstring for `sub`"""
+        """ This is the docstring for `sub`"""
         pass
 
     class Point:
-        """A default constructor with named parameters will
-        be automatically generated in python for structs
+        """ A default constructor with named parameters will
+         be automatically generated in python for structs
         """
-
         x: int
         y: int
 
         def __lt__(self, param_0: DaftLib.Point) -> bool:
-            """The spaceship operator is supported and will generate automatically
+            """ The spaceship operator is supported and will generate automatically
              the correct comparison methods in python
              (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
 
@@ -48,7 +48,7 @@ class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_
             """
             pass
         def __le__(self, param_0: DaftLib.Point) -> bool:
-            """The spaceship operator is supported and will generate automatically
+            """ The spaceship operator is supported and will generate automatically
              the correct comparison methods in python
              (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
 
@@ -57,7 +57,7 @@ class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_
             """
             pass
         def __eq__(self, param_0: DaftLib.Point) -> bool:
-            """The spaceship operator is supported and will generate automatically
+            """ The spaceship operator is supported and will generate automatically
              the correct comparison methods in python
              (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
 
@@ -66,7 +66,7 @@ class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_
             """
             pass
         def __ge__(self, param_0: DaftLib.Point) -> bool:
-            """The spaceship operator is supported and will generate automatically
+            """ The spaceship operator is supported and will generate automatically
              the correct comparison methods in python
              (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
 
@@ -75,7 +75,7 @@ class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_
             """
             pass
         def __gt__(self, param_0: DaftLib.Point) -> bool:
-            """The spaceship operator is supported and will generate automatically
+            """ The spaceship operator is supported and will generate automatically
              the correct comparison methods in python
              (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
 
@@ -86,54 +86,60 @@ class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_
         def __init__(self, x: int = int(), y: int = int()) -> None:
             """Auto-generated default constructor with named params"""
             pass
+
+
     @staticmethod
     def switch_bool_value(v: BoxedBool) -> None:
-        """SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
-        Since bool are immutable in python, we can to use a BoxedBool instead in python.
-        See inside tools/autogenerate_bindings.py:
-               options.fn_params_replace_modifiable_immutable_by_boxed__regex = "^SwitchBoolValue$"
+        """ SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
+         Since bool are immutable in python, we can to use a BoxedBool instead in python.
+         See inside tools/autogenerate_bindings.py:
+                options.fn_params_replace_modifiable_immutable_by_boxed__regex = "^SwitchBoolValue$"
         """
         pass
+
+
     @staticmethod
     def set_options(v: bool) -> None:
-        """The parameter priv_param will be excluded from the generated bindings
-        since it has a default value, and is excluded via the options.
-        See inside tools/autogenerate_bindings.py:
-           options.fn_params_exclude_names__regex = "^priv_"
+        """ The parameter priv_param will be excluded from the generated bindings
+         since it has a default value, and is excluded via the options.
+         See inside tools/autogenerate_bindings.py:
+            options.fn_params_exclude_names__regex = "^priv_"
         """
         pass
 
     class Widget:
-        @overload
         def __init__(self) -> None:
             pass
-        @overload
-        def __init__(self, param_0: DaftLib.Widget) -> None:
-            pass
+
         def get_value(self) -> int:
             pass
         def set_value(self, v: int) -> None:
             pass
+
+
+
     @staticmethod
     def get_widget_singleton() -> Widget:
-        """Python should not free the memory of the returned reference,
-        so we will force the reference policy to be 'reference' instead of 'automatic'
-        See
-               options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
+        """ Python should not free the memory of the returned reference,
+         so we will force the reference policy to be 'reference' instead of 'automatic'
+         See
+                options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
         """
         pass
 
-    class Animal:
-        """The virtual method of this class can be overriden in python
-        see
-           options.class_override_virtual_methods_in_python__regex = "^Animal$"
-        """
 
-        def go(self, n_times: int) -> str:  # overridable (pure virtual)
+
+    class Animal:
+        """ The virtual method of this class can be overriden in python
+         see
+            options.class_override_virtual_methods_in_python__regex = "^Animal$"
+        """
+        def go(self, n_times: int) -> str: # overridable (pure virtual)
             pass
         def __init__(self) -> None:
             """Autogenerated default constructor"""
             pass
+
     # MaxValue will be published as max_value_int and max_value_float
     # See inside tools/autogenerate_bindings.py:
     #        options.fn_template_options.add_specialization(
@@ -159,6 +165,7 @@ class daft_lib:  # Proxy class that introduces typings for the *submodule* daft_
         @staticmethod
         def deg_to_rad(x: float) -> float:
             pass
+
     # </submodule math_functions>
 
 # </submodule daft_lib>

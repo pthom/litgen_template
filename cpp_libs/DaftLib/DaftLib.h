@@ -43,7 +43,6 @@ namespace DaftLib
     {
     public:
         Widget() = default;
-        Widget(const Widget&) = default;
 
         int get_value() const { return m_value; }
         void set_value(int v) { m_value = v; }

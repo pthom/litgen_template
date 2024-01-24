@@ -182,8 +182,6 @@ void py_init_module_daft_lib(py::module& m)
             py::class_<DaftLib::Widget>
                 (pyNsDaftLib, "Widget", "")
             .def(py::init<>())
-            .def(py::init<const DaftLib::Widget &>(),
-                py::arg("param_0"))
             .def("get_value",
                 &DaftLib::Widget::get_value)
             .def("set_value",
