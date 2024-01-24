@@ -120,7 +120,7 @@ In this template repository:
 - the python module which is imported by users is called `daft_lib` (it imports and optionally adapts `_daft_lib`)
 - the pip package that can optionally be published to PyPI is called `daft-lib` (as Pypi does not allow dashes in package names)
 
-You can change these names by running `tools/change_lib_name/change_lib_name.py` once after cloning this template.
+You can change these names by running `change_lib_name.py` in the [tools/change_lib_name](https://github.com/pthom/litgen_template/blob/master/tools/change_lib_name/) folder.
 
 ----------------
 
