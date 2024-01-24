@@ -63,14 +63,19 @@ void py_init_module_daft_lib(py::module& m)
 
     ////////////////////    <generated_from:DaftLib.h>    ////////////////////
     m.def("add",
-        DaftLib::add,
+        py::overload_cast<int, int>(DaftLib::add),
         py::arg("a"), py::arg("b"),
         "Simple add function (this will be the docstring)");
+
+    m.def("add",
+        py::overload_cast<int, int, int>(DaftLib::add),
+        py::arg("a"), py::arg("b"), py::arg("c"),
+        "And this is a separate docstring, for this overload");
 
     m.def("sub",
         DaftLib::sub,
         py::arg("a"), py::arg("b"),
-        "This is the docstring for `sub`");
+        "This is also a docstring,\n on multiple lines");
 
 
     auto pyClassPoint =
@@ -146,6 +151,22 @@ void py_init_module_daft_lib(py::module& m)
         ;
 
 
+    auto pyClassWidget =
+        py::class_<DaftLib::Widget>
+            (m, "Widget", "A class will publish only its public methods and members")
+        .def(py::init<>())
+        .def("get_value",
+            &DaftLib::Widget::get_value)
+        .def("set_value",
+            &DaftLib::Widget::set_value, py::arg("v"))
+        ;
+
+
+    m.def("get_widget_singleton",
+        DaftLib::GetWidgetSingleton,
+        " Python should not free the memory of the returned reference,\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
+        pybind11::return_value_policy::reference);
+
     m.def("switch_bool_value",
         [](BoxedBool & v)
         {
@@ -173,23 +194,6 @@ void py_init_module_daft_lib(py::module& m)
         },
         py::arg("v"),
         " The parameter priv_param will be excluded from the generated bindings\n since it has a default value, and is excluded via the options.\n See inside tools/autogenerate_bindings.py:\n    options.fn_params_exclude_names__regex = \"^priv_\"");
-
-
-    auto pyClassWidget =
-        py::class_<DaftLib::Widget>
-            (m, "Widget", "")
-        .def(py::init<>())
-        .def("get_value",
-            &DaftLib::Widget::get_value)
-        .def("set_value",
-            &DaftLib::Widget::set_value, py::arg("v"))
-        ;
-
-
-    m.def("get_widget_singleton",
-        DaftLib::GetWidgetSingleton,
-        " Python should not free the memory of the returned reference,\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
-        pybind11::return_value_policy::reference);
 
 
     auto pyClassAnimal =

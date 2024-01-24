@@ -22,13 +22,31 @@ class BoxedBool:
 
 ####################    <generated_from:DaftLib.h>    ####################
 
+# //////////////////////////////////////////////////////////////////
+# Basic functions bindings
+# (Note: this comment will also be published in the python stubs,
+# as a documentation for the users)
+# //////////////////////////////////////////////////////////////////
+
+@overload
 def add(a: int, b: int) -> int:
     """Simple add function (this will be the docstring)"""
     pass
 
-def sub(a: int, b: int) -> int:
-    """This is the docstring for `sub`"""
+@overload
+def add(a: int, b: int, c: int) -> int:
+    """And this is a separate docstring, for this overload"""
     pass
+
+def sub(a: int, b: int) -> int:
+    """This is also a docstring,
+    on multiple lines
+    """
+    pass
+
+# //////////////////////////////////////////////////////////////////
+# Classes and structs bindings
+# ////////////////////////////////////////////////////////////////
 
 class Point:
     """A default constructor with named parameters will
@@ -87,6 +105,24 @@ class Point:
         """Auto-generated default constructor with named params"""
         pass
 
+class Widget:
+    """A class will publish only its public methods and members"""
+
+    def __init__(self) -> None:
+        pass
+    def get_value(self) -> int:
+        pass
+    def set_value(self, v: int) -> None:
+        pass
+
+def get_widget_singleton() -> Widget:
+    """Python should not free the memory of the returned reference,
+    so we will force the reference policy to be 'reference' instead of 'automatic'
+    See
+           options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
+    """
+    pass
+
 def switch_bool_value(v: BoxedBool) -> None:
     """SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
     Since bool are immutable in python, we can to use a BoxedBool instead in python.
@@ -100,22 +136,6 @@ def set_options(v: bool) -> None:
     since it has a default value, and is excluded via the options.
     See inside tools/autogenerate_bindings.py:
        options.fn_params_exclude_names__regex = "^priv_"
-    """
-    pass
-
-class Widget:
-    def __init__(self) -> None:
-        pass
-    def get_value(self) -> int:
-        pass
-    def set_value(self, v: int) -> None:
-        pass
-
-def get_widget_singleton() -> Widget:
-    """Python should not free the memory of the returned reference,
-    so we will force the reference policy to be 'reference' instead of 'automatic'
-    See
-           options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
     """
     pass
 

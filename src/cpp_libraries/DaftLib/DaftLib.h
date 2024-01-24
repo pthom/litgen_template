@@ -4,9 +4,25 @@
 
 namespace DaftLib
 {
+    ////////////////////////////////////////////////////////////////////
+    // Basic functions bindings
+    // (Note: this comment will also be published in the python stubs,
+    // as a documentation for the users)
+    //////////////////////////////////////////////////////////////////////
+
     // Simple add function (this will be the docstring)
     int add(int a, int b);
-    inline int sub(int a, int b) { return a - b; } // This is the docstring for `sub`
+
+    int add(int a, int b, int c); // And this is a separate docstring, for this overload
+
+    //This is also a docstring,
+    // on multiple lines
+    inline int sub(int a, int b) { return a - b; }
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Classes and structs bindings
+    ////////////////////////////////////////////////////////////////////
 
     // A default constructor with named parameters will
     // be automatically generated in python for structs
@@ -20,6 +36,27 @@ namespace DaftLib
         // (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
         auto operator<=>(const Point&) const = default;
     };
+
+    // A class will publish only its public methods and members
+    class Widget
+    {
+    public:
+        Widget() = default;
+        int get_value() const { return m_value; }
+        void set_value(int v) { m_value = v; }
+    private:
+        int m_value = 0;
+    };
+
+    // Python should not free the memory of the returned reference,
+    // so we will force the reference policy to be 'reference' instead of 'automatic'
+    // See
+    //        options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
+    inline Widget& GetWidgetSingleton()
+    {
+        static Widget static_widget;
+        return static_widget;
+    }
 
 
     // SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
@@ -39,28 +76,6 @@ namespace DaftLib
     //    options.fn_params_exclude_names__regex = "^priv_"
     inline void SetOptions(bool v, bool priv_param = false) {}
 
-    class Widget
-    {
-    public:
-        Widget() = default;
-
-        int get_value() const { return m_value; }
-        void set_value(int v) { m_value = v; }
-
-    private:
-        int m_value = 0;
-    };
-
-
-    // Python should not free the memory of the returned reference,
-    // so we will force the reference policy to be 'reference' instead of 'automatic'
-    // See
-    //        options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
-    inline Widget& GetWidgetSingleton()
-    {
-        static Widget static_widget;
-        return static_widget;
-    }
 
 
     // This namespace will be published as a python module
