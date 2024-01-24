@@ -240,7 +240,7 @@ Then, you can activate the pre-commit hooks for your repository with:
 pre-commit install
 ```
 
-The pre-commit configuration file [.pre-commit-config.yaml](pre-commit-config.yaml), is configured with the following hooks:
+The pre-commit configuration file [.pre-commit-config.yaml](.pre-commit-config.yaml), is configured with the following hooks:
 * ruff: An extremely fast Python linter and code formatter,
 * some basic sanity checks ( trailing-whitespace, end-of-file-fixer,check-yaml, check-added-large-files)
 
