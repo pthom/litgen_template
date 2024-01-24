@@ -82,14 +82,11 @@ pip install -r requirements-dev.txt
 ```
 This will install [litgen](https://pthom.github.io/litgen) (the bindings generator), [pybind11](https://pybind11.readthedocs.io/en/stable/) (a library to create C++ to Python bindings), [pytest](https://docs.pytest.org) (for the tests), [black](https://black.readthedocs.io/en/stable/index.html) (a code formatter), and [mypy](https://www.mypy-lang.org/) (static type checker for python).
 
-**Install srcML separately (srcML is required by litgen)**
-
-Follow the [instructions on the litgen website](https://pthom.github.io/litgen/litgen_book/01_05_10_install.html)
 
 ### Step 2: (re)generate bindings for your code
 
 #### Optionally, change the C++ code
-- Change the C++ code (add functions, etc.) in [src/cpp_libraries/DaftLib/DaftLib.h](https://github.com/pthom/litgen_template/tree/master/src/cpp_libraries/DaftLib/DaftLib.h) and [src/cpp_libraries/DaftLib/cpp/DaftLib.cpp](https://github.com/pthom/litgen_template/blob/master/src/cpp_libraries/DaftLib/cpp/DaftLib.cpp)
+- Change the C++ code (add functions, etc.) in [src/cpp_libraries/DaftLib](https://github.com/pthom/litgen_template/tree/master/src/cpp_libraries/DaftLib)
 - Adapt the generation options inside [tools/autogenerate_bindings.py](https://github.com/pthom/litgen_template/blob/master/tools/autogenerate_bindings.py)
 
 #### Run the code generation via litgen:
@@ -100,7 +97,7 @@ python tools/autogenerate_bindings.py
 
 This will:
 * Write the cpp binding code into [src/python_bindings/pybind_DaftLib.cpp](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/pybind_DaftLib.cpp)
-* Write the python stubs (i.e. typed declarations) into [src/python_bindings/daft_lib/__init__.pyi](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi)
+* Write the python stubs (i.e. typed declarations) into [src/python_bindings/daft_lib/\_\_init\_\_.pyi](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi)
 
 #### Build the python module
 
