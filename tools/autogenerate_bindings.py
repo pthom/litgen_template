@@ -40,7 +40,7 @@ def my_litgen_options() -> litgen.LitgenOptions:
     return options
 
 
-def autogenerate():
+def autogenerate() -> None:
     repository_dir = os.path.realpath(os.path.dirname(__file__) + "/../")
     output_dir = repository_dir + "/bindings"
 

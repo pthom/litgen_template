@@ -10,8 +10,7 @@ THIS_DIR = os.path.dirname(__file__)
 
 
 def main() -> None:
-    sum = daft_lib.add(1, 2)
-    print(sum)
+    print("Call any function from the library which you want to debug")
 
 
 main()
