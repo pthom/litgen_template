@@ -29,7 +29,7 @@ test = ["pytest"]
 
 [tool.scikit-build]
 wheel.expand-macos-universal-tags = true
-wheel.packages = ["bindings/daft_lib"]
+wheel.packages = ["src/python_bindings/daft_lib"]
 
 
 [tool.cibuildwheel]

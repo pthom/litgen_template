@@ -72,11 +72,11 @@ class PackageNames:
         # Directories where to replace by the new names:
         directories = [
             ".github/workflows",
-            "./bindings",
+            "./src/python_bindings",
             "./tools",
-            f"./bindings/{default_names.python_module_name}",
-            f"./cpp_libs/{default_names.cpp_library_name}",
-            f"./cpp_libs/{default_names.cpp_library_name}/cpp",
+            f"./src/python_bindings/{default_names.python_module_name}",
+            f"./src/cpp_libraries/{default_names.cpp_library_name}",
+            f"./src/cpp_libraries/{default_names.cpp_library_name}/cpp",
             "./conda.recipe",
             "./tests",
             ".",
@@ -98,17 +98,17 @@ class PackageNames:
     def rename_files(self) -> None:
         """
         Directories and files to rename:
-            ./bindings/daft_lib
-            ./cpp_libs/DaftLib
-            ./cpp_libs/DaftLib/DaftLib.h
-            ./cpp_libs/DaftLib/cpp/DaftLib.cpp
+            ./src/python_bindings/daft_lib
+            ./src/cpp_libraries/DaftLib
+            ./src/cpp_libraries/DaftLib/DaftLib.h
+            ./src/cpp_libraries/DaftLib/cpp/DaftLib.cpp
             ./tests/daft_lib_test.py
         """
         default_names = PackageNames._template_default_package_names()
         dir_and_files_to_rename = [
-            f"./bindings/{default_names.python_module_name}/",
-            f"./bindings/pybind_{default_names.cpp_library_name}.cpp",
-            f"./cpp_libs/{default_names.cpp_library_name}/",
+            f"./src/python_bindings/{default_names.python_module_name}/",
+            f"./src/python_bindings/pybind_{default_names.cpp_library_name}.cpp",
+            f"./src/cpp_libraries/{default_names.cpp_library_name}/",
             f"tests/{default_names.python_module_name}_test.py",
         ]
 
@@ -121,12 +121,12 @@ class PackageNames:
 
         default_names = PackageNames()
         os.rename(
-            f"cpp_libs/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
-            f"cpp_libs/{self.cpp_library_name}/{self.cpp_library_name}.h",
+            f"src/cpp_libraries/{self.cpp_library_name}/{default_names.cpp_library_name}.h",
+            f"src/cpp_libraries/{self.cpp_library_name}/{self.cpp_library_name}.h",
         )
         os.rename(
-            f"cpp_libs/{self.cpp_library_name}/cpp/{default_names.cpp_library_name}.cpp",
-            f"cpp_libs/{self.cpp_library_name}/cpp/{self.cpp_library_name}.cpp",
+            f"src/cpp_libraries/{self.cpp_library_name}/cpp/{default_names.cpp_library_name}.cpp",
+            f"src/cpp_libraries/{self.cpp_library_name}/cpp/{self.cpp_library_name}.cpp",
         )
 
     def do_replace(self) -> None:
@@ -139,7 +139,7 @@ class PackageNames:
 
         step1_help = """
 * Step 1: enter the name of the cpp library to bind (in this template, it is named "DaftLib"):
-a project with this name will be placed inside cpp_libs/ (you can later replace it with your own)
+a project with this name will be placed inside src/cpp_libraries/ (you can later replace it with your own)
 
 """
         step2_help = """

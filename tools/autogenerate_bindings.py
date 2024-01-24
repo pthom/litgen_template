@@ -8,7 +8,7 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
     # The namespace DaftLib is the root namespace for the generated bindings
     # (i.e. no submodule will be generated for it in the python bindings)
-    options.namespaces_root = ["^DaftLib$"]
+    options.namespaces_root = ["DaftLib"]
 
     # SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
     # Since bool are immutable in python, we can to use a BoxedBool instead
@@ -40,9 +40,9 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
 def autogenerate() -> None:
     repository_dir = os.path.realpath(os.path.dirname(__file__) + "/../")
-    output_dir = repository_dir + "/bindings"
+    output_dir = repository_dir + "/src/python_bindings"
 
-    include_dir = repository_dir + "/cpp_libs/"
+    include_dir = repository_dir + "/src/cpp_libraries/"
     header_files = [include_dir + "DaftLib/DaftLib.h"]
 
     litgen.write_generated_code_for_files(
