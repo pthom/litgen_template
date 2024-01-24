@@ -21,30 +21,41 @@ daft_lib.add(1, 2)
 (this template builds bindings for a C++ library called DaftLib, and publishes it as a python module called daft_lib)
 
 
-## Usage in editable development mode
+## Development mode for C++
 
-### Build the bindings in editable mode
+If you want to quickly iterate on the C++ code, and see the changes reflected in python without having to reinstall the package, you should **not** use python editable development mode. Instead, follow the instruction below.
+
+### Setup C++ development mode
+
+#### Step1: Install the package normally with
 ```bash
-# Install the package in editable mode (this will not build the native module)
-pip install -v -e .
-# Build the native module so that it is used in editable mode
-mkdir build && cd build 
+pip install -v .
+```
+(do **not** install the package in editable mode with `pip install -v -e .`)
+
+#### Step 2: Create a standard C++ build directory:
+```bash
+mkdir build && cd build
 cmake ..
-make   # re-run make when you change the C++ code
+make # rebuild when you change the C++ code, and the changes will be reflected in python!
 ```
 
-### Debug the bindings in editable mode
+#### Step 3: Change the C++ code, and rebuild the C++ code
 
-The [pybind_native_debug](https://github.com/pthom/litgen_template/blob/master/pybind_native_debug) executable provided in this template 
+Your changes will be reflected in python without having to reinstall the package, since CMakes will automatically copy the native module to the python package folder.
+
+### Debug C++  bindings in editable mode
+
+The [pybind_native_debug](https://github.com/pthom/litgen_template/blob/master/pybind_native_debug) executable provided in this template
 is a simple C++ program that can be used to debug the bindings in editable mode.
 
 ```
-    pybind_native_debug/
-    ├── CMakeLists.txt
-    ├── pybind_native_debug.cpp
-    ├── pybind_native_debug.py
-    ├── pybind_native_debug_venv.txt
-    └── pybind_native_debug_venv.txt.example
+src/pybind_native_debug/
+        ├── CMakeLists.txt
+        ├── pybind_native_debug.cpp
+        ├── pybind_native_debug.py
+        ├── pybind_native_debug_venv.txt
+        └── pybind_native_debug_venv.txt.example
 ```
 
 #### Step 1: edit `pybind_native_debug_venv.txt`
@@ -52,6 +63,13 @@ Create a file `pybind_native_debug/pybind_native_debug_venv.txt`, and add the pa
 
 #### Step 2: edit `pybind_native_debug.py`
 Simply edit the python file `pybind_native_debug.py` by adding calls to the functions you want to debug. Then, place breakpoints in the C++ code, and run the program.
+
+### About python editable mode
+
+The python editable mode is intended to quickly iterate on the python code, without having to reinstall the package.
+
+In the case of this template, we are interested in iterating on the C++ code. 
+Therefore, we do not use (and do not support) the python editable mode.
 
 
 ----------------
