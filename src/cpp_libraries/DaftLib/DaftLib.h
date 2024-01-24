@@ -28,13 +28,8 @@ namespace DaftLib
     // be automatically generated in python for structs
     struct Point
     {
-        int x;
-        int y;
-
-        // The spaceship operator is supported and will generate automatically
-        // the correct comparison methods in python
-        // (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)
-        auto operator<=>(const Point&) const = default;
+        int x = 0;
+        int y = 0;
     };
 
     // A class will publish only its public methods and members
@@ -48,7 +43,12 @@ namespace DaftLib
         int m_value = 0;
     };
 
-    // Python should not free the memory of the returned reference,
+
+    ////////////////////////////////////////////////////////////////////
+    // Return values policy
+    ////////////////////////////////////////////////////////////////////
+
+    // Python should not free the memory of the reference returned by GetWidgetSingleton()
     // so we will force the reference policy to be 'reference' instead of 'automatic'
     // See
     //        options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
@@ -59,11 +59,20 @@ namespace DaftLib
     }
 
 
+    ////////////////////////////////////////////////////////////////////
+    // Return values policy
+    ////////////////////////////////////////////////////////////////////
+
     // SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
     // Since bool are immutable in python, we can to use a BoxedBool instead in python.
     // See inside tools/autogenerate_bindings.py:
     //        options.fn_params_replace_modifiable_immutable_by_boxed__regex = "^SwitchBoolValue$"
     inline void SwitchBoolValue(bool &v) { v = !v; }
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Exclude functions and/or parameters from the bindings
+    ////////////////////////////////////////////////////////////////////
 
     // This function will be excluded from the generated bindings
     // See inside tools/autogenerate_bindings.py:
@@ -77,6 +86,9 @@ namespace DaftLib
     inline void SetOptions(bool v, bool priv_param = false) {}
 
 
+    ////////////////////////////////////////////////////////////////////
+    // Published vectorized math functions
+    ////////////////////////////////////////////////////////////////////
 
     // This namespace will be published as a python module
     // All functions inside this namespace will be vectorizable
@@ -84,12 +96,17 @@ namespace DaftLib
     // See inside tools/autogenerate_bindings.py:
     //      options.fn_namespace_vectorize__regex = "^MathFunctions$"
     //
-    // Marche pas!!!
+    // Marche pas!!!                                             ARGHHH ARGHHH ARGHHH ARGHHH ARGHHH ARGHHHARGHHHARGHHHARGHHHARGHHHARGHHHARGHHH
     namespace MathFunctions
     {
         inline double log(double x) { return std::log(x); }
         inline double deg_to_rad(double x) { return x * 3.14159265358979323846 / 180.0; }
     }
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Override virtual methods in python
+    ////////////////////////////////////////////////////////////////////
 
     // The virtual method of this class can be overriden in python
     // see
@@ -100,6 +117,13 @@ namespace DaftLib
         virtual ~Animal() { }
         virtual std::string go(int n_times) = 0;
     };
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Publish bindings for template functions
+    ////////////////////////////////////////////////////////////////////
+
+    // Marche pas!!!                                             ARGHHH ARGHHH ARGHHH ARGHHH ARGHHH ARGHHHARGHHHARGHHHARGHHHARGHHHARGHHHARGHHH
 
     // MaxValue will be published as max_value_int and max_value_float
     // See inside tools/autogenerate_bindings.py:

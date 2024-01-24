@@ -82,72 +82,17 @@ void py_init_module_daft_lib(py::module& m)
         py::class_<DaftLib::Point>
             (m, "Point", " A default constructor with named parameters will\n be automatically generated in python for structs")
         .def(py::init<>([](
-        int x = int(), int y = int())
+        int x = 0, int y = 0)
         {
             auto r = std::make_unique<DaftLib::Point>();
             r->x = x;
             r->y = y;
             return r;
         })
-        , py::arg("x") = int(), py::arg("y") = int()
+        , py::arg("x") = 0, py::arg("y") = 0
         )
         .def_readwrite("x", &DaftLib::Point::x, "")
         .def_readwrite("y", &DaftLib::Point::y, "")
-        .def("__lt__",
-            [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  < 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__le__",
-            [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  <= 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__eq__",
-            [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  == 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__ge__",
-            [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  >= 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
-        .def("__gt__",
-            [](const DaftLib::Point & self, const DaftLib::Point & param_0) -> bool
-            {
-                auto cmp = [&self](auto&& other) -> bool {
-                    return self.operator<=>(other)  > 0;
-                };
-
-                return cmp(param_0);
-            },
-            py::arg("param_0"),
-            " The spaceship operator is supported and will generate automatically\n the correct comparison methods in python\n (__le__, __lt__, __ge__, __gt__, __eq__, __ne__)\n\n\n(C++ auto return type)")
         ;
 
 
@@ -164,7 +109,7 @@ void py_init_module_daft_lib(py::module& m)
 
     m.def("get_widget_singleton",
         DaftLib::GetWidgetSingleton,
-        " Python should not free the memory of the returned reference,\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
+        " Python should not free the memory of the reference returned by GetWidgetSingleton()\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
         pybind11::return_value_policy::reference);
 
     m.def("switch_bool_value",
@@ -205,7 +150,7 @@ void py_init_module_daft_lib(py::module& m)
         ;
 
     { // <namespace MathFunctions>
-        py::module_ pyNsMathFunctions = m.def_submodule("math_functions", " This namespace will be published as a python module\n All functions inside this namespace will be vectorizable\n (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n See inside tools/autogenerate_bindings.py:\n      options.fn_namespace_vectorize__regex = \"^MathFunctions$\"\n\n Marche pas!!!");
+        py::module_ pyNsMathFunctions = m.def_submodule("math_functions", " This namespace will be published as a python module\n All functions inside this namespace will be vectorizable\n (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n See inside tools/autogenerate_bindings.py:\n      options.fn_namespace_vectorize__regex = \"^MathFunctions$\"\n\n Marche pas!!!                                             ARGHHH ARGHHH ARGHHH ARGHHH ARGHHH ARGHHHARGHHHARGHHHARGHHHARGHHHARGHHHARGHHH");
         pyNsMathFunctions.def("log",
             DaftLib::MathFunctions::log, py::arg("x"));
 
