@@ -1,28 +1,31 @@
-# This Cmake module provides two public functions:
-#
-#
-# litgen_find_pybind11()
-# **************************************************************
-# litgen_find_pybind11() will find pybind11 and Python3
-# It is equivalent to:
-#        find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development[.Module])
-#        find_package(pybind11 CONFIG REQUIRED)
-# (after having altered CMAKE_PREFIX_PATH by adding the path to pybind11 provided
-#   by `pip install pybind11`. This is helpful when building the C++ library outside of skbuild)
-#
-#   When building via CMake, you may have to specify Python_EXECUTABLE via
-#         -DPython_EXECUTABLE=/path/to/your/venv/bin/python
-#
-#
-# litgen_setup_module(bound_library python_native_module_name python_module_name)
-# **************************************************************
-# litgen_setup_module is a helper function that will
-# * link the python native module (.so) to the bound C++ library (bound_library)
-# * set the install path of the native module to "." (so that pip install works)
-# * copy the native module to src/python_bindings/<python_module_name>/<python_native_module_name>.so
-#   (so that editable mode works)
-# * set the VERSION_INFO macro to the project version defined in CMakeLists.txt
+set(litgen_cmake_help_message "
 
+This Cmake module provides two public functions:
+
+
+litgen_find_pybind11()
+**************************************************************
+litgen_find_pybind11() will find pybind11 and Python3
+It is equivalent to:
+    find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development[.Module])
+    find_package(pybind11 CONFIG REQUIRED)
+(after having altered CMAKE_PREFIX_PATH by adding the path to pybind11 provided
+by `pip install pybind11`. This is helpful when building the C++ library outside of skbuild)
+
+When building via CMake, you may have to specify Python_EXECUTABLE via
+     -DPython_EXECUTABLE=/path/to/your/venv/bin/python
+
+
+litgen_setup_module(bound_library python_native_module_name python_module_name)
+**************************************************************
+litgen_setup_module is a helper function that will
+* link the python native module (.so) to the bound C++ library (bound_library)
+* set the install path of the native module to '.' (so that pip install works)
+* automatically copy the native module to the site-packages folder after build
+(so that editable mode works even when you modify the C++ library and rebuild)
+* set the VERSION_INFO macro to the project version defined in CMakeLists.txt
+
+")
 
 # When building outside of skbuild, we need to add the path to pybind11 provided by pip
 function(_lg_add_pybind11_pip_cmake_prefix_path)
