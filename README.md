@@ -183,13 +183,7 @@ in order to rename the libraries (e.g. from `DaftLib` to `MyLib`, `daft_lib` to 
 
 #### Deployment
 
-```
-├── pyproject.toml
-├── setup.py
-```
-
-`pyproject.toml` and `setup.py` are the files that are used by pip to build and deploy the package.
-They define the name of the package, the version, the dependencies, etc.
+[pyproject.toml](https://github.com/pthom/litgen_template/blob/master/pyproject.toml) is used by pip and skbuild to build and deploy the package. It defines the name of the package, the version, the dependencies, etc.
 
 
 #### CI
