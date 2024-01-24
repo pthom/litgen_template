@@ -1,5 +1,6 @@
 #include <memory>
 #include <string>
+#include <cmath>
 
 namespace DaftLib
 {
