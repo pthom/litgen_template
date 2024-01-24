@@ -1,6 +1,7 @@
 #include <memory>
 #include <string>
 #include <cmath>
+#include <vector>
 
 namespace DaftLib
 {
