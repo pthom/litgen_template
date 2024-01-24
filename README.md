@@ -39,10 +39,6 @@ cmake ..
 make # rebuild when you change the C++ code, and the changes will be reflected in python!
 ```
 
-### Step 3: Change the C++ code, and rebuild the C++ code
-
-Your changes will be reflected in python without having to reinstall the package.
-
 ### Debug C++ bindings in editable mode
 
 The [pybind_native_debug](https://github.com/pthom/litgen_template/blob/master/src/pybind_native_debug) executable provided in this template
@@ -97,7 +93,10 @@ python tools/autogenerate_bindings.py
 
 This will:
 * Write the cpp binding code into [src/python_bindings/pybind_DaftLib.cpp](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/pybind_DaftLib.cpp)
-* Write the python stubs (i.e. typed declarations) into [src/python_bindings/daft_lib/\_\_init\_\_.pyi](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi)
+* Write the python stubs (i.e. typed declarations) inside [src/python_bindings/daft_lib/\_\_init\_\_.pyi](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi).
+
+> _Tip: compare the [python stubs](https://github.com/pthom/litgen_template/blob/master/src/python_bindings/daft_lib/__init__.pyi)
+>  with the [C++ header file](https://github.com/pthom/litgen_template/blob/master/src/cpp_libraries/DaftLib/DaftLib.h) to see how close they are!._
 
 #### Build the python module
 
