@@ -107,26 +107,6 @@ void py_init_module_daft_lib(py::module& m)
         ;
 
 
-    m.def("get_widget_singleton",
-        DaftLib::GetWidgetSingleton,
-        " Python should not free the memory of the reference returned by GetWidgetSingleton()\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
-        pybind11::return_value_policy::reference);
-
-    m.def("switch_bool_value",
-        [](BoxedBool & v)
-        {
-            auto SwitchBoolValue_adapt_modifiable_immutable = [](BoxedBool & v)
-            {
-                bool & v_boxed_value = v.value;
-
-                DaftLib::SwitchBoolValue(v_boxed_value);
-            };
-
-            SwitchBoolValue_adapt_modifiable_immutable(v);
-        },
-        py::arg("v"),
-        " SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value\n Since bool are immutable in python, we can to use a BoxedBool instead in python.\n See inside tools/autogenerate_bindings.py:\n        options.fn_params_replace_modifiable_immutable_by_boxed__regex = \"^SwitchBoolValue$\"");
-
     m.def("set_options",
         [](bool v)
         {
@@ -167,6 +147,26 @@ void py_init_module_daft_lib(py::module& m)
         py::overload_cast<const std::vector<float> &>(DaftLib::MinValue<float>),
         py::arg("values"),
         " MinValue will be published as min_value for both int and float\n See inside tools/autogenerate_bindings.py:\n    options.fn_template_options.add_specialization(\"^MinValue$\", [\"int\", \"float\"], add_suffix_to_function_name=False)");
+
+    m.def("get_widget_singleton",
+        DaftLib::GetWidgetSingleton,
+        " Python should not free the memory of the reference returned by GetWidgetSingleton()\n so we will force the reference policy to be 'reference' instead of 'automatic'\n See\n        options.fn_return_force_policy_reference_for_references__regex = \"Singleton$\"",
+        pybind11::return_value_policy::reference);
+
+    m.def("switch_bool_value",
+        [](BoxedBool & v)
+        {
+            auto SwitchBoolValue_adapt_modifiable_immutable = [](BoxedBool & v)
+            {
+                bool & v_boxed_value = v.value;
+
+                DaftLib::SwitchBoolValue(v_boxed_value);
+            };
+
+            SwitchBoolValue_adapt_modifiable_immutable(v);
+        },
+        py::arg("v"),
+        " SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value\n Since bool are immutable in python, we can to use a BoxedBool instead in python.\n See inside tools/autogenerate_bindings.py:\n        options.fn_params_replace_modifiable_immutable_by_boxed__regex = \"^SwitchBoolValue$\"");
 
     { // <namespace MathFunctions>
         py::module_ pyNsMathFunctions = m.def_submodule("math_functions", " - This namespace will be published as a python module\n - All functions inside this namespace will be vectorizable\n   (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)\n   See inside tools/autogenerate_bindings.py:\n        options.fn_namespace_vectorize__regex = \"^DaftLib::MathFunctions$\"\n        options.fn_vectorize__regex = r\".*\"");

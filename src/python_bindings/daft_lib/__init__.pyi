@@ -23,9 +23,9 @@ class BoxedBool:
 
 # //////////////////////////////////////////////////////////////////
 # Basic functions bindings
+# //////////////////////////////////////////////////////////////////
 # (Note: this comment will also be published in the python stubs,
 # as a documentation for the users)
-# //////////////////////////////////////////////////////////////////
 
 @overload
 def add(a: int, b: int) -> int:
@@ -69,30 +69,6 @@ class Widget:
         pass
 
 # //////////////////////////////////////////////////////////////////
-# Return values policy
-# ////////////////////////////////////////////////////////////////
-
-def get_widget_singleton() -> Widget:
-    """Python should not free the memory of the reference returned by GetWidgetSingleton()
-    so we will force the reference policy to be 'reference' instead of 'automatic'
-    See
-           options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
-    """
-    pass
-
-# //////////////////////////////////////////////////////////////////
-# Return values policy
-# ////////////////////////////////////////////////////////////////
-
-def switch_bool_value(v: BoxedBool) -> None:
-    """SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
-    Since bool are immutable in python, we can to use a BoxedBool instead in python.
-    See inside tools/autogenerate_bindings.py:
-           options.fn_params_replace_modifiable_immutable_by_boxed__regex = "^SwitchBoolValue$"
-    """
-    pass
-
-# //////////////////////////////////////////////////////////////////
 # Exclude functions and/or parameters from the bindings
 # ////////////////////////////////////////////////////////////////
 
@@ -103,10 +79,6 @@ def set_options(v: bool) -> None:
        options.fn_params_exclude_names__regex = "^priv_"
     """
     pass
-
-# //////////////////////////////////////////////////////////////////
-# Published vectorized math functions and namespaces
-# ////////////////////////////////////////////////////////////////
 
 # //////////////////////////////////////////////////////////////////
 # Override virtual methods in python
@@ -167,6 +139,34 @@ def min_value(values: List[float]) -> float:
 
 #      </template specializations for function MinValue>
 #  ------------------------------------------------------------------------
+
+# //////////////////////////////////////////////////////////////////
+# Return values policy
+# ////////////////////////////////////////////////////////////////
+
+def get_widget_singleton() -> Widget:
+    """Python should not free the memory of the reference returned by GetWidgetSingleton()
+    so we will force the reference policy to be 'reference' instead of 'automatic'
+    See
+           options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
+    """
+    pass
+
+# //////////////////////////////////////////////////////////////////
+# Boxed types
+# ////////////////////////////////////////////////////////////////
+
+def switch_bool_value(v: BoxedBool) -> None:
+    """SwitchBoolValue is a C++ function that takes a bool parameter by reference and changes its value
+    Since bool are immutable in python, we can to use a BoxedBool instead in python.
+    See inside tools/autogenerate_bindings.py:
+           options.fn_params_replace_modifiable_immutable_by_boxed__regex = "^SwitchBoolValue$"
+    """
+    pass
+
+# //////////////////////////////////////////////////////////////////
+# Published vectorized math functions and namespaces
+# ////////////////////////////////////////////////////////////////
 
 # <submodule math_functions>
 class math_functions:  # Proxy class that introduces typings for the *submodule* math_functions
