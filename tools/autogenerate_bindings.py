@@ -27,21 +27,17 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
     # The functions in the MathFunctions namespace will be also published as vectorized functions
     options.fn_namespace_vectorize__regex = r"^DaftLib::MathFunctions$"  # Do it in this namespace only
-    options.fn_vectorize__regex = r".*" # For all functions
+    options.fn_vectorize__regex = r".*"  # For all functions
 
     # The virtual methods of this class can be overriden in python
     options.class_override_virtual_methods_in_python__regex = "^Animal$"
 
     #  template<typename T> T MaxValue(const std::vector<T>& values);
     # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization(
-        "^MaxValue$", ["int", "float"], add_suffix_to_function_name=True
-    )
+    options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
     #  template<typename T> T MaxValue(const std::vector<T>& values);
     # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization(
-        "^MinValue$", ["int", "float"], add_suffix_to_function_name=False
-    )
+    options.fn_template_options.add_specialization("^MinValue$", ["int", "float"], add_suffix_to_function_name=False)
 
     # Set to True if you want the stub file to be formatted with black
     options.python_run_black_formatter = True
