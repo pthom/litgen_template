@@ -14,19 +14,19 @@ repos:
       -   id: check-symlinks
       -   id: check-xml
       -   id: fix-byte-order-marker
-  - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.4
-    hooks:
-      - id: remove-crlf
-      - id: forbid-tabs
+#  - repo: https://github.com/Lucas-C/pre-commit-hooks
+#    rev: v1.5.4
+#    hooks:
+#      - id: remove-crlf
+#      - id: forbid-tabs
 
     # Black formatter
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
-    hooks:
-      - id: black
-        exclude: src/litgen/integration_tests/mylib
-        # exclude_types: ["pyi"]
+#  - repo: https://github.com/psf/black
+#    rev: 24.1a1
+#    hooks:
+#      - id: black
+#        exclude: src/litgen/integration_tests/mylib
+#        # exclude_types: ["pyi"]
 
   # Ruff
   - repo: https://github.com/astral-sh/ruff-pre-commit
