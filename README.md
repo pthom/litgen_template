@@ -239,6 +239,9 @@ The pre-commit configuration file [.pre-commit-config.yaml](.pre-commit-config.y
 
 You can find more interesting hooks on the [pre-commit hooks repository](https://pre-commit.com/hooks.html), and for example add ruff, mypy, black, etc.
 
+You may want to disable some checks in the `.pre-commit-config.yaml` file if you think this is too strict for your project.
+
+
 ### ruff: python linter and code formatter
 
 [ruff](https://docs.astral.sh/ruff/) is a very fast python linter and code formatter. You can install it and run it with:
