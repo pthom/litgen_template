@@ -22,15 +22,6 @@ repos:
       - id: forbid-tabs
 
 
-  # Black formatter
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
-    hooks:
-      - id: black
-        stages: [commit]
-        # exclude_types: ["pyi"]
-
-
   # Ruff: run the linter, but not the formatter (we use black)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.14
@@ -47,6 +38,14 @@ repos:
     rev: v1.8.0
     hooks:
       -   id: mypy
+
+  # Black formatter: disabled by default, run manually
+  #  - repo: https://github.com/psf/black
+  #    rev: 23.12.1
+  #    hooks:
+  #      - id: black
+  #        stages: [commit]
+  #        # exclude_types: ["pyi"]
 
 
   # Run pytest: this works, but requires a venv to be set up at venv/
