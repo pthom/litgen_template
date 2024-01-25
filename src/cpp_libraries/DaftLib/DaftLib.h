@@ -2,6 +2,8 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <algorithm>
+
 
 namespace DaftLib
 {
