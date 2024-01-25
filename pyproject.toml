@@ -22,6 +22,9 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
+dependencies = [
+    "numpy",
+]
 
 [project.optional-dependencies]
 test = ["pytest"]
@@ -40,5 +43,3 @@ build-verbosity = 1
 test-command = "pytest {project}/tests"
 test-extras = ["test"]
 test-skip = ["*universal2:arm64"]
-
-
