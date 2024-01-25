@@ -1,8 +1,9 @@
 # If you want to use mypy or pyright, you may have to ignore some errors, like below:
 
-# mypy: disable-error-code="override"
-# pyright: reportIncompatibleMethodOverride=false
-# ruff: noqa: F811
+# mypy: disable-error-code="type-arg"
+# blahmypy: disable-error-code="override"
+# bbpyright: reportIncompatibleMethodOverride=false
+# bbruff: noqa: F811
 
 from typing import overload, List
 import numpy as np
@@ -181,15 +182,19 @@ class math_functions:  # Proxy class that introduces typings for the *submodule*
             options.fn_vectorize__regex = r".*"
     """
     @staticmethod
+    @overload
     def log(x: float) -> float:
         pass
     @staticmethod
+    @overload
     def log(x: np.ndarray) -> np.ndarray:
         pass
     @staticmethod
+    @overload
     def deg_to_rad(x: float) -> float:
         pass
     @staticmethod
+    @overload
     def deg_to_rad(x: np.ndarray) -> np.ndarray:
         pass
 

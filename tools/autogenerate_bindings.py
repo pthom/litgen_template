@@ -34,10 +34,14 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
     #  template<typename T> T MaxValue(const std::vector<T>& values);
     # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
+    options.fn_template_options.add_specialization(
+        "^MaxValue$", ["int", "float"], add_suffix_to_function_name=True
+    )
     #  template<typename T> T MaxValue(const std::vector<T>& values);
     # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization("^MinValue$", ["int", "float"], add_suffix_to_function_name=False)
+    options.fn_template_options.add_specialization(
+        "^MinValue$", ["int", "float"], add_suffix_to_function_name=False
+    )
 
     # Set to True if you want the stub file to be formatted with black
     options.python_run_black_formatter = True
