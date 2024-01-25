@@ -17,17 +17,17 @@ def my_litgen_options() -> litgen.LitgenOptions:
     # priv_ is a prefix for private functions that we don't want to expose
     options.fn_exclude_by_name__regex = "^priv_"
 
-    # We don't want to expose the private class DaftLib::PrivateClass
+    # Inside `inline void SetOptions(bool v, bool priv_param = false) {}`,
+    # we don't want to expose the private parameter priv_param
     options.fn_params_exclude_names__regex = "^priv_"
 
-    # Widget& GetWidgetSingleton()
-    # returns a reference, that python should not free.
-    # so we will force the reference policy to be 'reference' instead of 'automatic'
+    # `Widget& GetWidgetSingleton()` returns a reference, that python should not free,
+    # so we force the reference policy to be 'reference' instead of 'automatic'
     options.fn_return_force_policy_reference_for_references__regex = "Singleton$"
 
     # The functions in the MathFunctions namespace will be also published as vectorized functions
-    options.fn_namespace_vectorize__regex = r"^DaftLib::MathFunctions$"
-    options.fn_vectorize__regex = r".*"
+    options.fn_namespace_vectorize__regex = r"^DaftLib::MathFunctions$"  # Do it in this namespace only
+    options.fn_vectorize__regex = r".*" # For all functions
 
     # The virtual methods of this class can be overriden in python
     options.class_override_virtual_methods_in_python__regex = "^Animal$"
