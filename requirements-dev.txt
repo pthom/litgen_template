@@ -1,5 +1,11 @@
+# Required to build the bindings
+pybind11
+# required for generating the bindings
 litgen@git+https://github.com/pthom/litgen
+
+# Tools to ensure code quality
+pre-commit
 black
 mypy
 pytest
-pybind11
+ruff
