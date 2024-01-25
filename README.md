@@ -232,8 +232,10 @@ pre-commit install
 ```
 
 The pre-commit configuration file [.pre-commit-config.yaml](.pre-commit-config.yaml), is configured with the following hooks:
-* ruff: An extremely fast Python linter and code formatter,
-* some basic sanity checks ( trailing-whitespace, end-of-file-fixer,check-yaml, check-added-large-files)
+* basic sanity checks: trailing-whitespace, end-of-file-fixer,check-yaml, check-added-large-files
+* black: uncompromising Python code formatter
+* ruff: fast Python linter and code formatter (only used for linting)
+* mypy: static type checker for python
 
 You can find more interesting hooks on the [pre-commit hooks repository](https://pre-commit.com/hooks.html), and for example add ruff, mypy, black, etc.
 
@@ -293,3 +295,7 @@ It is configured via the [pytest.ini](pytest.ini) file, and tests are stored in 
 [ci-buildwheel](https://cibuildwheel.readthedocs.io/en/stable/) is a tool that allows you to build wheels for all platforms.
 
 It is configured via the [pyproject.toml](pyproject.toml) file (see the [tool.cibuildwheel] section), and the [github workflow](.github/workflows/wheels.yml) file.
+
+### run_all_checks:
+
+[tools/run_all_checks.sh](https://github.com/pthom/litgen_template/blob/master/tools/run_all_checks.sh) is a script you can run before committing or pushing. It will run a collection of checks (mypy, black, ruff, pytest).
