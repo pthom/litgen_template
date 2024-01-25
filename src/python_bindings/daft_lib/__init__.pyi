@@ -1,9 +1,6 @@
 # If you want to use mypy or pyright, you may have to ignore some errors, like below:
 
 # mypy: disable-error-code="type-arg"
-# blahmypy: disable-error-code="override"
-# bbpyright: reportIncompatibleMethodOverride=false
-# bbruff: noqa: F811
 
 from typing import overload, List
 import numpy as np
