@@ -32,9 +32,15 @@ set(python_module_sources
 pybind11_add_module(_daft_lib ${python_module_sources})
 # Call litgen_setup_module to generate the python wrapper around the native module
 litgen_setup_module(
-    DaftLib                           # The C++ library for which we are building bindings
-    _daft_lib                         # The native python module name
-    daft_lib                          # This is the python wrapper around the native module
+    # The C++ library for which we are building bindings
+    DaftLib
+    # The native python module name
+    _daft_lib
+    # This is the python wrapper around the native module
+    daft_lib
+    # path to the folder containing the python bindings (for example "src/python_bindings")
+    # (used to deplay the native module to the python module folder after build in editable mode)
+    ${CMAKE_CURRENT_LIST_DIR}/src/python_bindings
 )
 
 # Provide a tool to debug the python module

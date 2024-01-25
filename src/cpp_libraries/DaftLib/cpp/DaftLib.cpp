@@ -10,5 +10,4 @@ namespace DaftLib
     {
         return a + b + c;
     }
-
 }
