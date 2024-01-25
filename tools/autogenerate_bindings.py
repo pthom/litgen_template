@@ -13,6 +13,20 @@ def my_litgen_options() -> litgen.LitgenOptions:
     # (i.e. no submodule will be generated for it in the python bindings)
     options.namespaces_root = ["DaftLib"]
 
+    # //////////////////////////////////////////////////////////////////
+    # Basic functions bindings
+    # ////////////////////////////////////////////////////////////////////
+    # No specific option is needed for these basic bindings
+    # litgen will add the docstrings automatically in the python bindings
+
+    # //////////////////////////////////////////////////////////////////
+    # Classes and structs bindings
+    # //////////////////////////////////////////////////////////////////
+    # No specific option is needed for these bindings.
+    # - Litgen will automatically add a default constructor with named parameters
+    #   for structs that have no constructor defined in C++.
+    #  - A class will publish only its public methods and members
+
     # ///////////////////////////////////////////////////////////////////
     #  Exclude functions and/or parameters from the bindings
     # ///////////////////////////////////////////////////////////////////
@@ -22,7 +36,24 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
     # Inside `inline void SetOptions(bool v, bool priv_param = false) {}`,
     # we don't want to expose the private parameter priv_param
+    # (it is possible since it has a default value)
     options.fn_params_exclude_names__regex = "^priv_"
+
+    # ////////////////////////////////////////////////////////////////////
+    # Override virtual methods in python
+    # ////////////////////////////////////////////////////////////////////
+    # The virtual methods of this class can be overriden in python
+    options.class_override_virtual_methods_in_python__regex = "^Animal$"
+
+    # ////////////////////////////////////////////////////////////////////
+    # Publish bindings for template functions
+    # ////////////////////////////////////////////////////////////////////
+    #  template<typename T> T MaxValue(const std::vector<T>& values);
+    # will be published as: max_value_int and max_value_float
+    options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
+    #  template<typename T> T MaxValue(const std::vector<T>& values);
+    # will be published as: max_value_int and max_value_float
+    options.fn_template_options.add_specialization("^MinValue$", ["int", "float"], add_suffix_to_function_name=False)
 
     # ////////////////////////////////////////////////////////////////////
     # Return values policy
@@ -45,22 +76,6 @@ def my_litgen_options() -> litgen.LitgenOptions:
     # The functions in the MathFunctions namespace will be also published as vectorized functions
     options.fn_namespace_vectorize__regex = r"^DaftLib::MathFunctions$"  # Do it in this namespace only
     options.fn_vectorize__regex = r".*"  # For all functions
-
-    # ////////////////////////////////////////////////////////////////////
-    # Override virtual methods in python
-    # ////////////////////////////////////////////////////////////////////
-    # The virtual methods of this class can be overriden in python
-    options.class_override_virtual_methods_in_python__regex = "^Animal$"
-
-    # ////////////////////////////////////////////////////////////////////
-    # Publish bindings for template functions
-    # ////////////////////////////////////////////////////////////////////
-    #  template<typename T> T MaxValue(const std::vector<T>& values);
-    # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization("^MaxValue$", ["int", "float"], add_suffix_to_function_name=True)
-    #  template<typename T> T MaxValue(const std::vector<T>& values);
-    # will be published as: max_value_int and max_value_float
-    options.fn_template_options.add_specialization("^MinValue$", ["int", "float"], add_suffix_to_function_name=False)
 
     # ////////////////////////////////////////////////////////////////////
     # Format the python stubs with black
