@@ -3,7 +3,6 @@
 exclude: ^tools/
 
 repos:
-
   # Standard hooks (yaml, eol, BOM, etc)
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -15,6 +14,56 @@ repos:
       -   id: check-symlinks
       -   id: check-xml
       -   id: fix-byte-order-marker
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.4
+    hooks:
+      - id: remove-crlf
+      - id: forbid-tabs
+
+    # Black formatter
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        exclude: src/litgen/integration_tests/mylib
+        # exclude_types: ["pyi"]
+
+  # Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.14
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter.
+      # - id: ruff-format
+
+  # Enforce that python3.6+ type annotations are used instead of type comments
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-use-type-annotations
+
+  # Run mypy static type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      -   id: mypy
+
+
+#repos:
+#
+#  # Standard hooks (yaml, eol, BOM, etc)
+#  - repo: https://github.com/pre-commit/pre-commit-hooks
+#    rev: v4.5.0
+#    hooks:
+#      -   id: check-yaml
+#      -   id: end-of-file-fixer
+#      -   id: trailing-whitespace
+#      -   id: check-json
+#      -   id: check-symlinks
+#      -   id: check-xml
+#      -   id: fix-byte-order-marker
 #  - repo: https://github.com/Lucas-C/pre-commit-hooks
 #    rev: v1.5.4
 #    hooks:
@@ -27,7 +76,7 @@ repos:
 #    rev: 23.12.1
 #    hooks:
 #      - id: black
-#        exclude: src/litgen/integration_tests/mylib
+#        stages: [commit]
 #        # exclude_types: ["pyi"]
 #
 #
