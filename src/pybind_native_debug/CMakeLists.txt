@@ -27,13 +27,15 @@ function(_compute_python_dll_path_win32 out_python_dll_path)
     set(pyvenvcfg_path ${Python_EXECUTABLE_DIR}/../pyvenv.cfg)
 
     # Read the content of pyvenv.cfg
-    file(READ ${pyvenvcfg_path} pyvenvcfg_content)
-    # Get the first line from pyvenvcfg_content
-    string(REGEX MATCH "^[^\n]*" pyvenvcfg_first_line "${pyvenvcfg_content}")
-    # Remove the part "home = "
-    string(REGEX REPLACE "^home = " "" home_path "${pyvenvcfg_first_line}")
+    if (EXISTS ${pyvenvcfg_path})
+        file(READ ${pyvenvcfg_path} pyvenvcfg_content)
+        # Get the first line from pyvenvcfg_content
+        string(REGEX MATCH "^[^\n]*" pyvenvcfg_first_line "${pyvenvcfg_content}")
+        # Remove the part "home = "
+        string(REGEX REPLACE "^home = " "" home_path "${pyvenvcfg_first_line}")
 
-    set(${out_python_dll_path} "${home_path}" PARENT_SCOPE)
+        set(${out_python_dll_path} "${home_path}" PARENT_SCOPE)
+    endif()
 endfunction()
 
 #
@@ -49,8 +51,10 @@ target_compile_definitions(pybind_native_debug PRIVATE VENV_PATH="${Python_EXECU
 
 # Patch for windows
 if(WIN32)
-    _compute_python_dll_path_win32(python_dll_path)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT pybind_native_debug)
-    set_property(TARGET pybind_native_debug PROPERTY VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${python_dll_path}")
-    message(STATUS "set_property(TARGET pybind_native_debug PROPERTY VS_DEBUGGER_ENVIRONMENT \"PATH=%PATH%;${python_dll_path}\"")
+    _compute_python_dll_path_win32(python_dll_path)
+    if(python_dll_path)
+        set_property(TARGET pybind_native_debug PROPERTY VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${python_dll_path}")
+        message(STATUS "set_property(TARGET pybind_native_debug PROPERTY VS_DEBUGGER_ENVIRONMENT \"PATH=%PATH%;${python_dll_path}\"")
+    endif()
 endif()
