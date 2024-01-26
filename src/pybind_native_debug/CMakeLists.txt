@@ -23,6 +23,7 @@ function(_compute_python_dll_path_win32 out_python_dll_path)
     ")
 
     # Get the path to pyenv.cfg, i.e. dirname(Python_EXECUTABLE)/../pyenv.cfg
+    find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
     get_filename_component(Python_EXECUTABLE_DIR ${Python_EXECUTABLE} DIRECTORY)
     set(pyvenvcfg_path ${Python_EXECUTABLE_DIR}/../pyvenv.cfg)
 
