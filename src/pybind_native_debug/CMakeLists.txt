@@ -16,7 +16,7 @@ function(_compute_python_dll_path_win32 out_python_dll_path)
     However, the dlls are located in the original python installation directory. We need to open
     <virtual_env_path>/pyvenv.cfg to find the original python installation directory.
 
-    It look like this:
+    It looks like this:
         home = F:\\Utils\\Python311-amd64
         include-system-site-packages = false
         ...
