@@ -42,6 +42,9 @@ endfunction()
 add_executable(pybind_native_debug pybind_native_debug.cpp)
 find_package(pybind11 CONFIG REQUIRED)
 target_link_libraries(pybind_native_debug PRIVATE pybind11::embed)
+# Set the path to the venv
+get_filename_component(Python_EXECUTABLE_DIR ${Python_EXECUTABLE} DIRECTORY)
+target_compile_definitions(pybind_native_debug PRIVATE VENV_PATH="${Python_EXECUTABLE_DIR}/../")
 
 
 # Patch for windows
