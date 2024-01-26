@@ -85,5 +85,20 @@ int main()
     add_python_path(this_dir.string());
 
     // Run pybind_native_debug.py
-    py::exec("import pybind_native_debug");
+    try
+    {
+        py::exec("import pybind_native_debug");
+    }
+    catch (pybind11::error_already_set &e)
+    {
+        std::cout << "Python exception details:\n";
+        std::cout << "- Type: " << py::str(e.type()).cast<std::string>() << "\n";
+        std::cout << "- Value: " << py::str(e.value()).cast<std::string>() << "\n";
+        if(e.trace())
+            std::cout << "- Traceback: " << py::str(e.trace()).cast<std::string>() << "\n";
+        else
+            std::cout << "- Traceback: None\n";
+        e.restore();
+        PyErr_Print();  // This line requires Python.h to be included
+    }
 }
