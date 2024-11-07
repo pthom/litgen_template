@@ -72,9 +72,10 @@ class PackageNames:
         # Directories where to replace by the new names:
         directories = [
             ".github/workflows",
-            "./src/python_bindings",
             "./tools",
-            f"./src/python_bindings/{default_names.python_module_name}",
+            "./_pydef_nanobind",
+            "./_pydef_pybind11",
+            f"./_stubs/{default_names.python_module_name}",
             f"./src/cpp_libraries/{default_names.cpp_library_name}",
             f"./src/cpp_libraries/{default_names.cpp_library_name}/cpp",
             "./conda.recipe",
@@ -106,8 +107,9 @@ class PackageNames:
         """
         default_names = PackageNames._template_default_package_names()
         dir_and_files_to_rename = [
-            f"./src/python_bindings/{default_names.python_module_name}/",
-            f"./src/python_bindings/pybind_{default_names.cpp_library_name}.cpp",
+            f"./_stubs/{default_names.python_module_name}/",
+            f"./_pydef_nanobind/nanobind_{default_names.cpp_library_name}.cpp",
+            f"./_pydef_pybind11/pybind_{default_names.cpp_library_name}.cpp",
             f"./src/cpp_libraries/{default_names.cpp_library_name}/",
             f"tests/{default_names.python_module_name}_test.py",
         ]
