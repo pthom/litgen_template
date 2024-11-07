@@ -56,6 +56,13 @@ See [requirements-dev.txt](https://github.com/pthom/litgen_template/blob/main/re
 - Change the C++ code (add functions, etc.) in [src/cpp_libraries/DaftLib](https://github.com/pthom/litgen_template/tree/main/src/cpp_libraries/DaftLib)
 - Adapt the generation options inside [tools/autogenerate_bindings.py](https://github.com/pthom/litgen_template/blob/main/tools/autogenerate_bindings.py)
 
+**Optionally, switch to nanobind**
+
+By default, this template uses pybind11. If you want to switch to nanobind, you can do so with
+
+```bash
+export LITGEN_USE_NANOBIND=ON
+```
 
 **Run the code generation via litgen**
 
@@ -64,10 +71,10 @@ python tools/autogenerate_bindings.py
 ```
 
 This will:
-* Write the cpp binding code into [src/python_bindings/pybind_DaftLib.cpp](https://github.com/pthom/litgen_template/blob/main/src/python_bindings/pybind_DaftLib.cpp)
-* Write the python stubs (i.e. typed declarations) inside [src/python_bindings/daft_lib/\_\_init\_\_.pyi](https://github.com/pthom/litgen_template/blob/main/src/python_bindings/daft_lib/__init__.pyi).
+* Write the cpp binding code into [_pydef_pybind11/pybind_DaftLib.cpp](https://github.com/pthom/litgen_template/blob/main/_pydef_pybind11/pybind_DaftLib.cpp) or [_pydef_nanobind/nanobind_DaftLib.cpp](https://github.com/pthom/litgen_template/blob/main/_pydef_nanobind/pybind_DaftLib.cpp)
+* Write the python stubs (i.e. typed declarations) inside [_stubs/daft_lib/\_\_init\_\_.pyi](https://github.com/pthom/litgen_template/blob/main/_stubs/daft_lib/__init__.pyi).
 
-> _Tip: compare the [python stubs](https://github.com/pthom/litgen_template/blob/main/src/python_bindings/daft_lib/__init__.pyi)
+> _Tip: compare the [python stubs](https://github.com/pthom/litgen_template/blob/main/_stubs/daft_lib/__init__.pyi)
 >  with the [C++ header file](https://github.com/pthom/litgen_template/blob/main/src/cpp_libraries/DaftLib/DaftLib.h) to see how close they are!_
 
 > _Note: the options inside [autogenerate_bindings.py](https://github.com/pthom/litgen_template/blob/main/tools/autogenerate_bindings.py) showcase a subset of litgen customization capabilities. See the [litgen documentation](https://pthom.github.io/litgen) for more details. They are heavily documented, and correspond to the documentation you can find in [DaftLib.h](https://github.com/pthom/litgen_template/tree/main/src/cpp_libraries/DaftLib/DaftLib.h)_
