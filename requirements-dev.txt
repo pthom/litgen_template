@@ -1,5 +1,6 @@
-# Required to build the bindings
+# Required to build the bindings (you may remove one of them)
 pybind11
+nanobind
 # required for generating the bindings
 litgen@git+https://github.com/pthom/litgen
 

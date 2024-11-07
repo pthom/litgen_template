@@ -2,9 +2,18 @@ import litgen
 import os
 
 
+if "LITGEN_USE_NANOBIND" in os.environ and os.environ["LITGEN_USE_NANOBIND"] == "ON":
+    LITGEN_USE_NANOBIND = True
+else:
+    LITGEN_USE_NANOBIND = False
+
+
 def my_litgen_options() -> litgen.LitgenOptions:
     # configure your options here
     options = litgen.LitgenOptions()
+
+    if LITGEN_USE_NANOBIND:
+        options.bind_library = litgen.BindLibraryType.nanobind
 
     # ///////////////////////////////////////////////////////////////////
     #  Root namespace
@@ -88,16 +97,20 @@ def my_litgen_options() -> litgen.LitgenOptions:
 
 def autogenerate() -> None:
     repository_dir = os.path.realpath(os.path.dirname(__file__) + "/../")
-    output_dir = repository_dir + "/src/python_bindings"
 
     include_dir = repository_dir + "/src/cpp_libraries/"
     header_files = [include_dir + "DaftLib/DaftLib.h"]
 
+    output_cpp_pydef_file = (
+        repository_dir + "/_pydef_nanobind/nanobind_DaftLib.cpp" if LITGEN_USE_NANOBIND
+        else repository_dir + "/_pydef_pybind11/pybind_DaftLib.cpp"
+    )
+
     litgen.write_generated_code_for_files(
         options=my_litgen_options(),
         input_cpp_header_files=header_files,
-        output_cpp_pydef_file=output_dir + "/pybind_DaftLib.cpp",
-        output_stub_pyi_file=output_dir + "/daft_lib/__init__.pyi",
+        output_cpp_pydef_file=output_cpp_pydef_file,
+        output_stub_pyi_file=repository_dir + "/_stubs/daft_lib/__init__.pyi",
     )
 
 
