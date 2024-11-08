@@ -56,6 +56,8 @@ if (NOT LITGEN_USE_NANOBIND)
         _daft_lib
         # This is the python wrapper around the native module
         daft_lib
+        # The path where the python module will be copied after build (for editable mode)
+        ${CMAKE_CURRENT_SOURCE_DIR}/_stubs
     )
 else()
     # Case where we build with nanobind
@@ -82,6 +84,8 @@ else()
         _daft_lib
         # This is the python wrapper around the native module
         daft_lib
+        # The path where the python module will be copied after build (for editable mode)
+        ${CMAKE_CURRENT_SOURCE_DIR}/_stubs
     )
 
 endif()
