@@ -170,7 +170,7 @@ def switch_bool_value(v: BoxedBool) -> None:
 
 # <submodule math_functions>
 class math_functions:  # Proxy class that introduces typings for the *submodule* math_functions
-    pass  # (This corresponds to a C++ namespace. All method are static!)
+    pass  # (This corresponds to a C++ namespace. All methods are static!)
     """ - This namespace will be published as a python module
      - All functions inside this namespace will be vectorizable
        (see https://pthom.github.io/litgen/litgen_book/05_05_00_functions.html#vectorize-functions)
