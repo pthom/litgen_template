@@ -40,7 +40,7 @@ jobs:
         run: conda install conda-build conda-verify pytest
 
       - name: Build
-        run: conda build conda.recipe
+        run: conda-build conda.recipe
 
       - name: Install
         run: conda install -c ${CONDA_PREFIX}/conda-bld/ daft-lib
