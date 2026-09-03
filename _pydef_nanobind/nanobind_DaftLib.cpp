@@ -28,7 +28,7 @@ namespace DaftLib {
 class Animal_trampoline : public Animal
 {
 public:
-    NB_TRAMPOLINE(Animal, 1);
+    NB_TRAMPOLINE(Animal);
 
     std::string go(int n_times) override
     {
@@ -82,13 +82,12 @@ void py_init_module_daft_lib(nb::module_& m)
     auto pyClassPoint =
         nb::class_<DaftLib::Point>
             (m, "Point", " A default constructor with named parameters will\n be automatically generated in python for structs")
-        .def("__init__", []( DaftLib::Point *self,
-        int x = 0, int y = 0)
+        .def("__init__", [](DaftLib::Point * self, int x = 0, int y = 0)
         {
             new (self) DaftLib::Point();  // placement new
-            auto r = self;
-            r->x = x;
-            r->y = y;
+            auto r_ctor_ = self;
+            r_ctor_->x = x;
+            r_ctor_->y = y;
         },
         nb::arg("x") = 0, nb::arg("y") = 0
         )
