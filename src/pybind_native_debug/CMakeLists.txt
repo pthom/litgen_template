@@ -42,11 +42,13 @@ endfunction()
 #
 # Add the executable
 #
-add_executable(pybind_native_debug pybind_native_debug.cpp)
-find_package(pybind11 CONFIG REQUIRED)
-target_link_libraries(pybind_native_debug PRIVATE pybind11::embed)
-# Set the path to the venv
+# Find Python with the Development component, so that the embedding library (Python::Python)
+# is available: the bindings above only need Development.Module, which is not enough to embed.
 find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
+find_package(pybind11 CONFIG REQUIRED)
+add_executable(pybind_native_debug pybind_native_debug.cpp)
+target_link_libraries(pybind_native_debug PRIVATE pybind11::embed Python::Python)
+# Set the path to the venv
 get_filename_component(Python_EXECUTABLE_DIR "${Python_EXECUTABLE}" DIRECTORY)
 target_compile_definitions(pybind_native_debug PRIVATE VENV_PATH="${Python_EXECUTABLE_DIR}/../")
 

@@ -43,3 +43,9 @@ build-verbosity = 1
 test-command = "pytest {project}/tests"
 test-extras = ["test"]
 test-skip = ["*universal2:arm64"]
+
+[tool.cibuildwheel.windows]
+# Disable the wheel repair step (cibuildwheel >= 4.0.0 runs delvewheel by default):
+# it fails on the ARM64 cross-build, which cannot find an ARM64 msvcp140.dll on the x64 runner.
+# The wheel only depends on the MSVC runtime that Python itself ships, so no repair is needed.
+repair-wheel-command = ""
