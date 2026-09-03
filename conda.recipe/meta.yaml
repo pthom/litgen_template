@@ -7,7 +7,15 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script:
+    # Build with Ninja: conda-build's default Visual Studio generator does not know
+    # Visual Studio 2026, and the vs2026 activation sets platform/toolset variables
+    # that only apply to Visual Studio generators.
+    - set "CMAKE_GENERATOR=Ninja"                  # [win]
+    - set "CMAKE_GENERATOR_PLATFORM="              # [win]
+    - set "CMAKE_GENERATOR_TOOLSET="               # [win]
+    - export CMAKE_GENERATOR=Ninja                 # [not win]
+    - "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   build:
@@ -18,6 +26,7 @@ requirements:
     - python
     - pip
     - scikit-build-core
+    - ninja
     - pybind11 >=2.10.0
 
   run:
