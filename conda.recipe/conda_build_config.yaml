@@ -1,0 +1,7 @@
+# Select the Visual Studio toolchain on Windows.
+# Without this, {{ compiler('cxx') }} defaults to vs2017, whose activation cannot find
+# a compiler on GitHub's windows-latest image (Windows Server 2025, Visual Studio 2026 only).
+c_compiler:
+  - vs2026  # [win]
+cxx_compiler:
+  - vs2026  # [win]
